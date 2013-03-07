@@ -15,7 +15,6 @@
 		4AA719B216E7AC0D000074D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AA719B116E7AC0D000074D9 /* AppDelegate.m */; };
 		4AA719B416E7AC0D000074D9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA719B316E7AC0D000074D9 /* Default.png */; };
 		4AA719B616E7AC0D000074D9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA719B516E7AC0D000074D9 /* Default@2x.png */; };
-		4AA719B816E7AC0D000074D9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA719B716E7AC0D000074D9 /* Default-568h@2x.png */; };
 		4AA719BB16E7AC0D000074D9 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA719B916E7AC0D000074D9 /* MainStoryboard.storyboard */; };
 		4AA719BE16E7AC0D000074D9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AA719BD16E7AC0D000074D9 /* ViewController.m */; };
 		4AA719C616E7AC0D000074D9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA719C516E7AC0D000074D9 /* SenTestingKit.framework */; };
@@ -33,6 +32,11 @@
 		4AA719EB16E7AD76000074D9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA719EA16E7AD76000074D9 /* MobileCoreServices.framework */; };
 		4AA719ED16E7AD7E000074D9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA719EC16E7AD7E000074D9 /* OpenGLES.framework */; };
 		4AA719EF16E7AD85000074D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA719EE16E7AD85000074D9 /* Security.framework */; };
+		4AA71A3F16E822C0000074D9 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA71A3E16E822C0000074D9 /* icon.png */; };
+		4AA71A4116E8233D000074D9 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA71A4016E8233D000074D9 /* icon@2x.png */; };
+		4AA71A4316E825E9000074D9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA71A4216E825E9000074D9 /* Default.png */; };
+		4AA71A4516E825F0000074D9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA71A4416E825F0000074D9 /* Default@2x.png */; };
+		4AA71A4716E82602000074D9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA71A4616E82602000074D9 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +82,11 @@
 		4AA719EA16E7AD76000074D9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4AA719EC16E7AD7E000074D9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		4AA719EE16E7AD85000074D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4AA71A3E16E822C0000074D9 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		4AA71A4016E8233D000074D9 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		4AA71A4216E825E9000074D9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		4AA71A4416E825F0000074D9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		4AA71A4616E82602000074D9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +125,11 @@
 		4AA7199516E7AC0D000074D9 = {
 			isa = PBXGroup;
 			children = (
+				4AA71A4616E82602000074D9 /* Default-568h@2x.png */,
+				4AA71A4416E825F0000074D9 /* Default@2x.png */,
+				4AA71A4216E825E9000074D9 /* Default.png */,
+				4AA71A4016E8233D000074D9 /* icon@2x.png */,
+				4AA71A3E16E822C0000074D9 /* icon.png */,
 				4AA719EE16E7AD85000074D9 /* Security.framework */,
 				4AA719EC16E7AD7E000074D9 /* OpenGLES.framework */,
 				4AA719EA16E7AD76000074D9 /* MobileCoreServices.framework */,
@@ -273,9 +287,13 @@
 				4AA719AC16E7AC0D000074D9 /* InfoPlist.strings in Resources */,
 				4AA719B416E7AC0D000074D9 /* Default.png in Resources */,
 				4AA719B616E7AC0D000074D9 /* Default@2x.png in Resources */,
-				4AA719B816E7AC0D000074D9 /* Default-568h@2x.png in Resources */,
 				4AA719BB16E7AC0D000074D9 /* MainStoryboard.storyboard in Resources */,
 				4AA719DD16E7AC2E000074D9 /* ArcGIS.bundle in Resources */,
+				4AA71A3F16E822C0000074D9 /* icon.png in Resources */,
+				4AA71A4116E8233D000074D9 /* icon@2x.png in Resources */,
+				4AA71A4316E825E9000074D9 /* Default.png in Resources */,
+				4AA71A4516E825F0000074D9 /* Default@2x.png in Resources */,
+				4AA71A4716E82602000074D9 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
