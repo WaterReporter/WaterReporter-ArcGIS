@@ -529,6 +529,7 @@
 				4AA719D816E7AC0E000074D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4AA719D916E7AC0E000074D9 /* Build configuration list for PBXNativeTarget "Water ReporterTests" */ = {
 			isa = XCConfigurationList;
@@ -537,6 +538,7 @@
 				4AA719DB16E7AC0E000074D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

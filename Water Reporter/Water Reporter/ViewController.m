@@ -2,8 +2,8 @@
 //  ViewController.m
 //  Water Reporter
 //
-//  Created by J.I. Powell on 3/6/13.
-//  Copyright (c) 2013 Developed Simple. All rights reserved.
+//  Created by Viable Industries on 3/13/13.
+//  Copyright (c) 2013 Viable Industries. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -34,6 +34,8 @@ static NSString * const kPublicWebmapId = @"70f0fef3990a462397fcd4b9409c09cb";
     [super viewDidUnload];
 }
 
+// We're going to need to reference this http://developer.apple.com/library/ios/#featuredarticles/ViewControllerPGforiPhoneOS/AboutViewControllers/AboutViewControllers.html when we are building out our separate screens (e.g., 1. Tutorial, 2. Map, 3. Add, 4. Details (when map feature is clicked)).
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -49,12 +51,13 @@ static NSString * const kPublicWebmapId = @"70f0fef3990a462397fcd4b9409c09cb";
         self.webMap.delegate = self;
         // open webmap into mapview
         [self.webMap openIntoMapView:self.mapView];
+    
+    NSLog(@"%@", [NSUserDefaults standardUserDefaults]);
 
 }
 
 - (void) webMapDidLoad:(AGSWebMap*) webMap {
     //webmap data was retrieved successfully
-    
 }
 
 - (void) webMap:(AGSWebMap *)webMap didFailToLoadWithError:(NSError *)error {

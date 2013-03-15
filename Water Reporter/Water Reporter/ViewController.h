@@ -2,8 +2,8 @@
 //  ViewController.h
 //  Water Reporter
 //
-//  Created by J.I. Powell on 3/6/13.
-//  Copyright (c) 2013 Developed Simple. All rights reserved.
+//  Created by Viable Industries on 3/13/13.
+//  Copyright (c) 2013 Viable Industries. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
