@@ -1,0 +1,417 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* WaterReporterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		2899E5220DE3E06400AC0155 /* WaterReporterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */; };
+		28D7ACF80DDB3853001CB0EB /* WaterReporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */; };
+		3B7F19E910D1BEB900AFD7FB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B7F19E810D1BEB900AFD7FB /* CoreLocation.framework */; };
+		3B7F19EB10D1BEB900AFD7FB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B7F19EA10D1BEB900AFD7FB /* QuartzCore.framework */; };
+		4AE3AE481700D11300C3D389 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AE3AE471700D11300C3D389 /* MainWindow.xib */; };
+		4AE3AE4A1700D13E00C3D389 /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AE3AE491700D13E00C3D389 /* ArcGIS.bundle */; };
+		4AE3AE4E1700D3E000C3D389 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AE3AE4C1700D3E000C3D389 /* TutorialViewController.m */; };
+		4AE3AE4F1700D3E000C3D389 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AE3AE4D1700D3E000C3D389 /* TutorialViewController.xib */; };
+		4AEF7496170307FA00481704 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF7495170307FA00481704 /* icon.png */; };
+		4AEF74981703080200481704 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF74971703080200481704 /* icon@2x.png */; };
+		4AEF749A1703084E00481704 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF74991703084E00481704 /* Default.png */; };
+		4AEF749C170308B300481704 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF749B170308B300481704 /* Default@2x.png */; };
+		4AEF749E170308E800481704 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF749D170308E800481704 /* Default-568h@2x.png */; };
+		4AEF74A01703093C00481704 /* icon-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF749F1703093C00481704 /* icon-ipad.png */; };
+		4AEF74A21703094300481704 /* icon-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF74A11703094300481704 /* icon-ipad@2x.png */; };
+		4AEF74A417030AB500481704 /* addButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF74A317030AB500481704 /* addButton.png */; };
+		4AEF74AA17030E4B00481704 /* mapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF74A917030E4B00481704 /* mapButton.png */; };
+		970215B613BBDE71008FB286 /* FeatureTemplatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 970215B313BBDE71008FB286 /* FeatureTemplatePickerViewController.xib */; };
+		970215B713BBDE71008FB286 /* FeatureTemplatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970215B413BBDE71008FB286 /* FeatureTemplatePickerViewController.m */; };
+		970215B813BBDE71008FB286 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 970215B513BBDE71008FB286 /* LoadingView.m */; };
+		970215BE13BBDE8D008FB286 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 970215BD13BBDE8D008FB286 /* MainWindow-iPad.xib */; };
+		9702E4D4144642E600A46CA5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9702E4D3144642E600A46CA5 /* libz.dylib */; };
+		9702E4DB1446430200A46CA5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9702E4DA1446430200A46CA5 /* Security.framework */; };
+		97D35112167A4403002618D5 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97D35111167A4403002618D5 /* libc++.dylib */; };
+		97D35114167A440C002618D5 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97D35113167A440C002618D5 /* OpenGLES.framework */; };
+		AF03A3E313565931002EDADF /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF03A3E213565931002EDADF /* CoreText.framework */; };
+		AF97907A13955D8900835041 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF97907913955D8900835041 /* MediaPlayer.framework */; };
+		AF97907C13955D8900835041 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF97907B13955D8900835041 /* MobileCoreServices.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* WaterReporterAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporterAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterReporterAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* WaterReporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaterReporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WaterReporterViewController.xib; path = ../WaterReporterViewController.xib; sourceTree = "<group>"; };
+		28D7ACF60DDB3853001CB0EB /* WaterReporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporterViewController.h; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterReporterViewController.m; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* WaterReporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporter_Prefix.pch; sourceTree = "<group>"; };
+		3B7F19E810D1BEB900AFD7FB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3B7F19EA10D1BEB900AFD7FB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4AE3AE471700D11300C3D389 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		4AE3AE491700D13E00C3D389 /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ArcGIS.bundle; sourceTree = "<group>"; };
+		4AE3AE4B1700D3E000C3D389 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
+		4AE3AE4C1700D3E000C3D389 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
+		4AE3AE4D1700D3E000C3D389 /* TutorialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
+		4AEF7495170307FA00481704 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		4AEF74971703080200481704 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		4AEF74991703084E00481704 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		4AEF749B170308B300481704 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		4AEF749D170308E800481704 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		4AEF749F1703093C00481704 /* icon-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-ipad.png"; sourceTree = "<group>"; };
+		4AEF74A11703094300481704 /* icon-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-ipad@2x.png"; sourceTree = "<group>"; };
+		4AEF74A317030AB500481704 /* addButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addButton.png; sourceTree = "<group>"; };
+		4AEF74A917030E4B00481704 /* mapButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapButton.png; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* WaterReporter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WaterReporter-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		970215B113BBDE71008FB286 /* FeatureTemplatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureTemplatePickerViewController.h; sourceTree = "<group>"; };
+		970215B213BBDE71008FB286 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
+		970215B313BBDE71008FB286 /* FeatureTemplatePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeatureTemplatePickerViewController.xib; sourceTree = "<group>"; };
+		970215B413BBDE71008FB286 /* FeatureTemplatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureTemplatePickerViewController.m; sourceTree = "<group>"; };
+		970215B513BBDE71008FB286 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
+		970215BD13BBDE8D008FB286 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "../iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		9702E4D3144642E600A46CA5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		9702E4DA1446430200A46CA5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		97D35111167A4403002618D5 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		97D35113167A440C002618D5 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		AF03A3E213565931002EDADF /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		AF97907913955D8900835041 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		AF97907B13955D8900835041 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		C5D0F02114BF956600931433 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97D35114167A440C002618D5 /* OpenGLES.framework in Frameworks */,
+				97D35112167A4403002618D5 /* libc++.dylib in Frameworks */,
+				9702E4DB1446430200A46CA5 /* Security.framework in Frameworks */,
+				9702E4D4144642E600A46CA5 /* libz.dylib in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				3B7F19E910D1BEB900AFD7FB /* CoreLocation.framework in Frameworks */,
+				3B7F19EB10D1BEB900AFD7FB /* QuartzCore.framework in Frameworks */,
+				AF03A3E313565931002EDADF /* CoreText.framework in Frameworks */,
+				AF97907A13955D8900835041 /* MediaPlayer.framework in Frameworks */,
+				AF97907C13955D8900835041 /* MobileCoreServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				970215B113BBDE71008FB286 /* FeatureTemplatePickerViewController.h */,
+				970215B413BBDE71008FB286 /* FeatureTemplatePickerViewController.m */,
+				970215B313BBDE71008FB286 /* FeatureTemplatePickerViewController.xib */,
+				970215B213BBDE71008FB286 /* LoadingView.h */,
+				970215B513BBDE71008FB286 /* LoadingView.m */,
+				970215BD13BBDE8D008FB286 /* MainWindow-iPad.xib */,
+				4AE3AE471700D11300C3D389 /* MainWindow.xib */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+				4AE3AE4B1700D3E000C3D389 /* TutorialViewController.h */,
+				4AE3AE4C1700D3E000C3D389 /* TutorialViewController.m */,
+				4AE3AE4D1700D3E000C3D389 /* TutorialViewController.xib */,
+				1D3623240D0F684500981E51 /* WaterReporterAppDelegate.h */,
+				1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */,
+				28D7ACF60DDB3853001CB0EB /* WaterReporterViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */,
+				2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* WaterReporter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				4AEF74A317030AB500481704 /* addButton.png */,
+				4AEF74A11703094300481704 /* icon-ipad@2x.png */,
+				4AEF749F1703093C00481704 /* icon-ipad.png */,
+				4AEF749D170308E800481704 /* Default-568h@2x.png */,
+				4AEF749B170308B300481704 /* Default@2x.png */,
+				4AEF74991703084E00481704 /* Default.png */,
+				4AEF74971703080200481704 /* icon@2x.png */,
+				4AEF74A917030E4B00481704 /* mapButton.png */,
+				4AEF7495170307FA00481704 /* icon.png */,
+				4AE3AE491700D13E00C3D389 /* ArcGIS.bundle */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* WaterReporter_Prefix.pch */,
+				8D1107310486CEB800E47090 /* WaterReporter-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				97D35113167A440C002618D5 /* OpenGLES.framework */,
+				97D35111167A4403002618D5 /* libc++.dylib */,
+				C5D0F02114BF956600931433 /* libstdc++.dylib */,
+				9702E4DA1446430200A46CA5 /* Security.framework */,
+				9702E4D3144642E600A46CA5 /* libz.dylib */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+				3B7F19E810D1BEB900AFD7FB /* CoreLocation.framework */,
+				3B7F19EA10D1BEB900AFD7FB /* QuartzCore.framework */,
+				AF03A3E213565931002EDADF /* CoreText.framework */,
+				AF97907913955D8900835041 /* MediaPlayer.framework */,
+				AF97907B13955D8900835041 /* MobileCoreServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* WaterReporter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "WaterReporter" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WaterReporter;
+			productName = FeatureLayerEditingSample;
+			productReference = 1D6058910D05DD3D006BFB54 /* WaterReporter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "WaterReporter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* WaterReporter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2899E5220DE3E06400AC0155 /* WaterReporterViewController.xib in Resources */,
+				970215B613BBDE71008FB286 /* FeatureTemplatePickerViewController.xib in Resources */,
+				970215BE13BBDE8D008FB286 /* MainWindow-iPad.xib in Resources */,
+				4AE3AE481700D11300C3D389 /* MainWindow.xib in Resources */,
+				4AE3AE4A1700D13E00C3D389 /* ArcGIS.bundle in Resources */,
+				4AE3AE4F1700D3E000C3D389 /* TutorialViewController.xib in Resources */,
+				4AEF7496170307FA00481704 /* icon.png in Resources */,
+				4AEF74981703080200481704 /* icon@2x.png in Resources */,
+				4AEF749A1703084E00481704 /* Default.png in Resources */,
+				4AEF749C170308B300481704 /* Default@2x.png in Resources */,
+				4AEF749E170308E800481704 /* Default-568h@2x.png in Resources */,
+				4AEF74A01703093C00481704 /* icon-ipad.png in Resources */,
+				4AEF74A21703094300481704 /* icon-ipad@2x.png in Resources */,
+				4AEF74A417030AB500481704 /* addButton.png in Resources */,
+				4AEF74AA17030E4B00481704 /* mapButton.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* WaterReporterAppDelegate.m in Sources */,
+				28D7ACF80DDB3853001CB0EB /* WaterReporterViewController.m in Sources */,
+				970215B713BBDE71008FB286 /* FeatureTemplatePickerViewController.m in Sources */,
+				970215B813BBDE71008FB286 /* LoadingView.m in Sources */,
+				4AE3AE4E1700D3E000C3D389 /* TutorialViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/iOS/**";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = WaterReporter_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "WaterReporter-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+					"-framework",
+					ArcGIS,
+				);
+				PRODUCT_NAME = WaterReporter;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = armv7;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/iOS/**";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = WaterReporter_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "WaterReporter-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+					"-framework",
+					ArcGIS,
+				);
+				PRODUCT_NAME = WaterReporter;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = armv7;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+					"-framework",
+					ArcGIS,
+				);
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sreejith Parthasarathy (N3WX842HCK)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+					"-framework",
+					ArcGIS,
+				);
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E89AACA5-4D0F-4BD5-87F9-80588D33ADA4";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "WaterReporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "WaterReporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
