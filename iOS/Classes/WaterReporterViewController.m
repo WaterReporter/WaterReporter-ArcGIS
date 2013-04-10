@@ -33,6 +33,8 @@
 #import "WaterReporterViewController.h"
 
 static NSString * const viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c09cb";
+static double viUserLocationLongitude = 0;
+static double viUserLocationLatitude = 0;
 
 @implementation WaterReporterViewController
 
@@ -49,6 +51,23 @@ static NSString * const viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c
 //@synthesize pickTemplateButton = _pickTemplateButton;
 
 #pragma mark - Handlers for Navigation Bar buttons
+
+
+/**
+ * Begin using the users geographic location
+ *
+ * Make these variables accessible throughout
+ * entire application. Especially when editing
+ * feature layers.
+ *
+ */
++ (double)viUserLocationLongitude {
+    return viUserLocationLongitude;
+}
+
++ (double)viUserLocationLatitude {
+    return viUserLocationLatitude;
+}
 
 
 /**
@@ -155,19 +174,34 @@ static NSString * const viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c
 //    self.mapView.locationDisplay.wanderExtentFactor = 0.75;
 
     
+    //
+    // Start updating the users location and enter the first value recorded
+    // into the appropriate fields.
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.distanceFilter = kCLDistanceFilterNone;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locationManager startUpdatingLocation];
     
+ 
     [super viewDidLoad];
 
 
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
-    NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+//    NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
+//    NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+//}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *location = [locations objectAtIndex:0];
+
+    viUserLocationLongitude = location.coordinate.longitude;
+    viUserLocationLatitude = location.coordinate.latitude;
+
+
+    NSLog(@"lat%f - lon%f", viUserLocationLatitude, viUserLocationLongitude);
 }
 
 -(IBAction)presentButtonPressedLogMessage:(id)sender {
@@ -306,10 +340,22 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
     NSString *agsTimeNowString = [NSString stringWithFormat:@"%lld", timeNowInt];
 
     [template.prototype setAttributeWithString:agsTimeNowString forKey:@"date"];
-
     
     
-
+    
+    //
+    // Get the current location and auto-fil the long/lat fields
+    //
+    NSLog(@"lat%f - lon%f", viUserLocationLatitude, viUserLocationLongitude);
+    
+    [template.prototype setAttributeWithDouble:viUserLocationLatitude forKey:@"lat_push"];
+    [template.prototype setAttributeWithDouble:viUserLocationLongitude forKey:@"long_push"];    
+    
+    [locationManager stopUpdatingLocation];
+    
+    
+    
+    
     
     
     
@@ -554,7 +600,6 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
         
 	}
 
-    
 }
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation *)op didFailFeatureEditsWithError:(NSError *)error{
@@ -590,6 +635,12 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
     if(_anyFailure){
         [self warnUserOfErrorWithMessage:@"Some attachment edits could not be synced with the server. Please try again"];
     }
+
+    NSLog(@"Attachment Count : %d",[attachmentsPosted count]);
+	for (AGSAttachmentInfo* attInfo in attachmentsPosted) {
+        NSLog(@"Attachment ID : %d", attInfo.attachmentId);
+    }
+
 }
 
 
