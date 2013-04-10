@@ -22,7 +22,7 @@
 #import "FeatureTemplatePickerViewController.h"
 #import "LoadingView.h"
 
-@interface WaterReporterViewController : UIViewController<AGSAttachmentManagerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate,AGSPopupsContainerDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate> {
+@interface WaterReporterViewController : UIViewController<AGSAttachmentManagerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate,AGSPopupsContainerDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate> {
     
 	AGSMapView *_mapView;
     AGSWebMap* _webmap;
@@ -39,6 +39,8 @@
     //
     LoadingView* _loadingView;
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
+    
+    CLLocationManager *locationManager;
 }
 
 -(IBAction)presentButtonPressedLogMessage:(id)sender;

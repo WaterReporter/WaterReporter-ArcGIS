@@ -34,7 +34,7 @@
         //For each template
         for (AGSFeatureTemplate* template in layer.templates) {
             
-            NSString *templateName = [[NSString alloc] initWithFormat:@"waterkeepers_chesapeake"];
+            NSString *templateName = [[NSString alloc] initWithFormat:@"waterkeepers_chesapeake_"];
             if (![template.name isEqualToString:templateName]) {
                 FeatureTemplatePickerInfo* info =
                 [[FeatureTemplatePickerInfo alloc] init];
@@ -52,9 +52,7 @@
         for (AGSFeatureType* type in layer.types) {
             //For each template in type
             for (AGSFeatureTemplate* template in type.templates) {
-                
-                NSLog(@"Layer Feature Type");
-               
+                               
                 FeatureTemplatePickerInfo* info = 
                 [[FeatureTemplatePickerInfo alloc] init];
                 info.featureLayer = layer;
@@ -100,6 +98,7 @@
     return 0.0;
 }
 
+// This controls the appearance of the individual rows of the "Add your data" view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Get a cell
@@ -113,7 +112,7 @@
     
     //Set its label, image, etc for the template
     FeatureTemplatePickerInfo* info = [self.infos objectAtIndex:indexPath.row];
-	cell.textLabel.font = [UIFont systemFontOfSize:12.0];
+	cell.textLabel.font = [UIFont systemFontOfSize:14.0];
 	cell.textLabel.text = info.featureTemplate.name;
     cell.imageView.image =[ info.featureLayer.renderer swatchForGraphic:info.featureTemplate.prototype geometryType:info.featureLayer.geometryType size:CGSizeMake(50, 50)];
 	
@@ -129,6 +128,8 @@
               
         FeatureTemplatePickerInfo* info = [self.infos objectAtIndex:indexPath.row];
         [self.delegate featureTemplatePickerViewController:self didSelectFeatureTemplate:info.featureTemplate forFeatureLayer:info.featureLayer];
+        
+        NSLog(@"Template selected");
     }    
     
     //Unselect the cell

@@ -17,6 +17,15 @@
 // See the use restrictions at http://help.arcgis.com/en/sdk/10.0/usageRestrictions.htm
 //
 
+
+// Notes:
+//
+// http://resources.arcgis.com/en/help/runtime-ios-sdk/concepts/index.html#/Working_with_JSON/00pw0000004w000000/
+// http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/index.htm
+// http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/pollution_report/FeatureServer/0
+// http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/pollution_report/FeatureServer/0?f=pjson
+
+
 /**
  * The primary View Controller for the Water Reporter iOS Application.
  */
@@ -76,21 +85,17 @@ static NSString * const viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c
 
 - (void)viewDidLoad {
     
-//    UIButton *addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    addNewFeatureToMap.frame = CGRectMake(200.0, 350.0, 100.0, 50.0);
-//    [addNewFeatureToMap setTitle:@"Add" forState:UIControlStateNormal];
-
     UIImage *addNewFeatureImage = [UIImage imageNamed:@"addButton.png"];
     UIButton *addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeCustom];
     addNewFeatureToMap.userInteractionEnabled = YES;
     addNewFeatureToMap.frame = CGRectMake(264.0, 384.0, 36.0, 36.0);
     [addNewFeatureToMap setImage:addNewFeatureImage forState:UIControlStateNormal];
     
-//    UIImage *presentLegendImage = [UIImage imageNamed:@"legendButton.png"];
-//    UIButton *presentLegend = [UIButton buttonWithType:UIButtonTypeCustom];
-//    presentLegend.userInteractionEnabled = YES;
-//    presentLegend.frame = CGRectMake(264.0, 384.0, 36.0, 36.0);
-//    [presentLegend setImage:presentLegendImage forState:UIControlStateNormal];
+    UIImage *presentLegendImage = [UIImage imageNamed:@"legendButton.png"];
+    UIButton *presentLegend = [UIButton buttonWithType:UIButtonTypeCustom];
+    presentLegend.userInteractionEnabled = YES;
+    presentLegend.frame = CGRectMake(264.0, 384.0, 36.0, 36.0);
+    [presentLegend setImage:presentLegendImage forState:UIControlStateNormal];
     
     //initialize the navigation bar buttons
 	//self.pickTemplateButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(presentFeatureTemplatePicker)];
@@ -122,7 +127,47 @@ static NSString * const viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c
     // See http://tech.pro/tutorial/926/iphone-tutorial-creating-basic-buttons
     [self.mapView addSubview:addNewFeatureToMap];
 	
+    // iPAD ONLY: Limit the size of the form sheet
+    if([[AGSDevice currentDevice] isIPad])
+        self.featureTemplatePickerViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    // ALL: Animate the template picker, covering vertically
+    self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+    //[self presentModalViewController:self.featureTemplatePickerViewController animated:NO];
+
+//    //Start the map's gps if it isn't enabled already
+//    if(!self.mapView.locationDisplay.dataSourceStarted)
+//        [self.mapView.locationDisplay startDataSource];
+//    
+//    //Listen to KVO notifications for map scale property
+//    [self.mapView addObserver:self
+//                   forKeyPath:@"mapScale"
+//                      options:(NSKeyValueObservingOptionNew)
+//                      context:NULL];
+//
+//    
+//    self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
+//    //Set a wander extent equal to 75% of the map's envelope
+//    //The map will re-center on the location symbol only when
+//    //the symbol moves out of the wander extent
+//    self.mapView.locationDisplay.wanderExtentFactor = 0.75;
+
+    
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
     [super viewDidLoad];
+
+
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
+    NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
 }
 
 -(IBAction)presentButtonPressedLogMessage:(id)sender {
@@ -209,11 +254,64 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
     [self dismissModalViewControllerAnimated:YES];
 }
 
+// Everything we need to know about FeatureLayers http://resources.arcgis.com/en/help/runtime-ios-sdk/concepts/index.html#//00pw0000004s000000
 
--(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer{
+-(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer {
     
     //set the active feature layer to the one we are going to edit
     self.activeFeatureLayer = featureLayer;
+    
+    NSLog(@"features: %@ ",featureLayer.name);
+
+    for (AGSFeatureLayer* field in featureLayer.fields) {
+//        NSLog(@"features: %@ ", field.name);
+//        
+//        if ([field.name isEqualToString:@"date"]) {
+//            NSLog(@"ARRRR: Auto-fill that date field.");
+//        }
+//        
+//        if ([field.name hasPrefix:@"image"]) {
+//            NSLog(@"ARRRR: Hide that image field.");
+//        }
+//
+//        if ([field.name hasPrefix:@"lat"]) {
+//            NSLog(@"ARRRR: Auto-fill that latitude field.");
+//        }
+//
+//        if ([field.name hasPrefix:@"long"]) {
+//            NSLog(@"ARRRR: Auto-fill that longitude field.");
+//        }
+//        
+//        if ([field.name isEqualToString:@"keeper_bounds"]) {
+//            NSLog(@"ARRRR: Auto-fill that Watershed Name.");
+//            //[field] setValue:@"My Keeper" forKey:@"keeper_bounds"]; // THIS DOESN'T WORK
+//            
+//        }
+    }
+    
+ 
+    
+    
+    
+    
+    // Get the current date and time and auto-fill the form field
+    //
+    // All about date formatting in iOS https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html
+    // get the current date
+    //
+    NSTimeInterval timeNow = [[NSDate date] timeIntervalSince1970];
+
+    long long timeNowInt = timeNow * 1000;
+    
+    NSString *agsTimeNowString = [NSString stringWithFormat:@"%lld", timeNowInt];
+
+    [template.prototype setAttributeWithString:agsTimeNowString forKey:@"date"];
+
+    
+    
+
+    
+    
     
     //create a new feature based on the template
     _newFeature = [self.activeFeatureLayer featureWithTemplate:template];
@@ -262,10 +360,12 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
     
     AGSGraphic* graphic = (AGSGraphic*)callout.representedObject;
     self.activeFeatureLayer = (AGSFeatureLayer*) graphic.layer;
+    
     //Show popup for the graphic because the user tapped on the callout accessory button
     self.popupVC = [[AGSPopupsContainerViewController alloc] initWithWebMap:self.webmap forFeature:graphic usingNavigationControllerStack:NO];
     self.popupVC.delegate = self;
     self.popupVC.modalTransitionStyle =  UIModalTransitionStyleCoverVertical;
+    
     //If iPad, use a modal presentation style
     if([[AGSDevice currentDevice] isIPad])
         self.popupVC.modalPresentationStyle = UIModalPresentationFormSheet;
