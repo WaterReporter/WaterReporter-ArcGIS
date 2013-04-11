@@ -153,55 +153,20 @@ static double viUserLocationLatitude = 0;
     // ALL: Animate the template picker, covering vertically
     self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
-    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    //[self presentModalViewController:self.featureTemplatePickerViewController animated:NO];
-
-//    //Start the map's gps if it isn't enabled already
-//    if(!self.mapView.locationDisplay.dataSourceStarted)
-//        [self.mapView.locationDisplay startDataSource];
-//    
-//    //Listen to KVO notifications for map scale property
-//    [self.mapView addObserver:self
-//                   forKeyPath:@"mapScale"
-//                      options:(NSKeyValueObservingOptionNew)
-//                      context:NULL];
-//
-//    
-//    self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
-//    //Set a wander extent equal to 75% of the map's envelope
-//    //The map will re-center on the location symbol only when
-//    //the symbol moves out of the wander extent
-//    self.mapView.locationDisplay.wanderExtentFactor = 0.75;
-
-    
-    //
-    // Start updating the users location and enter the first value recorded
-    // into the appropriate fields.
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.distanceFilter = kCLDistanceFilterNone;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [locationManager startUpdatingLocation];
-    
- 
     [super viewDidLoad];
-
 
 }
 
-//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-//    NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
-//    NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
-//}
-
+//
+// Automatically get the user's location information
+//
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *location = [locations objectAtIndex:0];
 
     viUserLocationLongitude = location.coordinate.longitude;
     viUserLocationLatitude = location.coordinate.latitude;
-
-
-    NSLog(@"lat%f - lon%f", viUserLocationLatitude, viUserLocationLongitude);
+    
+    NSLog(@"Location is long_push: %f; lat_push: %f;", viUserLocationLongitude, viUserLocationLatitude);
 }
 
 -(IBAction)presentButtonPressedLogMessage:(id)sender {
@@ -246,6 +211,7 @@ static double viUserLocationLatitude = 0;
         //Add templates from this layer to the Feature Template Picker
         [self.featureTemplatePickerViewController addTemplatesFromLayer:featureLayer];
     }
+    
 }
 
 - (void)didOpenWebMap:(AGSWebMap *) webMap intoMapView:(AGSMapView *) mapView {
@@ -256,10 +222,16 @@ static double viUserLocationLatitude = 0;
     //register self for receiving notifications from the sketch layer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
 
-    NSLog(@"%@", self.sketchLayer.geometry);
+    // NSLog(@"its safe to load the templates");
+    
+    //
+    // Load the Feature template picker, now that all of the webmap information has loaded successfully
+    //
+    [self presentModalViewController:self.featureTemplatePickerViewController animated:YES];
+    
 }
 
-- (void) webMap:(AGSWebMap *) 	webMap
+- (void) webMap:(AGSWebMap *) 	webMap 
 didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
       baseLayer:(BOOL) 	baseLayer
       federated:(BOOL) 	federated
@@ -280,6 +252,9 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
     //the sketchCompleteButton
     if([self.sketchLayer.geometry isValid] && ![self.sketchLayer.geometry isEmpty])
         self.sketchCompleteButton.enabled   = YES;
+    
+    //NSLog(@"Your geometry changed %@", '');
+    
 
 }
 
@@ -294,11 +269,32 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer {
     
-    //set the active feature layer to the one we are going to edit
+    //
+    // Set the active feature layer to the one we are going to edit
+    //
     self.activeFeatureLayer = featureLayer;
+
+    // Start updating the users location and enter the first value recorded
+    // into the appropriate fields.
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locationManager startUpdatingLocation];
+    
+
+    //
+    // Make sure the interface doesn't force us to "Sketch" a location
+    // on the map, since we are auto-filling the location
+    //
+    self.mapView.touchDelegate = self;
+    self.bannerView.hidden = YES;
 
     for (AGSFeatureLayer* field in featureLayer.fields) {
 
+        //
+        // Prepopulate the date field for the user
+        //
         if ([field.name isEqualToString:@"date"]) {
             
             //
@@ -314,43 +310,40 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
             [template.prototype setAttributeWithDouble:theAGSCompatibleTime forKey:@"date"];
 
         }
+
+        //
+        // Prepopulate the users images as they upload attachments
+        //
+        if ([field.name hasPrefix:@"image"]) {
+            // fill in the image fields as attachments are added
+        }
+
+        //
+        // Prepopulate the users location when they add a new report
+        //
+        if ([field.name hasPrefix:@"lat"] || [field.name hasPrefix:@"long"]) {
+            
+            [template.prototype setAttributeWithDouble:viUserLocationLatitude forKey:@"lat_push"];
+            [template.prototype setAttributeWithDouble:viUserLocationLongitude forKey:@"long_push"];
+            
+            [locationManager stopUpdatingLocation];
+        }
+
+        //
+        // Point to Polygon
+        //
+        // Determine what watershed a user is in when they launch the application
+        // and set their default based on the results of their GPS or geolocation
+        //
+        // In order to implement this see if we can use the "containsPoint" method
+        // provided by the AGSPolygon Class.
+        //
+        // For more information see http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_polygon.html#a64a3986417a6f545d3d721827969ee55
+        //
+        if ([field.name isEqualToString:@"keeper_bounds"]) {
+            [template.prototype setValue:@"My Keeper" forKey:@"keeper_bounds"]; // THIS DOESN'T WORK
+        }
     }
-
-//        if ([field.name hasPrefix:@"image"]) {
-//            NSLog(@"ARRRR: Hide that image field.");
-//        }
-//
-//        if ([field.name hasPrefix:@"lat"]) {
-//            NSLog(@"ARRRR: Auto-fill that latitude field.");
-//        }
-//
-//        if ([field.name hasPrefix:@"long"]) {
-//            NSLog(@"ARRRR: Auto-fill that longitude field.");
-//        }
-//        
-//        if ([field.name isEqualToString:@"keeper_bounds"]) {
-//            NSLog(@"ARRRR: Auto-fill that Watershed Name.");
-//            //[field] setValue:@"My Keeper" forKey:@"keeper_bounds"]; // THIS DOESN'T WORK
-//            
-//        }
-//        
-//        
-    
-
-    
-    
-    //
-    // Get the current location and auto-fil the long/lat fields
-//    //
-//    NSLog(@"lat%f - lon%f", viUserLocationLatitude, viUserLocationLongitude);
-//    
-//    [template.prototype setAttributeWithDouble:viUserLocationLatitude forKey:@"lat_push"];
-//    [template.prototype setAttributeWithDouble:viUserLocationLongitude forKey:@"long_push"];    
-//    
-//    [locationManager stopUpdatingLocation];
-//    
-    
-    
     
     //create a new feature based on the template
     _newFeature = [self.activeFeatureLayer featureWithTemplate:template];
