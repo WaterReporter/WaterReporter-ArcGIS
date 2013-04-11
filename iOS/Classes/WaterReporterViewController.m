@@ -255,6 +255,8 @@ static double viUserLocationLatitude = 0;
     [self.mapView addMapLayer:self.sketchLayer withName:@"Sketch Layer"];
     //register self for receiving notifications from the sketch layer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
+
+    NSLog(@"%@", self.sketchLayer.geometry);
 }
 
 - (void) webMap:(AGSWebMap *) 	webMap
@@ -294,16 +296,26 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
     
     //set the active feature layer to the one we are going to edit
     self.activeFeatureLayer = featureLayer;
-    
-    NSLog(@"features: %@ ",featureLayer.name);
 
     for (AGSFeatureLayer* field in featureLayer.fields) {
-//        NSLog(@"features: %@ ", field.name);
-//        
-//        if ([field.name isEqualToString:@"date"]) {
-//            NSLog(@"ARRRR: Auto-fill that date field.");
-//        }
-//        
+
+        if ([field.name isEqualToString:@"date"]) {
+            
+            //
+            // Get the current date and time and auto-fill the form field
+            //
+            // All about date formatting in iOS https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html
+            // get the current date
+            //
+            NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
+            
+            double theAGSCompatibleTime = theCurrentTime * 1000; // We must do this so that ArcGIS translates it appropriately
+            
+            [template.prototype setAttributeWithDouble:theAGSCompatibleTime forKey:@"date"];
+
+        }
+    }
+
 //        if ([field.name hasPrefix:@"image"]) {
 //            NSLog(@"ARRRR: Hide that image field.");
 //        }
@@ -321,41 +333,22 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 //            //[field] setValue:@"My Keeper" forKey:@"keeper_bounds"]; // THIS DOESN'T WORK
 //            
 //        }
-    }
+//        
+//        
     
- 
-    
-    
-    
-    
-    // Get the current date and time and auto-fill the form field
-    //
-    // All about date formatting in iOS https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html
-    // get the current date
-    //
-    NSTimeInterval timeNow = [[NSDate date] timeIntervalSince1970];
 
-    long long timeNowInt = timeNow * 1000;
-    
-    NSString *agsTimeNowString = [NSString stringWithFormat:@"%lld", timeNowInt];
-
-    [template.prototype setAttributeWithString:agsTimeNowString forKey:@"date"];
-    
     
     
     //
     // Get the current location and auto-fil the long/lat fields
-    //
-    NSLog(@"lat%f - lon%f", viUserLocationLatitude, viUserLocationLongitude);
-    
-    [template.prototype setAttributeWithDouble:viUserLocationLatitude forKey:@"lat_push"];
-    [template.prototype setAttributeWithDouble:viUserLocationLongitude forKey:@"long_push"];    
-    
-    [locationManager stopUpdatingLocation];
-    
-    
-    
-    
+//    //
+//    NSLog(@"lat%f - lon%f", viUserLocationLatitude, viUserLocationLongitude);
+//    
+//    [template.prototype setAttributeWithDouble:viUserLocationLatitude forKey:@"lat_push"];
+//    [template.prototype setAttributeWithDouble:viUserLocationLongitude forKey:@"long_push"];    
+//    
+//    [locationManager stopUpdatingLocation];
+//    
     
     
     
@@ -370,7 +363,7 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
     //we will manually need to remove this
     //feature from the feature layer (see implementation for popupsContainer:didCancelEditingGraphicForPopup: below)
     [self.activeFeatureLayer addGraphic:_newFeature];
-    
+        
     //Iniitalize a popup view controller
     self.popupVC = [[AGSPopupsContainerViewController alloc] initWithWebMap:self.webmap forFeature:_newFeature usingNavigationControllerStack:NO];
     self.popupVC.delegate = self;
