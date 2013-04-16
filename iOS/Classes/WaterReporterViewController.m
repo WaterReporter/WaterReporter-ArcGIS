@@ -21,9 +21,11 @@
 // Notes:
 //
 // http://resources.arcgis.com/en/help/runtime-ios-sdk/concepts/index.html#/Working_with_JSON/00pw0000004w000000/
+// http://resources.arcgis.com/en/help/runtime-ios-sdk/concepts/index.html#//00pw00000052000000
 // http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/index.htm
 // http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/pollution_report/FeatureServer/0
 // http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/pollution_report/FeatureServer/0?f=pjson
+// Everything we need to know about FeatureLayers http://resources.arcgis.com/en/help/runtime-ios-sdk/concepts/index.html#//00pw0000004s000000
 
 
 /**
@@ -32,9 +34,10 @@
 
 #import "WaterReporterViewController.h"
 
-static NSString * const viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c09cb";
-static double viUserLocationLongitude = 0;
-static double viUserLocationLatitude = 0;
+NSString *viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c09cb";
+double viUserLocationLongitude;
+double viUserLocationLatitude;
+int viDefaultUserLocationZoomLevel = 150000;
 
 @implementation WaterReporterViewController
 
@@ -48,7 +51,7 @@ static double viUserLocationLatitude = 0;
 @synthesize alertView = _alertView;
 @synthesize loadingView = _loadingView;
 @synthesize sketchCompleteButton = _sketchCompleteButton;
-//@synthesize pickTemplateButton = _pickTemplateButton;
+@synthesize locationManager = _locationManager;
 
 #pragma mark - Handlers for Navigation Bar buttons
 
@@ -70,112 +73,75 @@ static double viUserLocationLatitude = 0;
 }
 
 
-/**
- * Add a new feature
- *
- * The action for the "+" button that allows
- * the user to select what kind of Feature
- * they would like to add to the map
- *
- */
--(void)presentFeatureTemplatePicker{
-        
-    // iPAD ONLY: Limit the size of the form sheet
-    if([[AGSDevice currentDevice] isIPad])
-        self.featureTemplatePickerViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-    
-    // ALL: Animate the template picker, covering vertically
-    self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    
-    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    [self presentModalViewController:self.featureTemplatePickerViewController animated:YES];
-}
-
--(void)sketchComplete{
-    self.navigationItem.rightBarButtonItem = nil;
-    [self presentModalViewController:self.popupVC animated:YES];
-    self.mapView.touchDelegate = self;
-    self.bannerView.hidden = YES;
-
-}
-
-
 #pragma mark -  UIView methods
 
 - (void)viewDidLoad {
+    NSLog(@"viewDidLoad");
     
+    /**
+     * Add the "Add report" button to the main map
+     */
     UIImage *addNewFeatureImage = [UIImage imageNamed:@"addButton.png"];
     UIButton *addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeCustom];
     addNewFeatureToMap.userInteractionEnabled = YES;
     addNewFeatureToMap.frame = CGRectMake(264.0, 384.0, 36.0, 36.0);
     [addNewFeatureToMap setImage:addNewFeatureImage forState:UIControlStateNormal];
-    
+    [addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
+
+    /**
+     * Add the "Legend" button to the main map
+     */
     UIImage *presentLegendImage = [UIImage imageNamed:@"legendButton.png"];
     UIButton *presentLegend = [UIButton buttonWithType:UIButtonTypeCustom];
     presentLegend.userInteractionEnabled = YES;
     presentLegend.frame = CGRectMake(264.0, 384.0, 36.0, 36.0);
     [presentLegend setImage:presentLegendImage forState:UIControlStateNormal];
-    
-    //initialize the navigation bar buttons
-	//self.pickTemplateButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(presentFeatureTemplatePicker)];
+
+    /**
+     * Initialize the button bar for our "Done" button
+     */
     self.sketchCompleteButton = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(sketchComplete)];
     
-    //Display the pickTemplateButton initially so that user can start collecting a new feature
-    //self.navigationItem.rightBarButtonItem = self.pickTemplateButton;
-    
-    //Initialize the feature template picker so that we can show it later when needed
+    /**
+     * Initialize the feature template picker so that we can show it later when needed
+     */
     self.featureTemplatePickerViewController =  [[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil];
     self.featureTemplatePickerViewController.delegate = self;
     
-    //Set up the map view
+    /**
+     * Set the delegates so that they can do the job they are here for
+     */
 	self.mapView.layerDelegate = self;
 	self.mapView.touchDelegate = self;
 	self.mapView.calloutDelegate = self;
     self.mapView.callout.delegate = self;
-    self.mapView.showMagnifierOnTapAndHold = YES;
 	
+    /**
+     * Setup the WebMap
+     */
     self.webmap = [AGSWebMap webMapWithItemId:viWaterReporterWebMapID credential:nil];
     
-    //designate a delegate to be notified as web map is opened
+    /**
+     * Designate a delegate to be notified as web map is opened
+     */
     self.webmap.delegate = self;
     [self.webmap openIntoMapView:self.mapView];
-    
-    [addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
-
     
     // See http://tech.pro/tutorial/926/iphone-tutorial-creating-basic-buttons
     [self.mapView addSubview:addNewFeatureToMap];
 	
-    // iPAD ONLY: Limit the size of the form sheet
-    if([[AGSDevice currentDevice] isIPad])
-        self.featureTemplatePickerViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-    
-    // ALL: Animate the template picker, covering vertically
-    self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    
     [super viewDidLoad];
 
 }
 
-//
-// Automatically get the user's location information
-//
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    CLLocation *location = [locations objectAtIndex:0];
 
-    viUserLocationLongitude = location.coordinate.longitude;
-    viUserLocationLatitude = location.coordinate.latitude;
-    
-    NSLog(@"Location is long_push: %f; lat_push: %f;", viUserLocationLongitude, viUserLocationLatitude);
-}
-
--(IBAction)presentButtonPressedLogMessage:(id)sender {
-    NSLog(@"Button Pressed!");
-}
-
-
+/**
+ * Custom Navigation Bar for the Map View
+ *
+ */
 - (UINavigationItem *)navigationItem
 {
+    NSLog(@"navigationItem");
     UINavigationItem *navigationItem = [super navigationItem];
     UILabel *customLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320.0, 40.0)];
     customLabel.text = @"Water Reporter";
@@ -188,9 +154,8 @@ static double viUserLocationLatitude = 0;
 
 #pragma mark - AGSWebMapDelegate methods
 
-
-- (void) webMap:(AGSWebMap *) 	webMap
-   didLoadLayer:(AGSLayer *) 	layer  {
+- (void) webMap:(AGSWebMap *)webMap didLoadLayer:(AGSLayer *)layer {
+    NSLog(@"webMap:didLoadLayer");
     
     //The last feature layer we encounter we will use for editing features
     //If the web map contains more than one feature layer, the sample may need to be modified to handle that
@@ -212,32 +177,64 @@ static double viUserLocationLatitude = 0;
         [self.featureTemplatePickerViewController addTemplatesFromLayer:featureLayer];
     }
     
+    NSLog(@"webMap:didLoadLayer: %@", layer.name);
+
 }
 
-- (void)didOpenWebMap:(AGSWebMap *) webMap intoMapView:(AGSMapView *) mapView {
-    //Once all the layers in the web map are loaded
-    //we will add a dormant sketch layer on top. We will activate the sketch layer when the time is right.
+- (void) didOpenWebMap:(AGSWebMap *)webMap intoMapView:(AGSMapView *)mapView {
+    NSLog(@"didOpenWebMap");
+
+    /**
+     * Once all the layers in the web map are loaded
+     * we will add a dormant sketch layer on top. We
+     * will activate the sketch layer when the time is right.
+     */
     self.sketchLayer = [[AGSSketchGraphicsLayer alloc] init];
     [self.mapView addMapLayer:self.sketchLayer withName:@"Sketch Layer"];
-    //register self for receiving notifications from the sketch layer
+    
+    
+    /**
+     * Register Notification for receiving notifications
+     * from the sketch layer
+     *
+     * - @addObserver self
+     * - @selector respondToGeomChanged
+     */
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
 
-    // NSLog(@"its safe to load the templates");
     
-    //
-    // Load the Feature template picker, now that all of the webmap information has loaded successfully
-    //
+    /**
+     * Load the Feature template picker, now that all of the webmap information has loaded successfully
+     */
     [self presentModalViewController:self.featureTemplatePickerViewController animated:YES];
+    
+    
+    NSLog(@"Starting core location from didOpenWebMap");
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    
+    /**
+     * If we are not already displaying the users
+     * current location on the map, then we need to
+     * add an indicator to the map, showing the user
+     * where the application thinks they are currently.
+     *
+     * @see For more information on AGSLocationDisplay
+     *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
+     */
+    if(!self.mapView.locationDisplay.dataSourceStarted) {
+        [self.mapView.locationDisplay startDataSource];
+        self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
+        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
+    }
     
 }
 
-- (void) webMap:(AGSWebMap *) 	webMap 
-didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
-      baseLayer:(BOOL) 	baseLayer
-      federated:(BOOL) 	federated
-      withError:(NSError *) 	error  {
+- (void) webMap:(AGSWebMap *)webMap didFailToLoadLayer:(AGSWebMapLayerInfo *)layerInfo baseLayer:(BOOL)baseLayer federated:(BOOL)federated withError:(NSError *)error {
+    NSLog(@"webMap:didFailToLoadLayer");
+
     NSLog(@"Failed to load layer : %@", layerInfo.title);
-    NSLog(@"Sample may not work as expected");
 
     //continue anyway
     [self.webmap continueOpenAndSkipCurrentLayer];
@@ -245,52 +242,115 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 
 
 
-#pragma mark -
 #pragma mark AGSSketchGraphicsLayer notifications
+
 - (void)respondToGeomChanged: (NSNotification*) notification {
-    //Check if the sketch geometry is valid to decide whether to enable
-    //the sketchCompleteButton
-    if([self.sketchLayer.geometry isValid] && ![self.sketchLayer.geometry isEmpty])
-        self.sketchCompleteButton.enabled   = YES;
+    NSLog(@"respondToGeomChanged");
     
-    //NSLog(@"Your geometry changed %@", '');
-    
+    /**
+     * Update the interface and associated fields if the
+     * user selected geometry is valid.
+     */
+    if([self.sketchLayer.geometry isValid] && ![self.sketchLayer.geometry isEmpty]) {
+        
+        // Display the "Done" button
+        self.sketchCompleteButton.enabled = YES;
+        
+        /***
+         ** TODO: FOR NOW WE ONLY NEED POINTS, BUT IN THE FUTURE
+         ** WE ARE GOING TO NEED TO ADD SUPPORT FOR POLYGONS AND
+         ** LINES WITHIN OUR GEOMETRY TOOLS.
+         ***/
+
+        //AGSMutablePoint *currentSketchValue = self.sketchLayer.geometry;
+
+        
+        // Auto-fill geometry fields
+        /***
+         ** WE NEED SOME TYPE OF LISTENER HERE TO UPDATE
+         ** THE FIELDS FOR US PROGRAMATICALLY. WE NEED TO
+         ** INSERT THE NEW GEOMETRY INTO THE APPROPRIATE
+         ** FIELDS OF THE FEATURE LAYER FORM.
+         **
+         ** self.sketchLayer.geometry
+         **
+         ***/
+        AGSLocation* thisLocation = self.sketchLayer.mapView.locationDisplay.location;
+        NSLog(@"%f", thisLocation.point.x);
+        
+        //
+        // Iterate through all of the selected Feature Layer's
+        // fields and perform the necessary pre-display actions
+        // upon each field one at a time.
+        //
+        // These operations primarily concern the prepopulation
+        // of specific fields such as the date and geolocation.
+        // While others like the Attachments and associated image
+        // fields depend on user interaction later in the process
+        // to be updated dynamically.
+        //
+        
+        //[self.activeFeatureLayer setValue:@"50.0000" forKey:@"long_push"];
+        
+//        for (AGSFeatureLayer* field in self.activeFeatureLayer.fields) {            
+//            [field setValue:@"50.0000" forKey:@"long_push"];
+//        }
+        
+    }
 
 }
 
 
 #pragma mark - FeatureTemplatePickerDelegate methods
 
+/**
+ * Add a new feature
+ *
+ * The action for the "+" button that allows
+ * the user to select what kind of Feature
+ * they would like to add to the map
+ *
+ */
+-(void)presentFeatureTemplatePicker{
+    NSLog(@"presentFeatureTemplatePicker");
+    
+    // iPAD ONLY: Limit the size of the form sheet
+    if([[AGSDevice currentDevice] isIPad])
+        self.featureTemplatePickerViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    // ALL: Animate the template picker, covering vertically
+    self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+    [self presentModalViewController:self.featureTemplatePickerViewController animated:YES];
+}
+
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{
+    NSLog(@"featureTemplatePickerViewControllerWasDismissed");
     [self dismissModalViewControllerAnimated:YES];
 }
 
-// Everything we need to know about FeatureLayers http://resources.arcgis.com/en/help/runtime-ios-sdk/concepts/index.html#//00pw0000004s000000
-
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer {
+    NSLog(@"featureTemplatePickerViewController:didSelectFeatureTemplate");
     
     //
     // Set the active feature layer to the one we are going to edit
     //
     self.activeFeatureLayer = featureLayer;
 
-    // Start updating the users location and enter the first value recorded
-    // into the appropriate fields.
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.distanceFilter = kCLDistanceFilterNone;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [locationManager startUpdatingLocation];
-    
 
     //
-    // Make sure the interface doesn't force us to "Sketch" a location
-    // on the map, since we are auto-filling the location
+    // Iterate through all of the selected Feature Layer's
+    // fields and perform the necessary pre-display actions
+    // upon each field one at a time.
     //
-    self.mapView.touchDelegate = self;
-    self.bannerView.hidden = YES;
-
-    for (AGSFeatureLayer* field in featureLayer.fields) {
+    // These operations primarily concern the prepopulation
+    // of specific fields such as the date and geolocation.
+    // While others like the Attachments and associated image
+    // fields depend on user interaction later in the process
+    // to be updated dynamically.
+    //
+    for (AGSFeatureLayer* field in self.activeFeatureLayer.fields) {
 
         //
         // Prepopulate the date field for the user
@@ -312,21 +372,33 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
         }
 
         //
-        // Prepopulate the users images as they upload attachments
+        // Prepopulate the users images as they upload attachments.
         //
-        if ([field.name hasPrefix:@"image"]) {
+        // NOTE: We don't want to prepopulate the image fields. What
+        //       we really want to do is fill these fields automatically
+        //       later in the process when a user interacts with the
+        //       form by attaching files (e.g., image, video)
+        //
+        if ([field.name hasPrefix:@"image"] || [field.name hasSuffix:@"image"]) {
             // fill in the image fields as attachments are added
         }
 
         //
-        // Prepopulate the users location when they add a new report
+        // Prepopulate the users location when they add a new report.
+        //
+        // Note: We need to not only prepopulate these fields within the
+        //       Feature Layer but we also need to update the sketch layer
+        //       so that the GPS uses that same location. If we update
+        //       the sketch layer, we also need to come back and refill
+        //       these fields as well.
         //
         if ([field.name hasPrefix:@"lat"] || [field.name hasPrefix:@"long"]) {
             
-            [template.prototype setAttributeWithDouble:viUserLocationLatitude forKey:@"lat_push"];
-            [template.prototype setAttributeWithDouble:viUserLocationLongitude forKey:@"long_push"];
+            [template.prototype setAttributeWithFloat:viUserLocationLongitude forKey:@"long_push"];
+            [template.prototype setAttributeWithFloat:viUserLocationLatitude forKey:@"lat_push"];
             
-            [locationManager stopUpdatingLocation];
+            //NSLog(@"long_push: %@; lat_push: %@;", [template.prototype valueForKey:@"long_push"], [template.prototype valueForKey:@"lat_push"]);
+            
         }
 
         //
@@ -340,9 +412,10 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
         //
         // For more information see http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_polygon.html#a64a3986417a6f545d3d721827969ee55
         //
-        if ([field.name isEqualToString:@"keeper_bounds"]) {
-            [template.prototype setValue:@"My Keeper" forKey:@"keeper_bounds"]; // THIS DOESN'T WORK
+        if ([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) {
+            //[template.prototype setAttributeWithString:@"A keeper was found" forKey:field.name];
         }
+        
     }
     
     //create a new feature based on the template
@@ -381,7 +454,8 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 #pragma mark - AGSMapViewCalloutDelegate methods
 
 - (BOOL)mapView:(AGSMapView *) mapView shouldShowCalloutForGraphic:(AGSGraphic *) graphic {
-    //Dont show callout when the sketch layer is active. 
+    NSLog(@"mapView:shouldShowCalloutForGraphic");
+    //Dont show callout when the sketch layer is active.
     //The user is sketching and even if he taps on a feature, 
     //we don't want to display the callout and interfere with the sketching workflow
     return self.mapView.touchDelegate != self.sketchLayer ;
@@ -389,6 +463,7 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 
 #pragma mark - AGSCalloutDelegate methods
 - (void) didClickAccessoryButtonForCallout:		(AGSCallout *) 	callout {
+    NSLog(@"didClickAccessoryButtonForCallout");
     
     AGSGraphic* graphic = (AGSGraphic*)callout.representedObject;
     self.activeFeatureLayer = (AGSFeatureLayer*) graphic.layer;
@@ -410,23 +485,33 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 #pragma mark -  AGSPopupsContainerDelegate methods
 
 - (AGSGeometry *)popupsContainer:(id) popupsContainer wantsNewMutableGeometryForPopup:(AGSPopup *) popup {
+    NSLog(@"wantsNewMutableGeometryForPopup");
+
     //Return an empty mutable geometry of the type that our feature layer uses
     return AGSMutableGeometryFromType( ((AGSFeatureLayer*)popup.graphic.layer).geometryType, self.mapView.spatialReference);
 }
 
 - (void)popupsContainer:(id) popupsContainer readyToEditGraphicGeometry:(AGSGeometry *) geometry forPopup:(AGSPopup *) popup{
+    NSLog(@"readyToEditGraphicGeometry");
+
     //Dismiss the popup view controller
     [self dismissModalViewControllerAnimated:YES];
+    
     
     //Prepare the current view controller for sketch mode
     self.bannerView.hidden = NO;
     self.mapView.touchDelegate = self.sketchLayer; //activate the sketch layer
     self.mapView.callout.hidden = YES;
     
+    
+    // Stop updating the location so the user can actually add their
+    // new location to the map by touching.
+    [self.locationManager stopUpdatingLocation];
+    
+    
     //Assign the sketch layer the geometry that is being passed to us for 
     //the active popup's graphic. This is the starting point of the sketch
     self.sketchLayer.geometry = geometry;
-    
     
     //zoom to the existing feature's geometry
     AGSEnvelope* env = nil;
@@ -450,6 +535,8 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 }
 
 - (void)popupsContainer:(id<AGSPopupsContainer>) popupsContainer wantsToDeleteGraphicForPopup:(AGSPopup *) popup {
+    NSLog(@"wantsToDeleteGraphicForPopup");
+
     //Call method on feature layer to delete the feature
     NSNumber* number = [NSNumber numberWithInteger: [self.activeFeatureLayer objectIdForFeature:popup.graphic]];
     NSArray* oids = [NSArray arrayWithObject: number ];
@@ -459,13 +546,14 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 }
 
 -(void)popupsContainer:(id<AGSPopupsContainer>)popupsContainer didFinishEditingGraphicForPopup:(AGSPopup*)popup{
-	// simplify the geometry, this will take care of self intersecting polygons and 
+    NSLog(@"didFinishEditingGraphicForPopup");
+
+	// simplify the geometry, this will take care of self intersecting polygons and
 	popup.graphic.geometry = [[AGSGeometryEngine defaultGeometryEngine]simplifyGeometry:popup.graphic.geometry];
     //normalize the geometry, this will take care of geometries that extend beyone the dateline 
     //(ifwraparound was enabled on the map)
 	popup.graphic.geometry = [[AGSGeometryEngine defaultGeometryEngine]normalizeCentralMeridianOfGeometry:popup.graphic.geometry];
 	
-    
 	int oid = [self.activeFeatureLayer objectIdForFeature:popup.graphic];
 	
 	if (oid > 0){
@@ -484,12 +572,17 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 }
 
 - (void)popupsContainerDidFinishViewingPopups:(id) popupsContainer {
+    NSLog(@"popupsContainerDidFinishViewingPopups");
+
     //dismiss the popups view controller
     [self dismissModalViewControllerAnimated:YES];
     self.popupVC = nil;
+    
 }
 
 - (void)popupsContainer:(id) popupsContainer didCancelEditingGraphicForPopup:(AGSPopup *) popup {
+    NSLog(@"didCancelEditingGraphicForPopup");
+
     //dismiss the popups view controller
     [self dismissModalViewControllerAnimated:YES];
 
@@ -509,7 +602,8 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 
 #pragma mark - 
 - (void) warnUserOfErrorWithMessage:(NSString*) message {
-    //Display an alert to the user  
+    NSLog(@"warnUserOfErrorWithMessage");
+    //Display an alert to the user
     self.alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [self.alertView show];
     
@@ -520,6 +614,7 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 #pragma mark - AGSFeatureLayerEditingDelegate methods
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation *)op didFeatureEditsWithResults:(AGSFeatureLayerEditResults *)editResults{
+    NSLog(@"featureLayer:didFeatureEditsWithResults");
     
     //Remove the activity indicator
     [self.loadingView removeView];
@@ -589,6 +684,7 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 }
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation *)op didFailFeatureEditsWithError:(NSError *)error{
+    NSLog(@"featureLayer:didFailFeatureEditsWithError");
     NSLog(@"Could not commit edits because: %@", [error localizedDescription]);
 
     [self.loadingView removeView];
@@ -601,6 +697,7 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 #pragma mark AGSAttachmentManagerDelegate
 
 -(void)attachmentManager:(AGSAttachmentManager *)attachmentManager didPostLocalEditsToServer:(NSArray *)attachmentsPosted{
+    NSLog(@"didPostLocalEditsToServer");
     
     [self.loadingView removeView];
     
@@ -629,18 +726,18 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 
 }
 
-
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    NSLog(@"shouldAutorotateToInterfaceOrientation");
+    //Pass the interface orientation on to the map's gps so that
+    //it can re-position the gps symbol appropriately in
+    //compass navigation mode
+    self.mapView.locationDisplay.interfaceOrientation = interfaceOrientation;
+    return YES;
+}
 
 #pragma mark -
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
-
 - (void)didReceiveMemoryWarning {
+    NSLog(@"didReceiveMemoryWarning");
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	
@@ -648,8 +745,94 @@ didFailToLoadLayer:(AGSWebMapLayerInfo *) 	layerInfo
 }
 
 - (void)viewDidUnload {
-    
+    NSLog(@"viewDidUnload");
+    //Stop the GPS, undo the map rotation (if any)
+    if([self.mapView.locationDisplay isDataSourceStarted]){
+        [self.mapView.locationDisplay stopDataSource];
+    }
+    [self.locationManager stopUpdatingLocation];
+    self.locationManager = nil;
+    self.mapView = nil;
 }
+
+
+/*
+ * We want to get and store a location measurement that meets the desired accuracy. For this example, we are
+ *      going to use horizontal accuracy as the deciding factor. In other cases, you may wish to use vertical
+ *      accuracy, or both together.
+ */
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    NSLog(@"didUpdateToLocation");
+    
+    /**
+     * Ensure horizontal accuracy doesn't resolve to
+     * an invalid measurement.
+     */
+    if (newLocation.horizontalAccuracy < 0) {
+        return;
+    }
+    
+    
+    /**
+     * Add the existing GPS point to the sketch layer
+     */
+    [self.sketchLayer insertVertex:[self.mapView.locationDisplay mapLocation] inPart:0 atIndex:-1];
+    
+    
+    /**
+     * Create an AGSLocation instance so that we can
+     * fetch the X & Y coordinates and update the
+     * variables for our feature layer form.
+     */
+    AGSLocation* agsLoc = self.mapView.locationDisplay.location;
+
+    viUserLocationLongitude = agsLoc.point.x;
+    viUserLocationLatitude = agsLoc.point.y;
+
+    NSLog(@"Settings to be used for new map feature [x: %f; y: %f]", viUserLocationLongitude, viUserLocationLatitude);
+}
+
+/**
+ * If the Location Manager fails, we need to stop it so that it doesn't start
+ * looping through error after error.
+ */
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"didFailWithError");
+    // The location "unknown" error simply means the manager is currently unable to get the location.
+    if ([error code] != kCLErrorLocationUnknown) {
+        [self stopUpdatingLocation];
+    }
+}
+
+/**
+ * Stop updating the Location Manager and remove the delegate
+ */
+- (void)stopUpdatingLocation {
+    NSLog(@"stopUpdatingLocation");
+    //stop the location manager and set the delegate to nil;
+    [self.locationManager stopUpdatingLocation];
+    self.locationManager.delegate = nil;
+}
+
+
+/**
+ * Save a user's sketch properties
+ *
+ * Once a user has completed the "sketch" process
+ * the app will save the geometry information and
+ * dismiss the modal.
+ *
+ */
+-(void)sketchComplete{
+    NSLog(@"sketchComplete");
+    
+    self.navigationItem.rightBarButtonItem = nil;
+    [self presentModalViewController:self.popupVC animated:YES];
+    self.mapView.touchDelegate = self;
+    self.bannerView.hidden = YES;
+
+}
+
 
 
 @end

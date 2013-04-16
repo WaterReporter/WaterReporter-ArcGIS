@@ -34,8 +34,7 @@
         //For each template
         for (AGSFeatureTemplate* template in layer.templates) {
             
-            NSString *templateName = [[NSString alloc] initWithFormat:@"waterkeepers_chesapeake_"];
-            if (![template.name isEqualToString:templateName]) {
+            if (![template.name hasPrefix:@"New"] || ![template.name hasPrefix:@"water"] || ![template.name hasPrefix:@"keeper"] || ![template.name hasSuffix:@"keeper"] || template.name != nil) {
                 FeatureTemplatePickerInfo* info =
                 [[FeatureTemplatePickerInfo alloc] init];
                 info.featureLayer = layer;
@@ -44,7 +43,9 @@
                 
                 //Add to array
                 [self.infos addObject:info];
+                
             }
+            NSLog(@">>%@", template.name);
         }
     //Otherwise, if layer contains feature types
     }else{
@@ -53,15 +54,17 @@
             //For each template in type
             for (AGSFeatureTemplate* template in type.templates) {
                                
-                FeatureTemplatePickerInfo* info = 
-                [[FeatureTemplatePickerInfo alloc] init];
-                info.featureLayer = layer;
-                info.featureTemplate = template;
-                info.featureType = type;
-               
-                //Add to  array
-                [self.infos addObject:info];
-                
+                if (![template.name hasPrefix:@"New"] || ![template.name hasPrefix:@"water"] || ![template.name hasPrefix:@"keeper"] || ![template.name hasSuffix:@"keeper"] || template.name != nil) {
+                    FeatureTemplatePickerInfo* info =
+                    [[FeatureTemplatePickerInfo alloc] init];
+                    info.featureLayer = layer;
+                    info.featureTemplate = template;
+                    info.featureType = type;
+                   
+                    //Add to  array
+                    [self.infos addObject:info];
+                }
+                NSLog(@"%@", template.name);
             }
         }
     }

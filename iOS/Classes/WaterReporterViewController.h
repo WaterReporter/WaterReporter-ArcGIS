@@ -33,14 +33,12 @@
 
     UIView* _bannerView;
     UIAlertView* _alertView;
-    UIBarButtonItem* _pickTemplateButton;
     UIBarButtonItem* _sketchCompleteButton;
+    CLLocationManager *_locationManager;
 
-    //
     LoadingView* _loadingView;
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
     
-    CLLocationManager *locationManager;
 }
 
 -(IBAction)presentButtonPressedLogMessage:(id)sender;
@@ -51,13 +49,14 @@
 @property (nonatomic, strong) AGSPopupsContainerViewController* popupVC;
 @property (nonatomic, strong) AGSSketchGraphicsLayer* sketchLayer;
 
-@property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
-
 @property (nonatomic, strong) IBOutlet UIView* bannerView;
 @property (nonatomic, strong) UIAlertView* alertView;
-@property (nonatomic, strong) UIBarButtonItem* pickTemplateButton;
 @property (nonatomic, strong) UIBarButtonItem* sketchCompleteButton;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
 @property (nonatomic, strong) LoadingView* loadingView;
+@property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
+
 
 @end
 

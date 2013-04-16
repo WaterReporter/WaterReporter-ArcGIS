@@ -16,8 +16,8 @@
 		28D7ACF80DDB3853001CB0EB /* WaterReporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */; };
 		3B7F19E910D1BEB900AFD7FB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B7F19E810D1BEB900AFD7FB /* CoreLocation.framework */; };
 		3B7F19EB10D1BEB900AFD7FB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B7F19EA10D1BEB900AFD7FB /* QuartzCore.framework */; };
+		4A30A010171C7C5400E5EBEA /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4A30A00F171C7C5400E5EBEA /* ArcGIS.bundle */; };
 		4AE3AE481700D11300C3D389 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AE3AE471700D11300C3D389 /* MainWindow.xib */; };
-		4AE3AE4A1700D13E00C3D389 /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4AE3AE491700D13E00C3D389 /* ArcGIS.bundle */; };
 		4AE3AE4E1700D3E000C3D389 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AE3AE4C1700D3E000C3D389 /* TutorialViewController.m */; };
 		4AE3AE4F1700D3E000C3D389 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AE3AE4D1700D3E000C3D389 /* TutorialViewController.xib */; };
 		4AEF7496170307FA00481704 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF7495170307FA00481704 /* icon.png */; };
@@ -56,8 +56,8 @@
 		32CA4F630368D1EE00C91783 /* WaterReporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporter_Prefix.pch; sourceTree = "<group>"; };
 		3B7F19E810D1BEB900AFD7FB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3B7F19EA10D1BEB900AFD7FB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4A30A00F171C7C5400E5EBEA /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ArcGIS.bundle; path = ../../../../../../Library/SDKs/ArcGIS/iOS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle; sourceTree = "<group>"; };
 		4AE3AE471700D11300C3D389 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		4AE3AE491700D13E00C3D389 /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ArcGIS.bundle; sourceTree = "<group>"; };
 		4AE3AE4B1700D3E000C3D389 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
 		4AE3AE4C1700D3E000C3D389 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		4AE3AE4D1700D3E000C3D389 /* TutorialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
@@ -144,6 +144,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				4A30A00F171C7C5400E5EBEA /* ArcGIS.bundle */,
 				4AEF74A317030AB500481704 /* addButton.png */,
 				4AEF74A11703094300481704 /* icon-ipad@2x.png */,
 				4AEF749F1703093C00481704 /* icon-ipad.png */,
@@ -153,7 +154,6 @@
 				4AEF74971703080200481704 /* icon@2x.png */,
 				4AEF74A917030E4B00481704 /* mapButton.png */,
 				4AEF7495170307FA00481704 /* icon.png */,
-				4AE3AE491700D13E00C3D389 /* ArcGIS.bundle */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -247,7 +247,6 @@
 				970215B613BBDE71008FB286 /* FeatureTemplatePickerViewController.xib in Resources */,
 				970215BE13BBDE8D008FB286 /* MainWindow-iPad.xib in Resources */,
 				4AE3AE481700D11300C3D389 /* MainWindow.xib in Resources */,
-				4AE3AE4A1700D13E00C3D389 /* ArcGIS.bundle in Resources */,
 				4AE3AE4F1700D3E000C3D389 /* TutorialViewController.xib in Resources */,
 				4AEF7496170307FA00481704 /* icon.png in Resources */,
 				4AEF74981703080200481704 /* icon@2x.png in Resources */,
@@ -258,6 +257,7 @@
 				4AEF74A21703094300481704 /* icon-ipad@2x.png in Resources */,
 				4AEF74A417030AB500481704 /* addButton.png in Resources */,
 				4AEF74AA17030E4B00481704 /* mapButton.png in Resources */,
+				4A30A010171C7C5400E5EBEA /* ArcGIS.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
