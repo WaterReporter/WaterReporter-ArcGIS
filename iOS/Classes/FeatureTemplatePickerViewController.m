@@ -34,7 +34,11 @@
         //For each template
         for (AGSFeatureTemplate* template in layer.templates) {
             
-            if (![template.name hasPrefix:@"New"] || ![template.name hasPrefix:@"water"] || ![template.name hasPrefix:@"keeper"] || ![template.name hasSuffix:@"keeper"] || template.name != nil) {
+            if ([template.name isEqualToString:@"New Feature"]) {
+                NSLog(@"NEW FEATURE!!!! AHHHH!");
+            }
+            
+            if (![template.name hasPrefix:@"New"] || ![template.name hasPrefix:@"water"] || ![template.name hasPrefix:@"keeper"] || ![template.name hasSuffix:@"keeper"] || template.name != nil ) {
                 FeatureTemplatePickerInfo* info =
                 [[FeatureTemplatePickerInfo alloc] init];
                 info.featureLayer = layer;

@@ -41,8 +41,6 @@
     
 }
 
--(IBAction)presentButtonPressedLogMessage:(id)sender;
-
 @property (nonatomic, strong) IBOutlet AGSMapView *mapView;
 @property (nonatomic, strong) AGSWebMap* webmap;
 @property (nonatomic, strong) AGSFeatureLayer *activeFeatureLayer;

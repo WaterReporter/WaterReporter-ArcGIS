@@ -34,11 +34,6 @@
 
 #import "WaterReporterViewController.h"
 
-NSString *viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c09cb";
-double viUserLocationLongitude;
-double viUserLocationLatitude;
-int viDefaultUserLocationZoomLevel = 150000;
-
 @implementation WaterReporterViewController
 
 @synthesize mapView = _mapView;
@@ -52,6 +47,12 @@ int viDefaultUserLocationZoomLevel = 150000;
 @synthesize loadingView = _loadingView;
 @synthesize sketchCompleteButton = _sketchCompleteButton;
 @synthesize locationManager = _locationManager;
+
+NSString *viWaterReporterWebMapID = @"70f0fef3990a462397fcd4b9409c09cb";
+double viUserLocationLongitude;
+double viUserLocationLatitude;
+int viDefaultUserLocationZoomLevel = 150000;
+
 
 #pragma mark - Handlers for Navigation Bar buttons
 
@@ -76,7 +77,6 @@ int viDefaultUserLocationZoomLevel = 150000;
 #pragma mark -  UIView methods
 
 - (void)viewDidLoad {
-    NSLog(@"viewDidLoad");
     
     /**
      * Add the "Add report" button to the main map
@@ -141,7 +141,6 @@ int viDefaultUserLocationZoomLevel = 150000;
  */
 - (UINavigationItem *)navigationItem
 {
-    NSLog(@"navigationItem");
     UINavigationItem *navigationItem = [super navigationItem];
     UILabel *customLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320.0, 40.0)];
     customLabel.text = @"Water Reporter";
@@ -155,7 +154,6 @@ int viDefaultUserLocationZoomLevel = 150000;
 #pragma mark - AGSWebMapDelegate methods
 
 - (void) webMap:(AGSWebMap *)webMap didLoadLayer:(AGSLayer *)layer {
-    NSLog(@"webMap:didLoadLayer");
     
     //The last feature layer we encounter we will use for editing features
     //If the web map contains more than one feature layer, the sample may need to be modified to handle that
@@ -177,12 +175,9 @@ int viDefaultUserLocationZoomLevel = 150000;
         [self.featureTemplatePickerViewController addTemplatesFromLayer:featureLayer];
     }
     
-    NSLog(@"webMap:didLoadLayer: %@", layer.name);
-
 }
 
 - (void) didOpenWebMap:(AGSWebMap *)webMap intoMapView:(AGSMapView *)mapView {
-    NSLog(@"didOpenWebMap");
 
     /**
      * Once all the layers in the web map are loaded
@@ -232,7 +227,6 @@ int viDefaultUserLocationZoomLevel = 150000;
 }
 
 - (void) webMap:(AGSWebMap *)webMap didFailToLoadLayer:(AGSWebMapLayerInfo *)layerInfo baseLayer:(BOOL)baseLayer federated:(BOOL)federated withError:(NSError *)error {
-    NSLog(@"webMap:didFailToLoadLayer");
 
     NSLog(@"Failed to load layer : %@", layerInfo.title);
 
@@ -245,7 +239,6 @@ int viDefaultUserLocationZoomLevel = 150000;
 #pragma mark AGSSketchGraphicsLayer notifications
 
 - (void)respondToGeomChanged: (NSNotification*) notification {
-    NSLog(@"respondToGeomChanged");
     
     /**
      * Update the interface and associated fields if the
@@ -260,12 +253,12 @@ int viDefaultUserLocationZoomLevel = 150000;
          ** TODO: FOR NOW WE ONLY NEED POINTS, BUT IN THE FUTURE
          ** WE ARE GOING TO NEED TO ADD SUPPORT FOR POLYGONS AND
          ** LINES WITHIN OUR GEOMETRY TOOLS.
-         ***/
-
-        //AGSMutablePoint *currentSketchValue = self.sketchLayer.geometry;
-
+         ***/    
+        AGSPoint *currentSketchValue = (AGSPoint*)AGSGeometryWebMercatorToGeographic(self.sketchLayer.geometry);
         
-        // Auto-fill geometry fields
+        viUserLocationLongitude = currentSketchValue.x;
+        viUserLocationLatitude = currentSketchValue.y;
+                
         /***
          ** WE NEED SOME TYPE OF LISTENER HERE TO UPDATE
          ** THE FIELDS FOR US PROGRAMATICALLY. WE NEED TO
@@ -275,9 +268,16 @@ int viDefaultUserLocationZoomLevel = 150000;
          ** self.sketchLayer.geometry
          **
          ***/
-        AGSLocation* thisLocation = self.sketchLayer.mapView.locationDisplay.location;
-        NSLog(@"%f", thisLocation.point.x);
         
+        /***
+         ** WE ALSO NEED TO FIGURE OUT WHETHER THE POINT
+         ** IS CONTAINED WITHIN THE POLYGON OF ONE OF THE
+         ** WATERSHEDS THAT IS DISPLAYED ON OUR MAP.
+         **
+         ** http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_envelope.html#ad7fdaa3ec058a14c2b9c3af92585086e
+         **
+         ***/
+
         //
         // Iterate through all of the selected Feature Layer's
         // fields and perform the necessary pre-display actions
@@ -289,13 +289,7 @@ int viDefaultUserLocationZoomLevel = 150000;
         // fields depend on user interaction later in the process
         // to be updated dynamically.
         //
-        
-        //[self.activeFeatureLayer setValue:@"50.0000" forKey:@"long_push"];
-        
-//        for (AGSFeatureLayer* field in self.activeFeatureLayer.fields) {            
-//            [field setValue:@"50.0000" forKey:@"long_push"];
-//        }
-        
+                
     }
 
 }
@@ -379,9 +373,9 @@ int viDefaultUserLocationZoomLevel = 150000;
         //       later in the process when a user interacts with the
         //       form by attaching files (e.g., image, video)
         //
-        if ([field.name hasPrefix:@"image"] || [field.name hasSuffix:@"image"]) {
+        //if ([field.name hasPrefix:@"image"] || [field.name hasSuffix:@"image"]) {
             // fill in the image fields as attachments are added
-        }
+        //}
 
         //
         // Prepopulate the users location when they add a new report.
@@ -633,6 +627,8 @@ int viDefaultUserLocationZoomLevel = 150000;
             _updateAttachments = NO;
             //Inform user
             [self warnUserOfErrorWithMessage:@"Could not add feature. Please try again"];
+        } else {
+            NSLog(@"editResults.addResults %@", result.encodeToJSON);
         }
         
     }else if([editResults.updateResults count]>0){
@@ -643,6 +639,8 @@ int viDefaultUserLocationZoomLevel = 150000;
             _updateAttachments = NO;
             //Inform user
             [self warnUserOfErrorWithMessage:@"Could not update feature. Please try again"];
+        } else {
+            NSLog(@"editResults.updateResults %@", result.encodeToJSON);
         }
     }else if([editResults.deleteResults count]>0){
         //we were deleting a feature
@@ -719,11 +717,6 @@ int viDefaultUserLocationZoomLevel = 150000;
         [self warnUserOfErrorWithMessage:@"Some attachment edits could not be synced with the server. Please try again"];
     }
 
-    NSLog(@"Attachment Count : %d",[attachmentsPosted count]);
-	for (AGSAttachmentInfo* attInfo in attachmentsPosted) {
-        NSLog(@"Attachment ID : %d", attInfo.attachmentId);
-    }
-
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -745,7 +738,6 @@ int viDefaultUserLocationZoomLevel = 150000;
 }
 
 - (void)viewDidUnload {
-    NSLog(@"viewDidUnload");
     //Stop the GPS, undo the map rotation (if any)
     if([self.mapView.locationDisplay isDataSourceStarted]){
         [self.mapView.locationDisplay stopDataSource];
@@ -762,7 +754,6 @@ int viDefaultUserLocationZoomLevel = 150000;
  *      accuracy, or both together.
  */
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    NSLog(@"didUpdateToLocation");
     
     /**
      * Ensure horizontal accuracy doesn't resolve to
@@ -797,7 +788,6 @@ int viDefaultUserLocationZoomLevel = 150000;
  * looping through error after error.
  */
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"didFailWithError");
     // The location "unknown" error simply means the manager is currently unable to get the location.
     if ([error code] != kCLErrorLocationUnknown) {
         [self stopUpdatingLocation];
@@ -808,7 +798,6 @@ int viDefaultUserLocationZoomLevel = 150000;
  * Stop updating the Location Manager and remove the delegate
  */
 - (void)stopUpdatingLocation {
-    NSLog(@"stopUpdatingLocation");
     //stop the location manager and set the delegate to nil;
     [self.locationManager stopUpdatingLocation];
     self.locationManager.delegate = nil;
@@ -823,9 +812,7 @@ int viDefaultUserLocationZoomLevel = 150000;
  * dismiss the modal.
  *
  */
--(void)sketchComplete{
-    NSLog(@"sketchComplete");
-    
+-(void)sketchComplete{    
     self.navigationItem.rightBarButtonItem = nil;
     [self presentModalViewController:self.popupVC animated:YES];
     self.mapView.touchDelegate = self;
