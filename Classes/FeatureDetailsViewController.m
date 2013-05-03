@@ -616,7 +616,8 @@
 
 	} else if (section == 2){ // details
 //		return [self.infos count];
-        return 6;
+        NSLog(@"THERE ARE %d FIELDS IN THIS FEATURE", self.featureLayer.fields.count-6);
+        return (self.featureLayer.fields.count - 6);
 	}
 	
 	return 0;
@@ -692,14 +693,14 @@
 	
 	UITableViewCell *cell = nil;
         
-    /**
-     * Replace the default pinstripe background with our new linen pattern
+	/**
+     * Attachments
+     *
+     * This block of code labeled as "Section 1" in the index path handles all of the
+     * displaying and styling of the attachments choose file field as well as the 
+     * loading and displaying of image names and thumbnails.
+     *
      */
-    UIView* backgroundView = [[UIView alloc] init];
-    backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]];
-    [tableView setBackgroundView:backgroundView];
-	
-	// section 1 is the attachments
 	if (indexPath.section == 1){
 		
 		static NSString *attachmentsCellIdentifier = @"attachmentsCell";
@@ -722,7 +723,6 @@
 				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 cell.accessoryType = UITableViewCellAccessoryNone;
 				cell.textLabel.text = nil;
-				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                 cell.backgroundColor =  [UIColor clearColor];
 
                 cell.textLabel.backgroundColor = [UIColor clearColor];
@@ -734,11 +734,9 @@
 				if ([self filepathIsJPG:filepath]){
 					cell.textLabel.text = [NSString stringWithFormat:@"%@ %d",@"Picture",indexPath.row + 1];
 					cell.imageView.image = [self thumbnailForImageWithPath:[self.attachments objectAtIndex:indexPath.row] size:36];
-					cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 				}
 				else {
 					cell.textLabel.text = [NSString stringWithFormat:@"%@ %d",@"Video",indexPath.row + 1];
-					cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 				}
 
 			}
@@ -768,61 +766,189 @@
 	
 	// section 2 is the feature details
 	if (indexPath.section == 2){
+
+        static NSString *detailsCellIdentifier = @"detailsCell";
         
-        
-		static NSString *detailsCellIdentifier = @"detailsCell";
-		
 		cell = [tableView dequeueReusableCellWithIdentifier:detailsCellIdentifier];
 		if (cell == nil) {
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:detailsCellIdentifier] autorelease];
 		}
-		
+        
 		cell.imageView.image = nil;
 		cell.textLabel.text = nil;
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-        AGSField *field = nil;
-		if (indexPath.row == 0){
-			cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
-            field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
-			cell.textLabel.text = field.alias;
-		}
-		else if (indexPath.row == 1){
-            BOOL exists;
-            NSNumber *recorededOn =
-            [NSNumber numberWithDouble:[self.feature attributeAsDoubleForKey:@"date" exists:&exists]];
-            NSString *detailString = @"";
-            if (recorededOn && (recorededOn != (id)[NSNull null]))
-            {
-                //attribute dates/times are in milliseconds; NSDate dates are in seconds
-                NSDate *date = [NSDate dateWithTimeIntervalSince1970:([recorededOn doubleValue] / 1000.0)];
-                detailString = [self.dateFormat stringFromDate:date];
-            }
-			cell.detailTextLabel.text = detailString;
-            
-            field = [CodedValueUtility findField:@"date" inFeatureLayer:self.featureLayer];
-			cell.textLabel.text = field.alias;
-		}
-		else if (indexPath.row == 2){
-			cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"difficulty" inFeatureLayer:self.featureLayer];
-            field = [CodedValueUtility findField:@"difficulty" inFeatureLayer:self.featureLayer];
-			cell.textLabel.text = field.alias;
-		}
-		else if (indexPath.row == 3){
-            NSString *value = [self.feature attributeAsStringForKey:@"notes"];
-			cell.detailTextLabel.text = (value == (id)[NSNull null] ? @"" : value);
-            field = [CodedValueUtility findField:@"notes" inFeatureLayer:self.featureLayer];
-			cell.textLabel.text = field.alias;
-		}
         
+        /**
+         * Iterate through all of the selected Feature Layer's
+         * fields and perform the necessary pre-display actions
+         * upon each field one at a time.
+         *
+         * These operations primarily concern the prepopulation
+         * of specific fields such as the date and geolocation.
+         * While others like the Attachments and associated image
+         * fields depend on user interaction later in the process
+         * to be updated dynamically.
+         *
+         */
+        for (AGSField* field in self.featureLayer.fields) {
+            
+            NSLog(@"%@", field.name);
+            
+            //
+            // Prepopulate the date field for the user
+            //
+            if (field.editable && [field.name isEqualToString:@"date"] && indexPath.row == 0) {
+                
+                cell.textLabel.text = field.alias;
+                
+                //
+                // Get the current date and time and auto-fill the form field
+                //
+                // All about date formatting in iOS https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html
+                // get the current date
+                //
+                NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
+                
+                double theAGSCompatibleTime = theCurrentTime * 1000; // We must do this so that ArcGIS translates it appropriately
+                
+                //[cell.detailTextLabel.text setAttributeWithDouble:theAGSCompatibleTime forKey:@"date"];
+                NSNumber *theAGSCompatibleTimeAsString = [NSNumber numberWithDouble:theAGSCompatibleTime];
+                cell.detailTextLabel.text = [theAGSCompatibleTimeAsString stringValue];
+            }
+
+            //
+            // Prepopulate the users images as they upload attachments.
+            //
+            // NOTE: We don't want to prepopulate the image fields. What
+            //       we really want to do is fill these fields automatically
+            //       later in the process when a user interacts with the
+            //       form by attaching files (e.g., image, video)
+            //
+            if (field.editable && [field.name isEqualToString:@"event"] && indexPath.row == 1) {
+                // fill in the image fields as attachments are added
+                cell.textLabel.text = field.alias;
+                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            }
+            
+            //
+            // Prepopulate the users images as they upload attachments.
+            //
+            // NOTE: We don't want to prepopulate the image fields. What
+            //       we really want to do is fill these fields automatically
+            //       later in the process when a user interacts with the
+            //       form by attaching files (e.g., image, video)
+            //
+            if (field.editable && [field.name isEqualToString:@"reporter"] && indexPath.row == 2) {
+                // fill in the image fields as attachments are added
+                cell.textLabel.text = field.alias;
+                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            }
+            
+            //
+            // Prepopulate the users images as they upload attachments.
+            //
+            // NOTE: We don't want to prepopulate the image fields. What
+            //       we really want to do is fill these fields automatically
+            //       later in the process when a user interacts with the
+            //       form by attaching files (e.g., image, video)
+            //
+            if (field.editable && [field.name isEqualToString:@"comments"] && indexPath.row == 3) {
+                // fill in the image fields as attachments are added
+                cell.textLabel.text = field.alias;
+                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            }
+            
+            //
+            // Prepopulate the users images as they upload attachments.
+            //
+            // NOTE: We don't want to prepopulate the image fields. What
+            //       we really want to do is fill these fields automatically
+            //       later in the process when a user interacts with the
+            //       form by attaching files (e.g., image, video)
+            //
+            if ([field.name hasPrefix:@"image"] || [field.name hasSuffix:@"image"]) {
+                // fill in the image fields as attachments are added
+            }
+            
+            //
+            // Prepopulate the users location when they add a new report.
+            //
+            // Note: We need to not only prepopulate these fields within the
+            //       Feature Layer but we also need to update the sketch layer
+            //       so that the GPS uses that same location. If we update
+            //       the sketch layer, we also need to come back and refill
+            //       these fields as well.
+            //
+            if ([field.name hasPrefix:@"lat"] || [field.name hasPrefix:@"long"]) {
+                
+                //[template.prototype setAttributeWithFloat:viUserLocationLongitude forKey:@"long_push"];
+                //[template.prototype setAttributeWithFloat:viUserLocationLatitude forKey:@"lat_push"];
+                
+                //NSLog(@"long_push: %@; lat_push: %@;", [template.prototype valueForKey:@"long_push"], [template.prototype valueForKey:@"lat_push"]);
+                
+            }
+
+            //
+            // Point to Polygon
+            //
+            // Determine what watershed a user is in when they launch the application
+            // and set their default based on the results of their GPS or geolocation
+            //
+            // In order to implement this see if we can use the "containsPoint" method
+            // provided by the AGSPolygon Class.
+            //
+            // For more information see http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_polygon.html#a64a3986417a6f545d3d721827969ee55
+            //
+            if ([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) {
+                //[template.prototype setAttributeWithString:@"A keeper was found" forKey:field.name];
+            }
+        }
+        
+//		if (indexPath.row == 0){
+//			cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
+//            field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
+//			cell.textLabel.text = field.alias;
+//		}
+//		else if (indexPath.row == 1){
+//            BOOL exists;
+//            NSNumber *recorededOn =
+//            [NSNumber numberWithDouble:[self.feature attributeAsDoubleForKey:@"date" exists:&exists]];
+//            NSString *detailString = @"";
+//            if (recorededOn && (recorededOn != (id)[NSNull null]))
+//            {
+//                //attribute dates/times are in milliseconds; NSDate dates are in seconds
+//                NSDate *date = [NSDate dateWithTimeIntervalSince1970:([recorededOn doubleValue] / 1000.0)];
+//                detailString = [self.dateFormat stringFromDate:date];
+//            }
+//			cell.detailTextLabel.text = detailString;
+//            
+//            field = [CodedValueUtility findField:@"date" inFeatureLayer:self.featureLayer];
+//			cell.textLabel.text = field.alias;
+//		}
+//		else if (indexPath.row == 2){
+//			cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"difficulty" inFeatureLayer:self.featureLayer];
+//            field = [CodedValueUtility findField:@"difficulty" inFeatureLayer:self.featureLayer];
+//			cell.textLabel.text = field.alias;
+//		}
+//		else if (indexPath.row == 3){
+//            NSString *value = [self.feature attributeAsStringForKey:@"notes"];
+//			cell.detailTextLabel.text = (value == (id)[NSNull null] ? @"" : value);
+//            field = [CodedValueUtility findField:@"notes" inFeatureLayer:self.featureLayer];
+//			cell.textLabel.text = field.alias;
+//		}
     }
 
     /**
+     * Replace the default pinstripe background with our new linen pattern
+     */
+    UIView* backgroundView = [[UIView alloc] init];
+    backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]];
+    [tableView setBackgroundView:backgroundView];
+	
+    /**
      * Remove the separators between cells in the tableView
      */
-    [tableView.layer setCornerRadius:0.0f];
-
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.separatorColor = [UIColor clearColor];
     
@@ -831,7 +957,7 @@
      */
     cell.textLabel.font = [UIFont fontWithName:@"MuseoSlab-500" size:14.0];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
+    
     return cell;
 }
 
