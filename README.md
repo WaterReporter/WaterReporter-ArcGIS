@@ -22,3 +22,9 @@ The application allows individuals to find out more about the small watersheds w
 ### Details
 
 The Water Reporter is an iOS application that allows water shed organizations to collect simple data (e.g., ). The application will allows for both online as well as offline access and data collection.
+
+### Developer Notes
+
+When using a GIT repository in conjunction with Google Drive, it is occasionally necessary to clean up the extras left behind by Google Drive. If you are unable to commit your code, you can run this bash script to run a cleanup.
+
+    bash cleanup.sh
