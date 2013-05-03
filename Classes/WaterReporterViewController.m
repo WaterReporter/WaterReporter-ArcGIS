@@ -27,7 +27,7 @@
  * Define whether the Feature Template Picker should display
  * automatically when the 
  */
-#define FEATURE_TEMPLATE_AUTODISPLAY NO
+#define FEATURE_TEMPLATE_AUTODISPLAY YES
 #define FEATURE_SERVICE_ZOOM 150000
 
 double viUserLocationLongitude;
@@ -43,7 +43,6 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
 @synthesize mapView = _mapView;
 @synthesize featureLayer = _featureLayer;
 @synthesize webmap = _webmap;
-@synthesize commitGeometryButton = _commitGeometryButton;
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 
 
@@ -71,65 +70,6 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
     return viFeatureAddButtonY;
 }
 
-
-#pragma mark Edit Mode Helper Methods
-
--(void)turnOnEditMode{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: turnOnEditMode");
-    
-	//
-	// This function turns "edit mode" on and all the UI that is associated with it
-	//
-	_editingMode = YES;
-	
-	UIBarButtonItem *cancel = [[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(turnOffEditMode)]autorelease];
-	self.navigationItem.rightBarButtonItem = cancel;
-
-    //Sketch layer	
-	AGSSketchGraphicsLayer* sketchLayer = [[[AGSSketchGraphicsLayer alloc] initWithGeometry:nil] autorelease];
-    sketchLayer.geometry = [[[AGSMutablePolyline alloc] initWithSpatialReference:self.mapView.spatialReference] autorelease];
-	[self.mapView addMapLayer:sketchLayer withName:kSketchLayerName]; 
-    
-    //set the mapView's touch delege to the sketch layer so it can get the user taps.
-    self.mapView.touchDelegate = sketchLayer; 
-    
-    //hide the callout
-    self.mapView.callout.hidden = YES;
-    
-    //set the left buton to be the 'commit geometry button'
-    //make it initially disabled since we don't have a valid polygon yet...
-    self.commitGeometryButton.enabled = NO;
-    self.navigationItem.leftBarButtonItem = self.commitGeometryButton;
-}
-
--(void)turnOffEditMode{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: turnOffEditMode");
-    
-	//
-	// This function turns "edit mode" off and all the UI that is associated with it
-	//
-	_editingMode = NO;
-
-	UIBarButtonItem *right = [[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(turnOnEditMode)]autorelease];
-	self.navigationItem.rightBarButtonItem = right;
-    
-    //remove the sketch layer from the map
-    [self.mapView removeMapLayerWithName:kSketchLayerName];
-    
-    //rest the mapView's touch delegate
-    //not doing this will cause problems,
-    //because the sketch layer will have been released...
-    self.mapView.touchDelegate = self; 
-}
-
 - (void)respondToGeomChanged: (NSNotification*) notification {
     
     /**
@@ -137,10 +77,6 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
      */
     NSLog(@"WaterReporterViewController: respondToGeomChanged");
     
-	//Enable/disable UI elements appropriately
-    AGSSketchGraphicsLayer *sketchLayer = (AGSSketchGraphicsLayer *)[self.mapView mapLayerForName:kSketchLayerName];
-    
-    self.commitGeometryButton.enabled = [sketchLayer.geometry isValid];
 }
 
 #pragma mark UIView methods
@@ -152,8 +88,6 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
      */
     NSLog(@"WaterReporterViewController: viewWillAppear");
     
-	// anytime the view is shown, we turn edit mode off
-	[self turnOffEditMode];
 }
 
 - (void)viewDidLoad {
@@ -216,13 +150,6 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
      * charcoal pattern
      */
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
-    
-    //initialize commit Geometry button...
-    self.commitGeometryButton = [[[UIBarButtonItem alloc]initWithTitle:@"Commit Geometry" style:UIBarButtonItemStylePlain target:self action:@selector(commitGeometry:)]autorelease];
-    
-    //Register for "Geometry Changed" notifications 
-    //We want to enable/disable UI elements (commit geometry button) when sketch geometry is modified
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
     
     [self.mapView addSubview:addNewFeatureToMap];
 
@@ -619,7 +546,7 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
     [self.featureLayer addGraphic:_newFeature];
     
     //Iniitalize a popup view controller
-    self.popupVC = [[AGSPopupsContainerViewController alloc] initWithWebMap:self.webmap forFeature:_newFeature usingNavigationControllerStack:NO];
+    self.popupVC = [[AGSPopupsContainerViewController alloc] initWithWebMap:self.webmap forFeature:_newFeature usingNavigationControllerStack:YES];
     self.popupVC.delegate = self;
     
     //Only for iPad, set presentation style to Form sheet
@@ -633,9 +560,25 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
     //First, dismiss the Feature Template Picker
     [self dismissModalViewControllerAnimated:NO];
     
-    //Next, Present the popup view controller
-    [self presentModalViewController:self.popupVC animated:YES];
-    [self.popupVC startEditingCurrentPopup];
+//    //Next, Present the popup view controller
+//    [self presentModalViewController:self.popupVC animated:YES];
+//    [self.popupVC startEditingCurrentPopup];
+    
+    //get sketchLayer from the mapView
+    AGSSketchGraphicsLayer *sketchLayer = (AGSSketchGraphicsLayer *)[self.mapView mapLayerForName:kSketchLayerName];
+    
+    //get the sketch layer geometry
+    AGSGeometry *geometry = sketchLayer.geometry;
+    
+    //now create the feature details vc and display it
+    FeatureDetailsViewController *fdvc = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer
+                                                                                            feature:nil
+                                                                                    featureGeometry:geometry] autorelease];
+    
+	/**
+     * Prepares the details for the new feature.
+     */
+    [self.navigationController pushViewController:fdvc animated:YES];
     
 }
 

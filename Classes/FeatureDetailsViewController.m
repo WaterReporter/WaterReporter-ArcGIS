@@ -10,6 +10,19 @@
 // See the use restrictions at http://help.arcgis.com/en/sdk/10.0/usageRestrictions.htm
 //
 
+
+/**
+ * This document gets heavy really quick. In order to understand it a little better I've
+ * summarized what we're doing at the top:
+ *
+ * [Line 159+/-] viewDidLoad: This handles the titles, the cancel, the save buttons, and the toolbar at the top of the page.
+ * [Line 195+/-] viewWillAppear: This gets our attributes ready to display in the TableView. For example, if the feature exists then we're collecting the existing data from the individual fields. If it's new, we're just getting a list of empty fields for display
+ *
+ *
+ *
+ *
+ */
+
 #import "FeatureDetailsViewController.h"
 #import "FeatureTypeViewController.h"
 #import "ImageViewController.h"
@@ -36,6 +49,7 @@
 @synthesize dateFormat = _dateFormat;
 @synthesize timeFormat = _timeFormat;
 @synthesize attachmentInfos = _attachmentInfos;
+@synthesize infos = _infos;
 @synthesize operations = _operations;
 @synthesize retrieveAttachmentOp = _retrieveAttachmentOp;
 
@@ -163,7 +177,7 @@
         /**
          * This is the "Commit" button when you're adding a new feature to the map
          */
-		UIBarButtonItem *commit = [[[UIBarButtonItem alloc]initWithTitle:@"Commit" style:UIBarButtonItemStylePlain target:self action:@selector(commit)]autorelease];
+		UIBarButtonItem *commit = [[[UIBarButtonItem alloc]initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(commit)]autorelease];
 		self.navigationItem.rightBarButtonItem = commit;
 		
         /**
@@ -189,33 +203,27 @@
      */
     NSLog(@"FeatureDetailsViewController:viewWillAppear");
 	
+    /**
+     * Reloading the data
+     *
+     * The Feature Detail View Controller is really just a template
+     * to hold information. Since we don't know the contents of each
+     * field until we select a feature, we need to make sure that we
+     * are reloading the TableView to accept the new data.
+     *
+     * The attributes we see here are the specific Feature attributes
+     * we are interested in populating our form with if the feature
+     * is an existing Feature.
+     *
+     */
 	[self.tableView reloadData];
 	NSDictionary* attributes = [self.feature allAttributes];
+    
+    NSLog(@"Attributes: %@", attributes);
+    
 	self.navigationItem.rightBarButtonItem.enabled = (attributes!=nil && [attributes count]>0);
 }
 
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
 
 #pragma mark init method
 
@@ -581,19 +589,14 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     /**
      * This allows us to see what is being fired and when
      */
     NSLog(@"FeaturesDetailsViewController: numberOfRowsInSection");
+
     // Return the number of rows in the section.
-	
-	// feature type
-	if (section == 0){
-		return 1;
-	}
-	
-	// attachments
-	else if (section == 1){
+    if (section == 1){ // attachments
 		if (_newFeature){
 			return self.attachments.count + 1;
 		}
@@ -611,44 +614,64 @@
 			}
 		}
 
-	}
-	
-	// details
-	else if (section == 2){
-		return 4;
+	} else if (section == 2){ // details
+//		return [self.infos count];
+        return 6;
 	}
 	
 	return 0;
 }
 
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+    if (sectionTitle == nil) {
+        return nil;
+    }
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(10, 8, 320, 20);
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor blackColor];
+    label.shadowColor = [UIColor clearColor];
+    label.text = sectionTitle;
+    
+    UIView *view = [[UIView alloc] init];
+    [view addSubview:label];
+    
+    return view;
+}
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+
     /**
      * This allows us to see what is being fired and when
      */
     NSLog(@"FeaturesDetailsViewController: titleForHeaderInSection");
-	// feature type
-	if (section == 0){
-		return @"Report";
-	}
-	
-	// attachments
-	else if (section == 1){
-		return @"Photo/Video";
-	}
-	
-	// details
-	else if (section == 2){
-		return @"Details";
-	}
+    
+    switch (section) {
+            
+        case 0: // Feature Type, auto-populated with our application
+            return nil;
+            
+        case 1:
+            return @"Photo/Video"; // Photo/Video Attachments
+            
+        case 2:
+            return @"Details"; // Feature Details
+            
+    }
+    
 	return nil;
 }
 
 -(AGSField*)findStatusField{
+
     /**
      * This allows us to see what is being fired and when
      */
     NSLog(@"FeaturesDetailsViewController: findStatusField");
+
 	// helper method to find the status field
 	for (int i=0; i<self.featureLayer.fields.count; i++){
 		AGSField *field = [self.featureLayer.fields objectAtIndex:i];
@@ -667,40 +690,16 @@
     NSLog(@"FeaturesDetailsViewController: cellForRowAtIndexPath");
 	
 	UITableViewCell *cell = nil;
-    
-	
-	// section 0 is the feature type
-	if (indexPath.section == 0){
-		
-		static NSString *typeCellIdentifier = @"typeCell";
-		
-		cell = [tableView dequeueReusableCellWithIdentifier:typeCellIdentifier];
-		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:typeCellIdentifier] autorelease];
-		}
-		
-		cell.imageView.image = nil;
-		cell.textLabel.text = nil;
-		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-        if (!self.feature){
-            //no feature until we select a feature type
-			cell.textLabel.text = @"Choose Report Type";
-			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		}
-		else {
-			cell.textLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"trailtype" inFeatureLayer:self.featureLayer];
-			if (_newFeature) cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-			if (_newFeature) cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			cell.imageView.image = [self.featureLayer.renderer swatchForGraphic:self.feature size:CGSizeMake(20, 20)];
-		}
-
-	}
+        
+    /**
+     * Replace the default pinstripe background with our new linen pattern
+     */
+    UIView* backgroundView = [[UIView alloc] init];
+    backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]];
+    [tableView setBackgroundView:backgroundView];
 	
 	// section 1 is the attachments
-	else if (indexPath.section == 1){
+	if (indexPath.section == 1){
 		
 		static NSString *attachmentsCellIdentifier = @"attachmentsCell";
 		
@@ -708,8 +707,9 @@
 		if (cell == nil) {
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:attachmentsCellIdentifier] autorelease];
 		}
+        cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonCamera.png"]];		
 		
-		cell.imageView.image = nil;
+        cell.imageView.image = nil;
 		cell.textLabel.text = nil;
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -719,8 +719,12 @@
 		if (_newFeature){
 			if (indexPath.row == self.attachments.count){
 				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-				cell.textLabel.text = @"Add Photo/Video";
+                cell.accessoryType = UITableViewCellAccessoryNone;
+				cell.textLabel.text = @"Add a photo or video";
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.backgroundColor =  [UIColor clearColor];
+                cell.textLabel.backgroundColor = [UIColor clearColor];
+                cell.textLabel;
 			}
 			else {
 				NSString *filepath = [self.attachments objectAtIndex:indexPath.row];
@@ -817,49 +821,23 @@
 //        //note:  currently we don't do any editing of attributes...
 //        cell.accessoryType = accType;
     }
+    /**
+     * Remove the separators between cells in the tableView
+     */
+    [tableView.layer setCornerRadius:0.0f];
+
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.separatorColor = [UIColor clearColor];
+    
+    /**
+     * Set the label, image, etc for the templates
+     */
+    cell.textLabel.font = [UIFont fontWithName:@"MuseoSlab-500" size:14.0];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark -
 #pragma mark Table view delegate
@@ -870,6 +848,7 @@
      */
     NSLog(@"FeaturesDetailsViewController: accessoryButtonTappedForRowWithIndexPath");
 	[self tableView:tableView didSelectRowAtIndexPath:indexPath];
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

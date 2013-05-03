@@ -65,6 +65,7 @@
 		F5E8F8F117341F11006ABF22 /* IMG_0111.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8EB17341F11006ABF22 /* IMG_0111.JPG */; };
 		F5E8F8F217341F11006ABF22 /* IMG_0112.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8EC17341F11006ABF22 /* IMG_0112.JPG */; };
 		F5E8F8F317341F11006ABF22 /* IMG_0113.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8ED17341F11006ABF22 /* IMG_0113.JPG */; };
+		F5E8F8F517343FC8006ABF22 /* buttonCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F417343FC8006ABF22 /* buttonCamera.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -141,6 +142,7 @@
 		F5E8F8EB17341F11006ABF22 /* IMG_0111.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0111.JPG; sourceTree = "<group>"; };
 		F5E8F8EC17341F11006ABF22 /* IMG_0112.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0112.JPG; sourceTree = "<group>"; };
 		F5E8F8ED17341F11006ABF22 /* IMG_0113.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0113.JPG; sourceTree = "<group>"; };
+		F5E8F8F417343FC8006ABF22 /* buttonCamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonCamera.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +293,7 @@
 		F5E8F8E017340363006ABF22 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F5E8F8F417343FC8006ABF22 /* buttonCamera.png */,
 				F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */,
 				F570C8E4172EBF950059FC19 /* backgroundDefault.png */,
 				F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */,
@@ -398,6 +401,7 @@
 				F5E8F8F117341F11006ABF22 /* IMG_0111.JPG in Resources */,
 				F5E8F8F217341F11006ABF22 /* IMG_0112.JPG in Resources */,
 				F5E8F8F317341F11006ABF22 /* IMG_0113.JPG in Resources */,
+				F5E8F8F517343FC8006ABF22 /* buttonCamera.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

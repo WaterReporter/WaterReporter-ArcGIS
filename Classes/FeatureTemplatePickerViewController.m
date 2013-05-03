@@ -33,7 +33,7 @@
     self.navigationItem.rightBarButtonItem = commit;
     
     self.navigationItem.title = @"Choose Type";
-    self.navigationItem.title = @"New Report";
+    //self.navigationItem.title = @"New Report";
 
 }
 
@@ -54,15 +54,13 @@
 - (void) addTemplatesFromLayer:(AGSFeatureLayer*)layer {
 
     //Instantiate the array to hold all templates from this layer
-    if(!self.infos)
+    if(!self.infos) {
         self.infos = [[NSMutableArray alloc] init];
+    }
     
     //If layer contains only templates (no feature types)
     if (layer.templates!=nil && [layer.templates count]>0) {
-        
-        
-        
-        //For each template
+        //For each template that is available, at it to the list.
         for (AGSFeatureTemplate* template in layer.templates) {
 
             if ([template.name isEqualToString:@"Pollution Report"] || [template.name isEqualToString:@"River Event Report"]) {
@@ -73,9 +71,6 @@
 
                 //Add to array
                 [self.infos addObject:info];
-                NSLog(@">>%@", template.name);
-            } else {
-                NSLog(@"%@ is an invalid field type", template.name);
             }
         }
     //Otherwise, if layer contains feature types
@@ -115,12 +110,14 @@
 #pragma mark -
 #pragma mark UITableViewDataSource
 
--(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+
     /**
      * This allows us to see what is being fired and when
      */
     NSLog(@"FeatureTemplatePickerViewController:tableView:willDisplayCell");
+    
+    
 	
     if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
         
@@ -131,27 +128,36 @@
         backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]];
         [tableView setBackgroundView:backgroundView];
         
-        UIBarButtonItem *cancel = [[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)]autorelease];
-        self.navigationItem.leftBarButtonItem = cancel;
-        
-        UIBarButtonItem *commit = [[[UIBarButtonItem alloc]initWithTitle:@"Commit" style:UIBarButtonItemStylePlain target:self action:@selector(commit)]autorelease];
-        self.navigationItem.rightBarButtonItem = commit;
-        
-        self.navigationItem.title = @"New Trail";
     }
-
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeatureTemplatePickerViewController:tableView:numberOfSectionsInTableView");
+
     return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    //return @"Select a report to add";
-    return @"";
+
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeatureTemplatePickerViewController:tableView:titleForHeaderInSection");
+
+    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeatureTemplatePickerViewController:tableView:numberOfRowsInSection");
+    
     return [self.infos count];
 }
 
@@ -161,7 +167,12 @@
 //
 // This controls the appearance of the individual rows of the "Add your data" view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-        
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeatureTemplatePickerViewController:tableView:cellForRowAtIndexPath");
+    
     //Get a cell
 	static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -177,7 +188,9 @@
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.separatorColor = [UIColor clearColor];
     
-    //Set its label, image, etc for the template
+    /**
+     * Set the label, image, etc for the templates
+     */
     FeatureTemplatePickerInfo* info = [self.infos objectAtIndex:indexPath.row];    
     cell.textLabel.font = [UIFont fontWithName:@"MuseoSlab-500" size:16.0];
     
@@ -188,11 +201,24 @@
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
+    /**
+     * Now that we're finished putting our cells together,
+     * filling them with content, and styling them, we need
+     * to return an object that can be used
+     */
     return cell;
 }
 
 #pragma mark -
 #pragma mark UITableViewDelegate
+/**
+ * Display the Feature Template/Form to the user
+ *
+ * This is the method that responds to the user tapping on one of
+ * the available editable Feature types. Once tapped the user will
+ * be shown the TableView with the form fields necessary to complete their form.
+ *
+ */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Notify the delegate that the user picked a feature template

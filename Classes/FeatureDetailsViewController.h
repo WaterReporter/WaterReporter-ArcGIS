@@ -28,6 +28,7 @@
 	int _objectId;							// object id of the feature passed in, or created feature
 	BOOL _newFeature;						// flag that indicates whether the feature for which details are being viewed is new or existing
 	NSArray *_attachmentInfos;				// when the feature is already existing, then we query for the attachment infos, store them in this var
+    NSMutableArray* _infos;
 	NSMutableArray *_operations;			// all the in-progress operations spawned by this VC, we keep them so we can cancel them if we pop the VC (dealloc cancels them)
 	NSOperation *_retrieveAttachmentOp;		// keep track of the retrieve attachment op so that we only do one of these at a time
 }
@@ -40,6 +41,7 @@
 @property (nonatomic, retain) NSDateFormatter *dateFormat;
 @property (nonatomic, retain) NSDateFormatter *timeFormat;
 @property (nonatomic, retain) NSArray *attachmentInfos;
+@property (nonatomic, strong) NSMutableArray* infos;
 @property (nonatomic, retain) NSMutableArray *operations;
 @property (nonatomic, retain) NSOperation *retrieveAttachmentOp;
 
