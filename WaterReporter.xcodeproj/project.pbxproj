@@ -34,17 +34,14 @@
 		9702E551144652AC00A46CA5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9702E550144652AC00A46CA5 /* Security.framework */; };
 		975E7527167A5F1C005FB57B /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 975E7526167A5F1C005FB57B /* libc++.dylib */; };
 		975E7529167A5F28005FB57B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 975E7528167A5F28005FB57B /* OpenGLES.framework */; };
-		975E752B167A5F3D005FB57B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 975E752A167A5F3D005FB57B /* Default-568h@2x.png */; };
 		97CC581D154884C90056F6FD /* JoshuaTree.tpk in Resources */ = {isa = PBXBuildFile; fileRef = 97CC581C154884C90056F6FD /* JoshuaTree.tpk */; };
 		97E19FD813590CA600872878 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E19FD713590CA600872878 /* CoreText.framework */; };
-		AF1A12D4125F7E4C00E67BAF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1A12D0125F7E4C00E67BAF /* icon.png */; };
 		AF1A12D5125F7E4C00E67BAF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1A12D1125F7E4C00E67BAF /* icon@2x.png */; };
 		C1B82895172C4D55003072BB /* FeatureTemplatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */; };
 		C1E1C5B5172C3B420089361A /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B4172C3B420089361A /* ArcGIS.bundle */; };
 		C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */; };
 		C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */; };
 		C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */; };
-		C1E1C5BF172C4B3E0089361A /* addButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5BE172C4B3E0089361A /* addButton.png */; };
 		F570C8E6172EBF950059FC19 /* backgroundDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E4172EBF950059FC19 /* backgroundDefault.png */; };
 		F570C8E7172EBF950059FC19 /* backgroundDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */; };
 		F570C8F7172ED0CA0059FC19 /* Museo_Slab_100.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */; };
@@ -59,6 +56,8 @@
 		F570C900172ED0CA0059FC19 /* Museo_Slab_900italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */; };
 		F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */; };
 		F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */; };
+		F5D5FAD7172FF45C007CD69B /* tasks.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* tasks.md */; };
+		F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,7 +111,6 @@
 		C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureTemplatePickerViewController.h; sourceTree = "<group>"; };
 		C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeatureTemplatePickerViewController.m; sourceTree = "<group>"; };
 		C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureTemplatePickerViewController.xib; path = Classes/FeatureTemplatePickerViewController.xib; sourceTree = "<group>"; };
-		C1E1C5BE172C4B3E0089361A /* addButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = addButton.png; path = Classes/addButton.png; sourceTree = "<group>"; };
 		F570C8E4172EBF950059FC19 /* backgroundDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundDefault.png; sourceTree = "<group>"; };
 		F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundDefault@2x.png"; sourceTree = "<group>"; };
 		F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_100.otf; sourceTree = "<group>"; };
@@ -127,6 +125,8 @@
 		F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_900italic.otf; sourceTree = "<group>"; };
 		F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000.otf; sourceTree = "<group>"; };
 		F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000italic.otf; sourceTree = "<group>"; };
+		F5D5FAD6172FF45C007CD69B /* tasks.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tasks.md; sourceTree = "<group>"; };
+		F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonNewFeature@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +189,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F5D5FAD6172FF45C007CD69B /* tasks.md */,
 				C1E1C5B4172C3B420089361A /* ArcGIS.bundle */,
 				97CC581C154884C90056F6FD /* JoshuaTree.tpk */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -212,11 +213,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F5E8F8E017340363006ABF22 /* Images */,
 				F570C8E9172ED0600059FC19 /* Fonts */,
-				F570C8E4172EBF950059FC19 /* backgroundDefault.png */,
-				F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */,
 				8D1107310486CEB800E47090 /* WaterReporter-Info.plist */,
-				C1E1C5BE172C4B3E0089361A /* addButton.png */,
 				975E752A167A5F3D005FB57B /* Default-568h@2x.png */,
 				AF1A12D0125F7E4C00E67BAF /* icon.png */,
 				AF1A12D1125F7E4C00E67BAF /* icon@2x.png */,
@@ -271,6 +270,16 @@
 				F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		F5E8F8E017340363006ABF22 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */,
+				F570C8E4172EBF950059FC19 /* backgroundDefault.png */,
+				F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,14 +341,11 @@
 				949229FC1244248200CB16AB /* FeatureTypeViewController.xib in Resources */,
 				9401ADA0124828830010FADB /* ImageViewController.xib in Resources */,
 				947B240C124AD4EF00414CFF /* MoviePlayerViewController.xib in Resources */,
-				AF1A12D4125F7E4C00E67BAF /* icon.png in Resources */,
 				AF1A12D5125F7E4C00E67BAF /* icon@2x.png in Resources */,
 				97CC581D154884C90056F6FD /* JoshuaTree.tpk in Resources */,
-				975E752B167A5F3D005FB57B /* Default-568h@2x.png in Resources */,
 				C1E1C5B5172C3B420089361A /* ArcGIS.bundle in Resources */,
 				C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */,
 				C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */,
-				C1E1C5BF172C4B3E0089361A /* addButton.png in Resources */,
 				F570C8E6172EBF950059FC19 /* backgroundDefault.png in Resources */,
 				F570C8E7172EBF950059FC19 /* backgroundDefault@2x.png in Resources */,
 				F570C8F7172ED0CA0059FC19 /* Museo_Slab_100.otf in Resources */,
@@ -354,6 +360,8 @@
 				F570C900172ED0CA0059FC19 /* Museo_Slab_900italic.otf in Resources */,
 				F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */,
 				F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */,
+				F5D5FAD7172FF45C007CD69B /* tasks.md in Resources */,
+				F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

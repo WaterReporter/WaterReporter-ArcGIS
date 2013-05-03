@@ -28,7 +28,7 @@
 @end
 
 
-@interface FeatureTemplatePickerViewController : UITableViewController <UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate> {
+@interface FeatureTemplatePickerViewController : UITableViewController<UIActionSheetDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate> {
 	UITableView* _featureTemplatesTableView;
     id<FeatureTemplatePickerDelegate> __weak _delegate;
 	AGSGraphic *_feature;

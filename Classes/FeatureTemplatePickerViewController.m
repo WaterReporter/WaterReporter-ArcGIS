@@ -32,6 +32,7 @@
     UIBarButtonItem *commit = [[[UIBarButtonItem alloc]initWithTitle:@"Commit" style:UIBarButtonItemStylePlain target:self action:@selector(commit)]autorelease];
     self.navigationItem.rightBarButtonItem = commit;
     
+    self.navigationItem.title = @"Choose Type";
     self.navigationItem.title = @"New Report";
 
 }
@@ -138,6 +139,7 @@
         
         self.navigationItem.title = @"New Trail";
     }
+
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -185,7 +187,7 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+
     return cell;
 }
 
@@ -200,7 +202,7 @@
         [self.delegate featureTemplatePickerViewController:self didSelectFeatureTemplate:info.featureTemplate forFeatureLayer:info.featureLayer];
         
         NSLog(@"Template selected");
-    }    
+    }
     
     //Unselect the cell
     [tableView cellForRowAtIndexPath:indexPath].selected = NO;
@@ -208,7 +210,20 @@
     
 }
 
-#pragma mark - 
+#pragma mark Action sheet delegate methods
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeaturesDetailsViewController: clickedButtonAtIndex");
+	
+	if (buttonIndex == actionSheet.cancelButtonIndex){
+		// cancel
+	}
+}
+
+#pragma mark -
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

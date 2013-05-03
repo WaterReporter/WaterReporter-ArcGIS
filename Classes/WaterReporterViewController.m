@@ -17,12 +17,26 @@
 #define kFeatureLayerName @"Feature Layer"
 #define kSketchLayerName  @"Sketch layer"
 
+/**
+ * Define the Web Map ID that we wish to load
+ */
 //#define FEATURE_SERVICE_URL @"70f0fef3990a462397fcd4b9409c09cb"
 #define FEATURE_SERVICE_URL @"7f587e3a53dc455f92972a15031c94f8"
+
+/**
+ * Define whether the Feature Template Picker should display
+ * automatically when the 
+ */
+#define FEATURE_TEMPLATE_AUTODISPLAY NO
 #define FEATURE_SERVICE_ZOOM 150000
 
 double viUserLocationLongitude;
 double viUserLocationLatitude;
+NSInteger viFeatureAddButtonX = 264.0;
+NSInteger viFeatureAddButtonY = 404.0;
+NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
+
+
 
 @implementation WaterReporterViewController
 
@@ -47,6 +61,14 @@ double viUserLocationLatitude;
 
 + (double)viUserLocationLatitude {
     return viUserLocationLatitude;
+}
+
++ (int)viFeatureAddButtonX {
+    return viFeatureAddButtonX;
+}
+
++ (int)viFeatureAddButtonY {
+    return viFeatureAddButtonY;
 }
 
 
@@ -142,17 +164,22 @@ double viUserLocationLatitude;
     NSLog(@"WaterReporterViewController: viewDidLoad");
     
     /**
-     * Add the "Add report" button to the main map
-     */
-    UIImage *addNewFeatureImage = [UIImage imageNamed:@"addButton.png"];
+     * Plus/Add Button on main map view.
+     *
+     * We want the image to display in the bottom left of the screen regardless
+     * of the users device (e.g., iPhone, iPhone 4" Retina, iPad, iPad Retina. So
+     * we need to update the X, Y, and the image being used depending on what the
+     * user is viewing the application on.
+     
+     */   
+    UIImage *addNewFeatureImage = [UIImage imageNamed:viFeatureAddButtonURL];
     UIButton *addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeCustom];
+    addNewFeatureToMap.frame = CGRectMake(viFeatureAddButtonX, viFeatureAddButtonY, 36.0, 36.0);
+    
     addNewFeatureToMap.userInteractionEnabled = YES;
-    addNewFeatureToMap.frame = CGRectMake(264.0, 384.0, 36.0, 36.0);
+    addNewFeatureToMap.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
     [addNewFeatureToMap setImage:addNewFeatureImage forState:UIControlStateNormal];
     [addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
-
-
-    addNewFeatureToMap.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
 
     /**
      * Set the delegates so that they can do the job they are here for
@@ -164,7 +191,11 @@ double viUserLocationLatitude;
 	self.mapView.layerDelegate = self;
 	
     /**
-     * Setup the WebMap
+     * Setup the Web Map
+     *
+     * We are loading the appropriate web map, based on the Web Map ID defined
+     * in the FEATURE_SERVICE_URL constant at the top of this document.
+     *
      */
     self.webmap = [AGSWebMap webMapWithItemId:FEATURE_SERVICE_URL credential:nil];
     
@@ -254,7 +285,9 @@ double viUserLocationLatitude;
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */
-    //[self presentModalViewController:self.featureTemplatePickerViewController animated:YES];
+    if (FEATURE_TEMPLATE_AUTODISPLAY) {
+        [self presentModalViewController:self.featureTemplatePickerViewController animated:YES];
+    }
     
     
 //    NSLog(@"Starting core location from didOpenWebMap");
@@ -459,8 +492,9 @@ double viUserLocationLatitude;
     
     
     // iPAD ONLY: Limit the size of the form sheet
-    if([[AGSDevice currentDevice] isIPad])
+    if([[AGSDevice currentDevice] isIPad]) {
         self.featureTemplatePickerViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
     
     // ALL: Animate the template picker, covering vertically
     self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
