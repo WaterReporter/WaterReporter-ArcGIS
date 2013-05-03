@@ -634,6 +634,7 @@
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor blackColor];
     label.shadowColor = [UIColor clearColor];
+    label.font = [UIFont fontWithName:@"MuseoSlab-500" size:16.0];
     label.text = sectionTitle;
     
     UIView *view = [[UIView alloc] init];
@@ -655,7 +656,7 @@
             return nil;
             
         case 1:
-            return @"Photo/Video"; // Photo/Video Attachments
+            return @"Attachments"; // Photo/Video Attachments
             
         case 2:
             return @"Details"; // Feature Details
@@ -707,7 +708,6 @@
 		if (cell == nil) {
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:attachmentsCellIdentifier] autorelease];
 		}
-        cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonCamera.png"]];		
 		
         cell.imageView.image = nil;
 		cell.textLabel.text = nil;
@@ -718,15 +718,18 @@
 		// and view or remove pictures
 		if (_newFeature){
 			if (indexPath.row == self.attachments.count){
+                cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonChooseFile.png"]];
 				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 cell.accessoryType = UITableViewCellAccessoryNone;
-				cell.textLabel.text = @"Add a photo or video";
+				cell.textLabel.text = nil;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                 cell.backgroundColor =  [UIColor clearColor];
+
                 cell.textLabel.backgroundColor = [UIColor clearColor];
-                cell.textLabel;
 			}
 			else {
+                cell.contentView.backgroundColor = [UIColor clearColor];
+
 				NSString *filepath = [self.attachments objectAtIndex:indexPath.row];
 				if ([self filepathIsJPG:filepath]){
 					cell.textLabel.text = [NSString stringWithFormat:@"%@ %d",@"Picture",indexPath.row + 1];
@@ -765,6 +768,8 @@
 	
 	// section 2 is the feature details
 	if (indexPath.section == 2){
+        
+        
 		static NSString *detailsCellIdentifier = @"detailsCell";
 		
 		cell = [tableView dequeueReusableCellWithIdentifier:detailsCellIdentifier];
@@ -779,14 +784,14 @@
 		
         AGSField *field = nil;
 		if (indexPath.row == 0){
-			cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"condition" inFeatureLayer:self.featureLayer];
-            field = [CodedValueUtility findField:@"condition" inFeatureLayer:self.featureLayer];
+			cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
+            field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
 			cell.textLabel.text = field.alias;
 		}
 		else if (indexPath.row == 1){
             BOOL exists;
             NSNumber *recorededOn =
-            [NSNumber numberWithDouble:[self.feature attributeAsDoubleForKey:@"recordedon" exists:&exists]];
+            [NSNumber numberWithDouble:[self.feature attributeAsDoubleForKey:@"date" exists:&exists]];
             NSString *detailString = @"";
             if (recorededOn && (recorededOn != (id)[NSNull null]))
             {
@@ -796,7 +801,7 @@
             }
 			cell.detailTextLabel.text = detailString;
             
-            field = [CodedValueUtility findField:@"recordedon" inFeatureLayer:self.featureLayer];
+            field = [CodedValueUtility findField:@"date" inFeatureLayer:self.featureLayer];
 			cell.textLabel.text = field.alias;
 		}
 		else if (indexPath.row == 2){
@@ -811,16 +816,8 @@
 			cell.textLabel.text = field.alias;
 		}
         
-//        UITableViewCellAccessoryType accType = UITableViewCellAccessoryNone;
-//        if (field && field.editable)
-//        {
-//            accType = UITableViewCellAccessoryDisclosureIndicator;
-//        }
-//        
-//        //set the accessory type based on whether the field is editable or not.
-//        //note:  currently we don't do any editing of attributes...
-//        cell.accessoryType = accType;
     }
+
     /**
      * Remove the separators between cells in the tableView
      */

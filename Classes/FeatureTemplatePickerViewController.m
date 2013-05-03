@@ -126,8 +126,7 @@
          */
         UIView* backgroundView = [[UIView alloc] init];
         backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]];
-        [tableView setBackgroundView:backgroundView];
-        
+        [tableView setBackgroundView:backgroundView];        
     }
 }
 

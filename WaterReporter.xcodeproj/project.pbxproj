@@ -65,7 +65,12 @@
 		F5E8F8F117341F11006ABF22 /* IMG_0111.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8EB17341F11006ABF22 /* IMG_0111.JPG */; };
 		F5E8F8F217341F11006ABF22 /* IMG_0112.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8EC17341F11006ABF22 /* IMG_0112.JPG */; };
 		F5E8F8F317341F11006ABF22 /* IMG_0113.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8ED17341F11006ABF22 /* IMG_0113.JPG */; };
-		F5E8F8F517343FC8006ABF22 /* buttonCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F417343FC8006ABF22 /* buttonCamera.png */; };
+		F5E8F8F817344271006ABF22 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F617344271006ABF22 /* default.png */; };
+		F5E8F8F917344271006ABF22 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F717344271006ABF22 /* default@2x.png */; };
+		F5E8F8FD173442C9006ABF22 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8FC173442C9006ABF22 /* Default@2x.png */; };
+		F5E8F8FE173442D9006ABF22 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 975E752A167A5F3D005FB57B /* Default-568h@2x.png */; };
+		F5E8F8FF17344304006ABF22 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8FA173442B6006ABF22 /* Default.png */; };
+		F5E8F9011734517D006ABF22 /* buttonChooseFile.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F9001734517D006ABF22 /* buttonChooseFile.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -142,7 +147,11 @@
 		F5E8F8EB17341F11006ABF22 /* IMG_0111.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0111.JPG; sourceTree = "<group>"; };
 		F5E8F8EC17341F11006ABF22 /* IMG_0112.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0112.JPG; sourceTree = "<group>"; };
 		F5E8F8ED17341F11006ABF22 /* IMG_0113.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0113.JPG; sourceTree = "<group>"; };
-		F5E8F8F417343FC8006ABF22 /* buttonCamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonCamera.png; sourceTree = "<group>"; };
+		F5E8F8F617344271006ABF22 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		F5E8F8F717344271006ABF22 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
+		F5E8F8FA173442B6006ABF22 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		F5E8F8FC173442C9006ABF22 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		F5E8F9001734517D006ABF22 /* buttonChooseFile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonChooseFile.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +214,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F5E8F8FC173442C9006ABF22 /* Default@2x.png */,
+				F5E8F8FA173442B6006ABF22 /* Default.png */,
 				F5E8F8E517341C8E006ABF22 /* SLIDES.md */,
 				F5D5FAD6172FF45C007CD69B /* tasks.md */,
 				C1E1C5B4172C3B420089361A /* ArcGIS.bundle */,
@@ -293,7 +304,9 @@
 		F5E8F8E017340363006ABF22 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				F5E8F8F417343FC8006ABF22 /* buttonCamera.png */,
+				F5E8F8F617344271006ABF22 /* default.png */,
+				F5E8F9001734517D006ABF22 /* buttonChooseFile.png */,
+				F5E8F8F717344271006ABF22 /* default@2x.png */,
 				F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */,
 				F570C8E4172EBF950059FC19 /* backgroundDefault.png */,
 				F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */,
@@ -401,7 +414,12 @@
 				F5E8F8F117341F11006ABF22 /* IMG_0111.JPG in Resources */,
 				F5E8F8F217341F11006ABF22 /* IMG_0112.JPG in Resources */,
 				F5E8F8F317341F11006ABF22 /* IMG_0113.JPG in Resources */,
-				F5E8F8F517343FC8006ABF22 /* buttonCamera.png in Resources */,
+				F5E8F8F817344271006ABF22 /* default.png in Resources */,
+				F5E8F8F917344271006ABF22 /* default@2x.png in Resources */,
+				F5E8F8FD173442C9006ABF22 /* Default@2x.png in Resources */,
+				F5E8F8FE173442D9006ABF22 /* Default-568h@2x.png in Resources */,
+				F5E8F8FF17344304006ABF22 /* Default.png in Resources */,
+				F5E8F9011734517D006ABF22 /* buttonChooseFile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
