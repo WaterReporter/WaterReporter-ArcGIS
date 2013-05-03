@@ -28,3 +28,6 @@ The Water Reporter is an iOS application that allows water shed organizations to
 When using a GIT repository in conjunction with Google Drive, it is occasionally necessary to clean up the extras left behind by Google Drive. If you are unable to commit your code, you can run this bash script to run a cleanup.
 
     bash cleanup.sh
+
+
+Enjoy!    
