@@ -38,6 +38,8 @@
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
+	<key>NSMainNibFile~ipad</key>
+	<string>MainWindow-iPad</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Museo_Slab_1000italic.otf</string>

@@ -222,6 +222,7 @@
     NSLog(@"Attributes: %@", attributes);
     
 	self.navigationItem.rightBarButtonItem.enabled = (attributes!=nil && [attributes count]>0);
+
 }
 
 
@@ -828,7 +829,7 @@
             if (field.editable && [field.name isEqualToString:@"event"] && indexPath.row == 1) {
                 // fill in the image fields as attachments are added
                 cell.textLabel.text = field.alias;
-                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             }
             
             //
@@ -842,7 +843,7 @@
             if (field.editable && [field.name isEqualToString:@"reporter"] && indexPath.row == 2) {
                 // fill in the image fields as attachments are added
                 cell.textLabel.text = field.alias;
-                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             }
             
             //
@@ -958,6 +959,27 @@
     cell.textLabel.font = [UIFont fontWithName:@"MuseoSlab-500" size:14.0];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    return cell;
+}
+
+
+-(UITableViewCell *)reuseTableViewCellWithIdentifier:(NSString *)identifier withIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    CGRect cellRectangle = CGRectMake (0, 10, 300, 70);
+    CGRect Field1Frame = CGRectMake (10, 10, 290, 70);
+    UITableViewCell *cell = [[[UITableViewCell alloc] initWithFrame:cellRectangle reuseIdentifier:identifier] autorelease];
+    UITextField *textField;
+    
+    
+    //Initialize Label with tag 1.
+    
+    textField = [[UITextField alloc] initWithFrame:Field1Frame];
+    
+    textField.tag = 1;
+    [cell.contentView addSubview:textField];
+    
+    [textField release];
     return cell;
 }
 

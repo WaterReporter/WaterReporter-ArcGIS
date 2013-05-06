@@ -34,14 +34,13 @@
 		9702E551144652AC00A46CA5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9702E550144652AC00A46CA5 /* Security.framework */; };
 		975E7527167A5F1C005FB57B /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 975E7526167A5F1C005FB57B /* libc++.dylib */; };
 		975E7529167A5F28005FB57B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 975E7528167A5F28005FB57B /* OpenGLES.framework */; };
-		97CC581D154884C90056F6FD /* JoshuaTree.tpk in Resources */ = {isa = PBXBuildFile; fileRef = 97CC581C154884C90056F6FD /* JoshuaTree.tpk */; };
 		97E19FD813590CA600872878 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E19FD713590CA600872878 /* CoreText.framework */; };
-		AF1A12D5125F7E4C00E67BAF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF1A12D1125F7E4C00E67BAF /* icon@2x.png */; };
 		C1B82895172C4D55003072BB /* FeatureTemplatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */; };
 		C1E1C5B5172C3B420089361A /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B4172C3B420089361A /* ArcGIS.bundle */; };
 		C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */; };
 		C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */; };
 		C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */; };
+		F53CC54E17380F24008315CE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F53CC54D17380F24008315CE /* MainWindow-iPad.xib */; };
 		F570C8E6172EBF950059FC19 /* backgroundDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E4172EBF950059FC19 /* backgroundDefault.png */; };
 		F570C8E7172EBF950059FC19 /* backgroundDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */; };
 		F570C8F7172ED0CA0059FC19 /* Museo_Slab_100.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */; };
@@ -58,13 +57,7 @@
 		F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */; };
 		F5D5FAD7172FF45C007CD69B /* tasks.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* tasks.md */; };
 		F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */; };
-		F5E8F8E617341C8E006ABF22 /* SLIDES.md in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E517341C8E006ABF22 /* SLIDES.md */; };
-		F5E8F8EE17341F11006ABF22 /* IMG_0108.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E817341F11006ABF22 /* IMG_0108.JPG */; };
-		F5E8F8EF17341F11006ABF22 /* IMG_0109.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E917341F11006ABF22 /* IMG_0109.JPG */; };
-		F5E8F8F017341F11006ABF22 /* IMG_0110.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8EA17341F11006ABF22 /* IMG_0110.JPG */; };
-		F5E8F8F117341F11006ABF22 /* IMG_0111.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8EB17341F11006ABF22 /* IMG_0111.JPG */; };
-		F5E8F8F217341F11006ABF22 /* IMG_0112.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8EC17341F11006ABF22 /* IMG_0112.JPG */; };
-		F5E8F8F317341F11006ABF22 /* IMG_0113.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8ED17341F11006ABF22 /* IMG_0113.JPG */; };
+		F5E8F8E617341C8E006ABF22 /* slides.md in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E517341C8E006ABF22 /* slides.md */; };
 		F5E8F8F817344271006ABF22 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F617344271006ABF22 /* default.png */; };
 		F5E8F8F917344271006ABF22 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F717344271006ABF22 /* default@2x.png */; };
 		F5E8F8FD173442C9006ABF22 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8FC173442C9006ABF22 /* Default@2x.png */; };
@@ -114,16 +107,14 @@
 		975E7528167A5F28005FB57B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		975E752A167A5F3D005FB57B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		979315161314426C003B935E /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
-		97CC581C154884C90056F6FD /* JoshuaTree.tpk */ = {isa = PBXFileReference; lastKnownFileType = file; path = JoshuaTree.tpk; sourceTree = "<group>"; };
 		97E19FD713590CA600872878 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		AF1A12D0125F7E4C00E67BAF /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		AF1A12D1125F7E4C00E67BAF /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		C1E1C5B4172C3B420089361A /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ArcGIS.bundle; sourceTree = "<group>"; };
 		C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-charcoal-default.png"; sourceTree = "<group>"; };
 		C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-charcoal-default@2x.png"; sourceTree = "<group>"; };
 		C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureTemplatePickerViewController.h; sourceTree = "<group>"; };
 		C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeatureTemplatePickerViewController.m; sourceTree = "<group>"; };
 		C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureTemplatePickerViewController.xib; path = Classes/FeatureTemplatePickerViewController.xib; sourceTree = "<group>"; };
+		F53CC54D17380F24008315CE /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		F570C8E4172EBF950059FC19 /* backgroundDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundDefault.png; sourceTree = "<group>"; };
 		F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundDefault@2x.png"; sourceTree = "<group>"; };
 		F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_100.otf; sourceTree = "<group>"; };
@@ -140,13 +131,7 @@
 		F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000italic.otf; sourceTree = "<group>"; };
 		F5D5FAD6172FF45C007CD69B /* tasks.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tasks.md; sourceTree = "<group>"; };
 		F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonNewFeature@2x.png"; sourceTree = "<group>"; };
-		F5E8F8E517341C8E006ABF22 /* SLIDES.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SLIDES.md; sourceTree = "<group>"; };
-		F5E8F8E817341F11006ABF22 /* IMG_0108.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0108.JPG; sourceTree = "<group>"; };
-		F5E8F8E917341F11006ABF22 /* IMG_0109.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0109.JPG; sourceTree = "<group>"; };
-		F5E8F8EA17341F11006ABF22 /* IMG_0110.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0110.JPG; sourceTree = "<group>"; };
-		F5E8F8EB17341F11006ABF22 /* IMG_0111.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0111.JPG; sourceTree = "<group>"; };
-		F5E8F8EC17341F11006ABF22 /* IMG_0112.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0112.JPG; sourceTree = "<group>"; };
-		F5E8F8ED17341F11006ABF22 /* IMG_0113.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0113.JPG; sourceTree = "<group>"; };
+		F5E8F8E517341C8E006ABF22 /* slides.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = slides.md; sourceTree = "<group>"; };
 		F5E8F8F617344271006ABF22 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		F5E8F8F717344271006ABF22 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
 		F5E8F8FA173442B6006ABF22 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -181,22 +166,11 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1C6CA60E1321CAB700E19E9D /* CodedValueUtility.h */,
-				1C6CA60F1321CAB700E19E9D /* CodedValueUtility.m */,
-				94922976124417AC00CB16AB /* FeatureDetailsViewController.h */,
-				94922977124417AC00CB16AB /* FeatureDetailsViewController.m */,
-				C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */,
-				C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */,
-				949229F81244248200CB16AB /* FeatureTypeViewController.h */,
-				949229F91244248200CB16AB /* FeatureTypeViewController.m */,
-				9401AD9C124828830010FADB /* ImageViewController.h */,
-				9401AD9D124828830010FADB /* ImageViewController.m */,
-				947B2408124AD4EF00414CFF /* MoviePlayerViewController.h */,
-				947B2409124AD4EF00414CFF /* MoviePlayerViewController.m */,
+				F53CC551173814A1008315CE /* features */,
+				F53CC55017381491008315CE /* media */,
+				F53CC54F17381489008315CE /* tutorial */,
 				1D3623240D0F684500981E51 /* WaterReporterAppDelegate.h */,
 				1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */,
-				1C1413681325895F005771D3 /* WaterReporterFeatureLayer.h */,
-				1C1413691325895F005771D3 /* WaterReporterFeatureLayer.m */,
 				28D7ACF60DDB3853001CB0EB /* WaterReporterViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */,
 			);
@@ -214,12 +188,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				F5E8F8FC173442C9006ABF22 /* Default@2x.png */,
-				F5E8F8FA173442B6006ABF22 /* Default.png */,
-				F5E8F8E517341C8E006ABF22 /* SLIDES.md */,
-				F5D5FAD6172FF45C007CD69B /* tasks.md */,
 				C1E1C5B4172C3B420089361A /* ArcGIS.bundle */,
-				97CC581C154884C90056F6FD /* JoshuaTree.tpk */,
+				F53CC553173815FC008315CE /* _Notes */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -241,22 +211,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F5E8F8E717341EE7006ABF22 /* _Screenshots */,
-				F5E8F8E017340363006ABF22 /* Images */,
-				F570C8E9172ED0600059FC19 /* Fonts */,
+				F53CC552173815C8008315CE /* layouts */,
+				F5E8F8E017340363006ABF22 /* images */,
+				F570C8E9172ED0600059FC19 /* fonts */,
 				8D1107310486CEB800E47090 /* WaterReporter-Info.plist */,
-				975E752A167A5F3D005FB57B /* Default-568h@2x.png */,
-				AF1A12D0125F7E4C00E67BAF /* icon.png */,
-				AF1A12D1125F7E4C00E67BAF /* icon@2x.png */,
-				C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */,
-				C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */,
-				94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */,
-				C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */,
-				949229FA1244248200CB16AB /* FeatureTypeViewController.xib */,
-				9401AD9E124828830010FADB /* ImageViewController.xib */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
-				947B240A124AD4EF00414CFF /* MoviePlayerViewController.xib */,
-				2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -282,7 +240,74 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F570C8E9172ED0600059FC19 /* Fonts */ = {
+		F53CC54C17380F23008315CE /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				F53CC54D17380F24008315CE /* MainWindow-iPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
+		F53CC54F17381489008315CE /* tutorial */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = tutorial;
+			sourceTree = "<group>";
+		};
+		F53CC55017381491008315CE /* media */ = {
+			isa = PBXGroup;
+			children = (
+				9401AD9C124828830010FADB /* ImageViewController.h */,
+				9401AD9D124828830010FADB /* ImageViewController.m */,
+				947B2408124AD4EF00414CFF /* MoviePlayerViewController.h */,
+				947B2409124AD4EF00414CFF /* MoviePlayerViewController.m */,
+			);
+			name = media;
+			sourceTree = "<group>";
+		};
+		F53CC551173814A1008315CE /* features */ = {
+			isa = PBXGroup;
+			children = (
+				1C6CA60E1321CAB700E19E9D /* CodedValueUtility.h */,
+				1C6CA60F1321CAB700E19E9D /* CodedValueUtility.m */,
+				94922976124417AC00CB16AB /* FeatureDetailsViewController.h */,
+				94922977124417AC00CB16AB /* FeatureDetailsViewController.m */,
+				C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */,
+				C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */,
+				949229F81244248200CB16AB /* FeatureTypeViewController.h */,
+				949229F91244248200CB16AB /* FeatureTypeViewController.m */,
+				1C1413681325895F005771D3 /* WaterReporterFeatureLayer.h */,
+				1C1413691325895F005771D3 /* WaterReporterFeatureLayer.m */,
+			);
+			name = features;
+			sourceTree = "<group>";
+		};
+		F53CC552173815C8008315CE /* layouts */ = {
+			isa = PBXGroup;
+			children = (
+				F53CC54C17380F23008315CE /* iPad */,
+				94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */,
+				C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */,
+				949229FA1244248200CB16AB /* FeatureTypeViewController.xib */,
+				9401AD9E124828830010FADB /* ImageViewController.xib */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				947B240A124AD4EF00414CFF /* MoviePlayerViewController.xib */,
+				2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */,
+			);
+			name = layouts;
+			sourceTree = "<group>";
+		};
+		F53CC553173815FC008315CE /* _Notes */ = {
+			isa = PBXGroup;
+			children = (
+				F5E8F8E517341C8E006ABF22 /* slides.md */,
+				F5D5FAD6172FF45C007CD69B /* tasks.md */,
+			);
+			name = _Notes;
+			sourceTree = "<group>";
+		};
+		F570C8E9172ED0600059FC19 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
 				F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */,
@@ -298,12 +323,17 @@
 				F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */,
 				F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */,
 			);
-			name = Fonts;
+			name = fonts;
 			sourceTree = "<group>";
 		};
-		F5E8F8E017340363006ABF22 /* Images */ = {
+		F5E8F8E017340363006ABF22 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F5E8F8FC173442C9006ABF22 /* Default@2x.png */,
+				F5E8F8FA173442B6006ABF22 /* Default.png */,
+				975E752A167A5F3D005FB57B /* Default-568h@2x.png */,
+				C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */,
+				C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */,
 				F5E8F8F617344271006ABF22 /* default.png */,
 				F5E8F9001734517D006ABF22 /* buttonChooseFile.png */,
 				F5E8F8F717344271006ABF22 /* default@2x.png */,
@@ -311,20 +341,7 @@
 				F570C8E4172EBF950059FC19 /* backgroundDefault.png */,
 				F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */,
 			);
-			name = Images;
-			sourceTree = "<group>";
-		};
-		F5E8F8E717341EE7006ABF22 /* _Screenshots */ = {
-			isa = PBXGroup;
-			children = (
-				F5E8F8E817341F11006ABF22 /* IMG_0108.JPG */,
-				F5E8F8E917341F11006ABF22 /* IMG_0109.JPG */,
-				F5E8F8EA17341F11006ABF22 /* IMG_0110.JPG */,
-				F5E8F8EB17341F11006ABF22 /* IMG_0111.JPG */,
-				F5E8F8EC17341F11006ABF22 /* IMG_0112.JPG */,
-				F5E8F8ED17341F11006ABF22 /* IMG_0113.JPG */,
-			);
-			name = _Screenshots;
+			name = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,8 +403,6 @@
 				949229FC1244248200CB16AB /* FeatureTypeViewController.xib in Resources */,
 				9401ADA0124828830010FADB /* ImageViewController.xib in Resources */,
 				947B240C124AD4EF00414CFF /* MoviePlayerViewController.xib in Resources */,
-				AF1A12D5125F7E4C00E67BAF /* icon@2x.png in Resources */,
-				97CC581D154884C90056F6FD /* JoshuaTree.tpk in Resources */,
 				C1E1C5B5172C3B420089361A /* ArcGIS.bundle in Resources */,
 				C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */,
 				C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */,
@@ -407,19 +422,14 @@
 				F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */,
 				F5D5FAD7172FF45C007CD69B /* tasks.md in Resources */,
 				F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */,
-				F5E8F8E617341C8E006ABF22 /* SLIDES.md in Resources */,
-				F5E8F8EE17341F11006ABF22 /* IMG_0108.JPG in Resources */,
-				F5E8F8EF17341F11006ABF22 /* IMG_0109.JPG in Resources */,
-				F5E8F8F017341F11006ABF22 /* IMG_0110.JPG in Resources */,
-				F5E8F8F117341F11006ABF22 /* IMG_0111.JPG in Resources */,
-				F5E8F8F217341F11006ABF22 /* IMG_0112.JPG in Resources */,
-				F5E8F8F317341F11006ABF22 /* IMG_0113.JPG in Resources */,
+				F5E8F8E617341C8E006ABF22 /* slides.md in Resources */,
 				F5E8F8F817344271006ABF22 /* default.png in Resources */,
 				F5E8F8F917344271006ABF22 /* default@2x.png in Resources */,
 				F5E8F8FD173442C9006ABF22 /* Default@2x.png in Resources */,
 				F5E8F8FE173442D9006ABF22 /* Default-568h@2x.png in Resources */,
 				F5E8F8FF17344304006ABF22 /* Default.png in Resources */,
 				F5E8F9011734517D006ABF22 /* buttonChooseFile.png in Resources */,
+				F53CC54E17380F24008315CE /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,7 +471,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "WaterReporter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -472,6 +482,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 			};
 			name = Debug;
@@ -489,7 +500,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "WaterReporter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -500,6 +511,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = armv7;
 			};
