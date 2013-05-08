@@ -585,7 +585,7 @@
      * This allows us to see what is being fired and when
      */
     NSLog(@"FeaturesDetailsViewController: numberOfSectionsInTableView");
-	return 3;
+	return 4;
 }
 
 
@@ -597,7 +597,7 @@
     NSLog(@"FeaturesDetailsViewController: numberOfRowsInSection");
 
     // Return the number of rows in the section.
-    if (section == 1){ // attachments
+    if (section == 2){ // attachments
 		if (_newFeature){
 			return self.attachments.count + 1;
 		}
@@ -615,7 +615,7 @@
 			}
 		}
 
-	} else if (section == 2){ // details
+	} else if (section == 1){ // details
 //		return [self.infos count];
         NSLog(@"THERE ARE %d FIELDS IN THIS FEATURE", self.featureLayer.fields.count-6);
         return (self.featureLayer.fields.count - 6);
@@ -657,11 +657,14 @@
         case 0: // Feature Type, auto-populated with our application
             return nil;
             
-        case 1:
+        case 2:
             return @"Attachments"; // Photo/Video Attachments
             
-        case 2:
+        case 1:
             return @"Details"; // Feature Details
+            
+        case 3:
+            return @"Location"; // Feature Details
             
     }
     
@@ -702,7 +705,7 @@
      * loading and displaying of image names and thumbnails.
      *
      */
-	if (indexPath.section == 1){
+	if (indexPath.section == 2){
 		
 		static NSString *attachmentsCellIdentifier = @"attachmentsCell";
 		
@@ -765,8 +768,23 @@
 		}
 	}
 	
-	// section 2 is the feature details
-	if (indexPath.section == 2){
+    // Geolocation
+	if (indexPath.section == 3){
+        static NSString *locationCellIdentifier = @"locationCell";
+        
+		cell = [tableView dequeueReusableCellWithIdentifier:locationCellIdentifier];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:locationCellIdentifier] autorelease];
+		}
+        
+		cell.imageView.image = nil;
+		cell.textLabel.text = nil;
+		cell.accessoryType = UITableViewCellAccessoryNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+
+    // Feature Details
+	if (indexPath.section == 1){
 
         static NSString *detailsCellIdentifier = @"detailsCell";
         
@@ -1018,7 +1036,7 @@
 		[self.navigationController pushViewController:ftvc animated:YES];
 	}
 	
-	else if (indexPath.section == 1){
+	else if (indexPath.section == 2){
 		
 		if (_newFeature){ 
 			// if creating a new feature and they click on an attachment
