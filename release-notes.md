@@ -1,6 +1,6 @@
-# Task List
+# Release Notes
 
-[Updated: April 30, 2013]
+v0.9.0 Release Notes: Update April 30, 2013
 
 ## How-to
 

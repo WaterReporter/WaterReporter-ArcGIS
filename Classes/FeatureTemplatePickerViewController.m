@@ -33,7 +33,6 @@
     self.navigationItem.rightBarButtonItem = commit;
     
     self.navigationItem.title = @"Choose Type";
-    //self.navigationItem.title = @"New Report";
 
 }
 
@@ -71,6 +70,7 @@
 
                 //Add to array
                 [self.infos addObject:info];
+                NSLog(@"%@", template.name);
             }
         }
     //Otherwise, if layer contains feature types

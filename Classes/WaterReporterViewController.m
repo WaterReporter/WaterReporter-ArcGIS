@@ -248,6 +248,15 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
  }
  */
 
+- (void) webMap:(AGSWebMap *)webMap didFailToLoadLayer:(AGSWebMapLayerInfo *)layerInfo baseLayer:(BOOL)baseLayer federated:(BOOL)federated withError:(NSError *)error {
+    
+    NSLog(@"Failed to load layer : %@", layerInfo.title);
+    
+    //continue anyway
+    [self.webmap continueOpenAndSkipCurrentLayer];
+}
+
+
 - (void)didReceiveMemoryWarning {
     
     /**

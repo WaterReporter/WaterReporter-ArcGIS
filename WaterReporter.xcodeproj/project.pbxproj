@@ -55,7 +55,7 @@
 		F570C900172ED0CA0059FC19 /* Museo_Slab_900italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */; };
 		F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */; };
 		F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */; };
-		F5D5FAD7172FF45C007CD69B /* tasks.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* tasks.md */; };
+		F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* release-notes.md */; };
 		F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */; };
 		F5E8F8E617341C8E006ABF22 /* slides.md in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E517341C8E006ABF22 /* slides.md */; };
 		F5E8F8F817344271006ABF22 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F617344271006ABF22 /* default.png */; };
@@ -129,7 +129,7 @@
 		F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_900italic.otf; sourceTree = "<group>"; };
 		F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000.otf; sourceTree = "<group>"; };
 		F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000italic.otf; sourceTree = "<group>"; };
-		F5D5FAD6172FF45C007CD69B /* tasks.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tasks.md; sourceTree = "<group>"; };
+		F5D5FAD6172FF45C007CD69B /* release-notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "release-notes.md"; sourceTree = "<group>"; };
 		F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonNewFeature@2x.png"; sourceTree = "<group>"; };
 		F5E8F8E517341C8E006ABF22 /* slides.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = slides.md; sourceTree = "<group>"; };
 		F5E8F8F617344271006ABF22 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				F5E8F8E517341C8E006ABF22 /* slides.md */,
-				F5D5FAD6172FF45C007CD69B /* tasks.md */,
+				F5D5FAD6172FF45C007CD69B /* release-notes.md */,
 			);
 			name = _Notes;
 			sourceTree = "<group>";
@@ -420,7 +420,7 @@
 				F570C900172ED0CA0059FC19 /* Museo_Slab_900italic.otf in Resources */,
 				F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */,
 				F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */,
-				F5D5FAD7172FF45C007CD69B /* tasks.md in Resources */,
+				F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */,
 				F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */,
 				F5E8F8E617341C8E006ABF22 /* slides.md in Resources */,
 				F5E8F8F817344271006ABF22 /* default.png in Resources */,
