@@ -35,6 +35,7 @@ double viUserLocationLatitude;
 NSInteger viFeatureAddButtonX = 264.0;
 NSInteger viFeatureAddButtonY = 404.0;
 NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
+NSInteger viDefaultUserLocationZoomLevel = 150000;
 
 
 
@@ -44,6 +45,8 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
 @synthesize featureLayer = _featureLayer;
 @synthesize webmap = _webmap;
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
+@synthesize locationManager = _locationManager;
+@synthesize sketchLayer = _sketchLayer;
 
 
 /**
@@ -71,12 +74,65 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
 }
 
 - (void)respondToGeomChanged: (NSNotification*) notification {
-    
+        
     /**
      * This allows us to see what is being fired and when
      */
     NSLog(@"WaterReporterViewController: respondToGeomChanged");
     
+    /**
+     * Update the interface and associated fields if the
+     * user selected geometry is valid.
+     */
+    if([self.sketchLayer.geometry isValid] && ![self.sketchLayer.geometry isEmpty]) {
+        
+        // Display the "Done" button
+        //self.sketchCompleteButton.enabled = YES;
+        
+        /***
+         ** TODO: FOR NOW WE ONLY NEED POINTS, BUT IN THE FUTURE
+         ** WE ARE GOING TO NEED TO ADD SUPPORT FOR POLYGONS AND
+         ** LINES WITHIN OUR GEOMETRY TOOLS.
+         ***/
+        AGSPoint *currentSketchValue = (AGSPoint*)AGSGeometryWebMercatorToGeographic(self.sketchLayer.geometry);
+        
+        viUserLocationLongitude = currentSketchValue.x;
+        viUserLocationLatitude = currentSketchValue.y;
+        
+        NSLog(@"long_push: %@; lat_push: %@;", viUserLocationLongitude, viUserLocationLatitude);
+
+        /***
+         ** WE NEED SOME TYPE OF LISTENER HERE TO UPDATE
+         ** THE FIELDS FOR US PROGRAMATICALLY. WE NEED TO
+         ** INSERT THE NEW GEOMETRY INTO THE APPROPRIATE
+         ** FIELDS OF THE FEATURE LAYER FORM.
+         **
+         ** self.sketchLayer.geometry
+         **
+         ***/
+        
+        /***
+         ** WE ALSO NEED TO FIGURE OUT WHETHER THE POINT
+         ** IS CONTAINED WITHIN THE POLYGON OF ONE OF THE
+         ** WATERSHEDS THAT IS DISPLAYED ON OUR MAP.
+         **
+         ** http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_envelope.html#ad7fdaa3ec058a14c2b9c3af92585086e
+         **
+         ***/
+        
+        //
+        // Iterate through all of the selected Feature Layer's
+        // fields and perform the necessary pre-display actions
+        // upon each field one at a time.
+        //
+        // These operations primarily concern the prepopulation
+        // of specific fields such as the date and geolocation.
+        // While others like the Attachments and associated image
+        // fields depend on user interaction later in the process
+        // to be updated dynamically.
+        //
+        
+    }
 }
 
 #pragma mark UIView methods
@@ -195,8 +251,8 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
      * we will add a dormant sketch layer on top. We
      * will activate the sketch layer when the time is right.
      */
-//    self.sketchLayer = [[AGSSketchGraphicsLayer alloc] init];
-//    [self.mapView addMapLayer:self.sketchLayer withName:@"Sketch Layer"];
+    self.sketchLayer = [[AGSSketchGraphicsLayer alloc] init];
+    [self.mapView addMapLayer:self.sketchLayer withName:@"Sketch Layer"];
     
     
     /**
@@ -217,10 +273,10 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
     }
     
     
-//    NSLog(@"Starting core location from didOpenWebMap");
-//    self.locationManager = [[CLLocationManager alloc] init];
-//    self.locationManager.delegate = self;
-//    [self.locationManager startUpdatingLocation];
+    NSLog(@"Starting core location from didOpenWebMap");
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
     
     /**
      * If we are not already displaying the users
@@ -231,11 +287,11 @@ NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
      * @see For more information on AGSLocationDisplay
      *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
      */
-//    if(!self.mapView.locationDisplay.dataSourceStarted) {
-//        [self.mapView.locationDisplay startDataSource];
-//        self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
-//        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
-//    }
+    if(!self.mapView.locationDisplay.dataSourceStarted) {
+        [self.mapView.locationDisplay startDataSource];
+        self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
+        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
+    }
     
 }
 

@@ -367,7 +367,7 @@
     
     // set the recordedon value; the other default values will come from the template
     NSTimeInterval timeInterval = [self.date timeIntervalSince1970];
-    [self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"recordedon" ];
+    [self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"date" ];
     
     //set the callout info template to the layer's infoTemplateDelegate
     self.feature.infoTemplateDelegate = self.featureLayer.infoTemplateDelegate;
@@ -844,9 +844,16 @@
             //       later in the process when a user interacts with the
             //       form by attaching files (e.g., image, video)
             //
-            if (field.editable && [field.name isEqualToString:@"event"] && indexPath.row == 1) {
+            if (field.editable && ([field.name isEqualToString:@"event"]) && indexPath.row == 1) {
                 // fill in the image fields as attachments are added
                 cell.textLabel.text = field.alias;
+                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
+                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            }
+            if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
+                // fill in the image fields as attachments are added
+                cell.textLabel.text = field.alias;
+                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"pollution" inFeatureLayer:self.featureLayer];
                 //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             }
             
@@ -861,6 +868,7 @@
             if (field.editable && [field.name isEqualToString:@"reporter"] && indexPath.row == 2) {
                 // fill in the image fields as attachments are added
                 cell.textLabel.text = field.alias;
+                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"reporter" inFeatureLayer:self.featureLayer];
                 //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             }
             
@@ -875,7 +883,8 @@
             if (field.editable && [field.name isEqualToString:@"comments"] && indexPath.row == 3) {
                 // fill in the image fields as attachments are added
                 cell.textLabel.text = field.alias;
-                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
+                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             }
             
             //
@@ -904,7 +913,6 @@
                 //[template.prototype setAttributeWithFloat:viUserLocationLongitude forKey:@"long_push"];
                 //[template.prototype setAttributeWithFloat:viUserLocationLatitude forKey:@"lat_push"];
                 
-                //NSLog(@"long_push: %@; lat_push: %@;", [template.prototype valueForKey:@"long_push"], [template.prototype valueForKey:@"lat_push"]);
                 
             }
 
@@ -919,8 +927,16 @@
             //
             // For more information see http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_polygon.html#a64a3986417a6f545d3d721827969ee55
             //
-            if ([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) {
+            if (([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) && indexPath.row == 4) {
                 //[template.prototype setAttributeWithString:@"A keeper was found" forKey:field.name];
+                cell.textLabel.text = field.alias;
+            }
+            
+            //
+            // Reporter's Email Address
+            //
+            if (field.editable && [field.name isEqualToString:@"email"] && indexPath.row == 5) {
+                cell.textLabel.text = field.alias;
             }
         }
         

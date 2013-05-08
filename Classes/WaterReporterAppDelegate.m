@@ -27,7 +27,7 @@
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"WaterReporterAppDelegate: didFinishLaunchingWithOptions");
+    NSLog(@"WaterReporterAppDelegate:didFinishLaunchingWithOptions");
     
     // Override point for customization after application launch.
 

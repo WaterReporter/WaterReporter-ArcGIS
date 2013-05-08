@@ -28,12 +28,16 @@
 	BOOL _editingMode;							// Flag that tells us if the user is in the process of adding a feature
     UIBarButtonItem *_commitGeometryButton;
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
+    CLLocationManager *_locationManager;
+    AGSSketchGraphicsLayer* _sketchLayer;
 }
 
 @property (nonatomic, strong) IBOutlet AGSMapView *mapView;
 @property (nonatomic, strong) AGSWebMap* webmap;
 @property (nonatomic, retain) AGSFeatureLayer *featureLayer;
 @property (nonatomic, strong) AGSPopupsContainerViewController* popupVC;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) AGSSketchGraphicsLayer* sketchLayer;
 
 @property (nonatomic, retain) UIBarButtonItem *commitGeometryButton;
 @property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
