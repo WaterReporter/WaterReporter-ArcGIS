@@ -56,6 +56,9 @@
 		F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */; };
 		F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */; };
 		F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* release-notes.md */; };
+		F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D91F54173BE53700E19079 /* TutorialViewController.m */; };
+		F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F55173BE53700E19079 /* TutorialViewController.xib */; };
+		F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */; };
 		F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */; };
 		F5E8F8E617341C8E006ABF22 /* slides.md in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E517341C8E006ABF22 /* slides.md */; };
 		F5E8F8F817344271006ABF22 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F617344271006ABF22 /* default.png */; };
@@ -130,6 +133,10 @@
 		F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000.otf; sourceTree = "<group>"; };
 		F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000italic.otf; sourceTree = "<group>"; };
 		F5D5FAD6172FF45C007CD69B /* release-notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "release-notes.md"; sourceTree = "<group>"; };
+		F5D91F53173BE53700E19079 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialViewController.h; path = ../TutorialViewController.h; sourceTree = "<group>"; };
+		F5D91F54173BE53700E19079 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialViewController.m; path = ../TutorialViewController.m; sourceTree = "<group>"; };
+		F5D91F55173BE53700E19079 /* TutorialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
+		F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "backgroundTutorial@2x.png"; path = "Classes/backgroundTutorial@2x.png"; sourceTree = "<group>"; };
 		F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonNewFeature@2x.png"; sourceTree = "<group>"; };
 		F5E8F8E517341C8E006ABF22 /* slides.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = slides.md; sourceTree = "<group>"; };
 		F5E8F8F617344271006ABF22 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
@@ -244,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				F53CC54D17380F24008315CE /* MainWindow-iPad.xib */,
+				F5D91F55173BE53700E19079 /* TutorialViewController.xib */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -251,6 +259,8 @@
 		F53CC54F17381489008315CE /* tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				F5D91F53173BE53700E19079 /* TutorialViewController.h */,
+				F5D91F54173BE53700E19079 /* TutorialViewController.m */,
 			);
 			name = tutorial;
 			sourceTree = "<group>";
@@ -329,6 +339,7 @@
 		F5E8F8E017340363006ABF22 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */,
 				F5E8F8FC173442C9006ABF22 /* Default@2x.png */,
 				F5E8F8FA173442B6006ABF22 /* Default.png */,
 				975E752A167A5F3D005FB57B /* Default-568h@2x.png */,
@@ -430,6 +441,8 @@
 				F5E8F8FF17344304006ABF22 /* Default.png in Resources */,
 				F5E8F9011734517D006ABF22 /* buttonChooseFile.png in Resources */,
 				F53CC54E17380F24008315CE /* MainWindow-iPad.xib in Resources */,
+				F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */,
+				F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +463,7 @@
 				947B240B124AD4EF00414CFF /* MoviePlayerViewController.m in Sources */,
 				1C6CA6101321CAB700E19E9D /* CodedValueUtility.m in Sources */,
 				1C14136A1325895F005771D3 /* WaterReporterFeatureLayer.m in Sources */,
+				F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

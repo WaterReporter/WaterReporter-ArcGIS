@@ -1000,9 +1000,8 @@
 -(UITableViewCell *)reuseTableViewCellWithIdentifier:(NSString *)identifier withIndexPath:(NSIndexPath *)indexPath {
     
     
-    CGRect cellRectangle = CGRectMake (0, 10, 300, 70);
     CGRect Field1Frame = CGRectMake (10, 10, 290, 70);
-    UITableViewCell *cell = [[[UITableViewCell alloc] initWithFrame:cellRectangle reuseIdentifier:identifier] autorelease];
+    UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
     UITextField *textField;
     
     
@@ -1072,7 +1071,7 @@
 					imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 				}
 
-				[self presentModalViewController:imgPicker animated:YES];
+				[self presentViewController:imgPicker animated:YES completion:nil];
 			}
 			else {
 				// if they click on an existing media attachment
@@ -1200,7 +1199,7 @@
 	}
 	
 	[self.tableView reloadData];
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -1208,7 +1207,7 @@
      * This allows us to see what is being fired and when
      */
     NSLog(@"FeaturesDetailsViewController: imagePickerControllerDidCancel");
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -

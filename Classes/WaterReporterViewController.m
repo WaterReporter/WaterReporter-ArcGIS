@@ -11,6 +11,7 @@
 //
 
 #import "WaterReporterViewController.h"
+#import "WaterReporterFeatureLayer.h"
 #import "FeatureDetailsViewController.h"
 #import "CodedValueUtility.h"
 
@@ -28,6 +29,7 @@
  * automatically when the 
  */
 #define FEATURE_TEMPLATE_AUTODISPLAY YES
+#define TUTORIAL_IS_ACTIVE YES
 #define FEATURE_SERVICE_ZOOM 150000
 
 double viUserLocationLongitude;
@@ -45,6 +47,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 @synthesize featureLayer = _featureLayer;
 @synthesize webmap = _webmap;
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
+@synthesize tutorialViewController = _tutorialViewController;
 @synthesize locationManager = _locationManager;
 @synthesize sketchLayer = _sketchLayer;
 
@@ -99,7 +102,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         viUserLocationLongitude = currentSketchValue.x;
         viUserLocationLatitude = currentSketchValue.y;
         
-        NSLog(@"long_push: %@; lat_push: %@;", viUserLocationLongitude, viUserLocationLatitude);
+        NSLog(@"long_push: %f; lat_push: %f;", viUserLocationLongitude, viUserLocationLatitude);
 
         /***
          ** WE NEED SOME TYPE OF LISTENER HERE TO UPDATE
@@ -133,6 +136,9 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         //
         
     }
+    
+    NSLog(@"long_push: %f; lat_push: %f;", viUserLocationLongitude, viUserLocationLatitude);
+
 }
 
 #pragma mark UIView methods
@@ -202,6 +208,11 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     self.featureTemplatePickerViewController.delegate = self;
     
     /**
+     * Initialize the tutorial so that we can show it later when needed
+     */
+    self.tutorialViewController =  [[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil];
+    
+    /**
      * Set our default map navigation bar background to use our
      * charcoal pattern
      */
@@ -266,10 +277,27 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     
     
     /**
+     * If this is the first time the user is using the application we need
+     * to show them the tutorial.
+     */
+    if (TUTORIAL_IS_ACTIVE && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
+        NSLog(@"This is the first time the user is using the application.");
+        
+        //
+        // When the tutorial closes we will then need to set the BOOL to TRUE
+        // so that this check is skipped in all future application launches
+        //
+        // We set it by calling the following:
+        //
+        // [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
+        //
+        [self presentViewController:self.tutorialViewController animated:YES completion:nil];
+    }
+    /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */
-    if (FEATURE_TEMPLATE_AUTODISPLAY) {
-        [self presentModalViewController:self.featureTemplatePickerViewController animated:YES];
+    else if (FEATURE_TEMPLATE_AUTODISPLAY) {
+        [self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
     }
     
     
@@ -397,13 +425,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 	/**
      * Prepares the selected features details for display
      */
-    FeatureDetailsViewController *fdvc = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer
-                                                                                            feature:graphic
-                                                                                    featureGeometry:graphic.geometry] autorelease];
+    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc] initWithFeatureLayer:self.featureLayer feature:graphic featureGeometry:graphic.geometry] autorelease];
+
 	/**
      * Display the details for the active or clicked on feature.
      */
-    [self.navigationController pushViewController:fdvc animated:YES];
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 #pragma mark -
@@ -457,14 +484,14 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     AGSGeometry *geometry = sketchLayer.geometry;
     
     //now create the feature details vc and display it
-    FeatureDetailsViewController *fdvc = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer
+    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer
                                                                                             feature:nil
                                                                                     featureGeometry:geometry] autorelease];
     
 	/**
      * Prepares the details for the new feature.
      */
-    [self.navigationController pushViewController:fdvc animated:YES];
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 /**
@@ -492,7 +519,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    [self presentModalViewController:self.featureTemplatePickerViewController animated:YES];
+    [self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
 }
 
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{
@@ -502,7 +529,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     NSLog(@"WaterReporterViewController: featureTemplatePickerViewControllerWasDismissed");
     
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer {
@@ -623,11 +650,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     self.popupVC.modalTransitionStyle =  UIModalTransitionStyleCoverVertical;
     
     //First, dismiss the Feature Template Picker
-    [self dismissModalViewControllerAnimated:NO];
-    
-//    //Next, Present the popup view controller
-//    [self presentModalViewController:self.popupVC animated:YES];
-//    [self.popupVC startEditingCurrentPopup];
+    [self dismissViewControllerAnimated:NO completion:nil];
     
     //get sketchLayer from the mapView
     AGSSketchGraphicsLayer *sketchLayer = (AGSSketchGraphicsLayer *)[self.mapView mapLayerForName:kSketchLayerName];
@@ -636,14 +659,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     AGSGeometry *geometry = sketchLayer.geometry;
     
     //now create the feature details vc and display it
-    FeatureDetailsViewController *fdvc = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer
-                                                                                            feature:nil
-                                                                                    featureGeometry:geometry] autorelease];
+    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer feature:nil featureGeometry:geometry] autorelease];
     
 	/**
      * Prepares the details for the new feature.
      */
-    [self.navigationController pushViewController:fdvc animated:YES];
+    [self.navigationController pushViewController:detailViewController animated:YES];
     
 }
 

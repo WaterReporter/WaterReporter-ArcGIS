@@ -13,6 +13,7 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 #import "FeatureTemplatePickerViewController.h"
+#import "TutorialViewController.h"
 #import "WaterReporterFeatureLayer.h"
 
 // OnlineOfflineDelegate
@@ -28,6 +29,7 @@
 	BOOL _editingMode;							// Flag that tells us if the user is in the process of adding a feature
     UIBarButtonItem *_commitGeometryButton;
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
+    TutorialViewController* _tutorialViewController;
     CLLocationManager *_locationManager;
     AGSSketchGraphicsLayer* _sketchLayer;
 }
@@ -41,6 +43,6 @@
 
 @property (nonatomic, retain) UIBarButtonItem *commitGeometryButton;
 @property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
-
+@property (nonatomic, strong) TutorialViewController* tutorialViewController;
 @end
 
