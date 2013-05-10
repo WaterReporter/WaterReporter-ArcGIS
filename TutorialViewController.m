@@ -14,7 +14,8 @@
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 
 - (IBAction) dismissTutorialViewController {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
 }
 
 - (IBAction) presentFeatureTemplatePickerViewController {

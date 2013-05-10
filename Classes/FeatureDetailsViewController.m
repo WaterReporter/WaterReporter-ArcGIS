@@ -33,6 +33,11 @@
 #import "CodedValueUtility.h"
 #import "WaterReporterFeatureLayer.h"
 
+#define DEFAULT_TEXT_COLOR [UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0]
+#define DEFAULT_BODY_FONT [UIFont fontWithName:@"Helvetica-Bold" size:13.0]
+#define DEFAULT_TITLE_FONT [UIFont fontWithName:@"MuseoSlab-500" size:16.0]
+#define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]]
+
 @interface FeatureDetailsViewController ()
 
 -(void)doneSucceeded;
@@ -636,7 +641,7 @@
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor blackColor];
     label.shadowColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"MuseoSlab-500" size:16.0];
+    label.font = DEFAULT_TITLE_FONT;
     label.text = sectionTitle;
     
     UIView *view = [[UIView alloc] init];
@@ -819,7 +824,7 @@
             //
             if (field.editable && [field.name isEqualToString:@"date"] && indexPath.row == 0) {
                 
-                cell.textLabel.text = field.alias;
+                cell.textLabel.text = [field.alias uppercaseString];
                 
                 //
                 // Get the current date and time and auto-fill the form field
@@ -978,7 +983,7 @@
      * Replace the default pinstripe background with our new linen pattern
      */
     UIView* backgroundView = [[UIView alloc] init];
-    backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]];
+    backgroundView.backgroundColor = BACKGROUND_LINEN_LIGHT;
     [tableView setBackgroundView:backgroundView];
 	
     /**
@@ -990,8 +995,11 @@
     /**
      * Set the label, image, etc for the templates
      */
-    cell.textLabel.font = [UIFont fontWithName:@"MuseoSlab-500" size:14.0];
+    cell.textLabel.textColor = DEFAULT_TEXT_COLOR;
+    cell.textLabel.font = DEFAULT_BODY_FONT;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.detailTextLabel.textColor = DEFAULT_TEXT_COLOR;
+    cell.detailTextLabel.font = DEFAULT_BODY_FONT;
     
     return cell;
 }
