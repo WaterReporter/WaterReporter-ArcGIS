@@ -874,7 +874,7 @@
                 // fill in the image fields as attachments are added
                 cell.textLabel.text = field.alias;
                 cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"reporter" inFeatureLayer:self.featureLayer];
-                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+
             }
             
             //
@@ -886,10 +886,20 @@
             //       form by attaching files (e.g., image, video)
             //
             if (field.editable && [field.name isEqualToString:@"comments"] && indexPath.row == 3) {
-                // fill in the image fields as attachments are added
-                cell.textLabel.text = field.alias;
                 cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
-                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+
+                UITextField *commentField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+                
+                commentField.textColor = DEFAULT_TEXT_COLOR;
+                commentField.font = DEFAULT_BODY_FONT;
+                
+                commentField.placeholder = field.alias;
+                commentField.keyboardType = UIKeyboardTypeEmailAddress;
+                commentField.returnKeyType = UIReturnKeyDefault;
+                
+                [cell.contentView addSubview:commentField];
+                
+                [commentField release];
             }
             
             //
@@ -901,7 +911,6 @@
             //       form by attaching files (e.g., image, video)
             //
             if ([field.name hasPrefix:@"image"] || [field.name hasSuffix:@"image"]) {
-                // fill in the image fields as attachments are added
             }
             
             //
@@ -914,11 +923,6 @@
             //       these fields as well.
             //
             if ([field.name hasPrefix:@"lat"] || [field.name hasPrefix:@"long"]) {
-                
-                //[template.prototype setAttributeWithFloat:viUserLocationLongitude forKey:@"long_push"];
-                //[template.prototype setAttributeWithFloat:viUserLocationLatitude forKey:@"lat_push"];
-                
-                
             }
 
             //
@@ -933,15 +937,36 @@
             // For more information see http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_polygon.html#a64a3986417a6f545d3d721827969ee55
             //
             if (([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) && indexPath.row == 4) {
-                //[template.prototype setAttributeWithString:@"A keeper was found" forKey:field.name];
-                cell.textLabel.text = field.alias;
+                UITextField *keeperField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+                
+                keeperField.textColor = DEFAULT_TEXT_COLOR;
+                keeperField.font = DEFAULT_BODY_FONT;
+                
+                keeperField.placeholder = field.alias;
+                keeperField.keyboardType = UIKeyboardTypeEmailAddress;
+                keeperField.returnKeyType = UIReturnKeyDefault;
+                
+                [cell.contentView addSubview:keeperField];
+                
+                [keeperField release];
             }
             
             //
             // Reporter's Email Address
             //
-            if (field.editable && [field.name isEqualToString:@"email"] && indexPath.row == 5) {
-                cell.textLabel.text = field.alias;
+            if (field.editable && [field.name isEqualToString:@"email"] && indexPath.row == 5) {                
+                UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+
+                emailField.textColor = DEFAULT_TEXT_COLOR;
+                emailField.font = DEFAULT_BODY_FONT;
+                
+                emailField.placeholder = field.alias;
+                emailField.keyboardType = UIKeyboardTypeEmailAddress;
+                emailField.returnKeyType = UIReturnKeyDefault;
+                
+                [cell.contentView addSubview:emailField];
+                
+                [emailField release];
             }
         }
         
