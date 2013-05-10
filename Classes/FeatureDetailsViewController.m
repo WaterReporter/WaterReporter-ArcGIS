@@ -371,8 +371,8 @@
     self.feature.geometry = self.featureGeometry;
     
     // set the recordedon value; the other default values will come from the template
-    NSTimeInterval timeInterval = [self.date timeIntervalSince1970];
-    [self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"date" ];
+    //NSTimeInterval timeInterval = [self.date timeIntervalSince1970];
+    //[self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"date" ];
     
     //set the callout info template to the layer's infoTemplateDelegate
     self.feature.infoTemplateDelegate = self.featureLayer.infoTemplateDelegate;
@@ -823,9 +823,7 @@
             // Prepopulate the date field for the user
             //
             if (field.editable && [field.name isEqualToString:@"date"] && indexPath.row == 0) {
-                
-                cell.textLabel.text = [field.alias uppercaseString];
-                
+                                
                 //
                 // Get the current date and time and auto-fill the form field
                 //
@@ -838,7 +836,22 @@
                 
                 //[cell.detailTextLabel.text setAttributeWithDouble:theAGSCompatibleTime forKey:@"date"];
                 NSNumber *theAGSCompatibleTimeAsString = [NSNumber numberWithDouble:theAGSCompatibleTime];
-                cell.detailTextLabel.text = [theAGSCompatibleTimeAsString stringValue];
+
+            
+                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                UITextField *dateField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+                
+                dateField.textColor = DEFAULT_TEXT_COLOR;
+                dateField.font = DEFAULT_BODY_FONT;
+                
+                dateField.placeholder = field.alias;
+                
+                dateField.text = [theAGSCompatibleTimeAsString stringValue];
+                dateField.inputView = [[UIDatePicker alloc]init];
+                
+                [cell.contentView addSubview:dateField];
+                
+                [dateField release];
             }
 
             //
@@ -850,31 +863,56 @@
             //       form by attaching files (e.g., image, video)
             //
             if (field.editable && ([field.name isEqualToString:@"event"]) && indexPath.row == 1) {
-                // fill in the image fields as attachments are added
-                cell.textLabel.text = field.alias;
+                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                UITextField *eventField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+                
+                eventField.textColor = DEFAULT_TEXT_COLOR;
+                eventField.font = DEFAULT_BODY_FONT;
+                
+                eventField.placeholder = field.alias;
+                
                 cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
-                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                eventField.inputView = [[UIPickerView alloc]init];
+                
+                [cell.contentView addSubview:eventField];
+                
+                [eventField release];
             }
+            
             if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
-                // fill in the image fields as attachments are added
-                cell.textLabel.text = field.alias;
-                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"pollution" inFeatureLayer:self.featureLayer];
                 //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                UITextField *pollutionField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+                
+                pollutionField.textColor = DEFAULT_TEXT_COLOR;
+                pollutionField.font = DEFAULT_BODY_FONT;
+                
+                pollutionField.placeholder = field.alias;
+                
+                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"pollution" inFeatureLayer:self.featureLayer];
+                pollutionField.inputView = [[UIPickerView alloc]init];
+
+                [cell.contentView addSubview:pollutionField];
+                
+                [pollutionField release];
             }
             
             //
-            // Prepopulate the users images as they upload attachments.
-            //
-            // NOTE: We don't want to prepopulate the image fields. What
-            //       we really want to do is fill these fields automatically
-            //       later in the process when a user interacts with the
-            //       form by attaching files (e.g., image, video)
+            // Reporter of Pollution Report
             //
             if (field.editable && [field.name isEqualToString:@"reporter"] && indexPath.row == 2) {
-                // fill in the image fields as attachments are added
-                cell.textLabel.text = field.alias;
+                UITextField *reporterField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+                
+                reporterField.textColor = DEFAULT_TEXT_COLOR;
+                reporterField.font = DEFAULT_BODY_FONT;
+                
+                reporterField.placeholder = field.alias;
+                
                 cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"reporter" inFeatureLayer:self.featureLayer];
+                reporterField.inputView = [[UIPickerView alloc]init];
 
+                [cell.contentView addSubview:reporterField];
+                
+                [reporterField release];
             }
             
             //
@@ -886,17 +924,14 @@
             //       form by attaching files (e.g., image, video)
             //
             if (field.editable && [field.name isEqualToString:@"comments"] && indexPath.row == 3) {
-                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
-
                 UITextField *commentField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
                 
                 commentField.textColor = DEFAULT_TEXT_COLOR;
                 commentField.font = DEFAULT_BODY_FONT;
                 
                 commentField.placeholder = field.alias;
-                commentField.keyboardType = UIKeyboardTypeEmailAddress;
-                commentField.returnKeyType = UIReturnKeyDefault;
-                
+                                              
+                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
                 [cell.contentView addSubview:commentField];
                 
                 [commentField release];
@@ -943,8 +978,6 @@
                 keeperField.font = DEFAULT_BODY_FONT;
                 
                 keeperField.placeholder = field.alias;
-                keeperField.keyboardType = UIKeyboardTypeEmailAddress;
-                keeperField.returnKeyType = UIReturnKeyDefault;
                 
                 [cell.contentView addSubview:keeperField];
                 

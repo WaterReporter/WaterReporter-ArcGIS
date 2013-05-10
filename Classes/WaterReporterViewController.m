@@ -213,6 +213,24 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     self.tutorialViewController =  [[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil];
     
     /**
+     * If this is the first time the user is using the application we need
+     * to show them the tutorial.
+     */
+    if (TUTORIAL_IS_ACTIVE && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
+        NSLog(@"This is the first time the user is using the application.");
+        
+        //
+        // When the tutorial closes we will then need to set the BOOL to TRUE
+        // so that this check is skipped in all future application launches
+        //
+        // We set it by calling the following:
+        //
+        // [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
+        //
+        [self presentViewController:self.tutorialViewController animated:YES completion:nil];
+    }
+    
+    /**
      * Set our default map navigation bar background to use our
      * charcoal pattern
      */
@@ -276,27 +294,11 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
     
     
-    /**
-     * If this is the first time the user is using the application we need
-     * to show them the tutorial.
-     */
-    if (TUTORIAL_IS_ACTIVE && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
-        NSLog(@"This is the first time the user is using the application.");
-        
-        //
-        // When the tutorial closes we will then need to set the BOOL to TRUE
-        // so that this check is skipped in all future application launches
-        //
-        // We set it by calling the following:
-        //
-        // [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
-        //
-        [self presentViewController:self.tutorialViewController animated:YES completion:nil];
-    }
+
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */
-    else if (FEATURE_TEMPLATE_AUTODISPLAY) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
         [self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
     }
     
@@ -544,87 +546,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     // Set the active feature layer to the one we are going to edit
     //
     self.featureLayer = featureLayer;
-    
-    
-    //
-    // Iterate through all of the selected Feature Layer's
-    // fields and perform the necessary pre-display actions
-    // upon each field one at a time.
-    //
-    // These operations primarily concern the prepopulation
-    // of specific fields such as the date and geolocation.
-    // While others like the Attachments and associated image
-    // fields depend on user interaction later in the process
-    // to be updated dynamically.
-    //
-    for (AGSFeatureLayer* field in self.featureLayer.fields) {
-                        
-        //
-        // Prepopulate the date field for the user
-        //
-        if ([field.name isEqualToString:@"date"]) {
-            
-            //
-            // Get the current date and time and auto-fill the form field
-            //
-            // All about date formatting in iOS https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html
-            // get the current date
-            //
-            NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
-            
-            double theAGSCompatibleTime = theCurrentTime * 1000; // We must do this so that ArcGIS translates it appropriately
-            
-            [template.prototype setAttributeWithDouble:theAGSCompatibleTime forKey:@"date"];
-            
-        }
-        
-        //
-        // Prepopulate the users images as they upload attachments.
-        //
-        // NOTE: We don't want to prepopulate the image fields. What
-        //       we really want to do is fill these fields automatically
-        //       later in the process when a user interacts with the
-        //       form by attaching files (e.g., image, video)
-        //
-        //if ([field.name hasPrefix:@"image"] || [field.name hasSuffix:@"image"]) {
-        // fill in the image fields as attachments are added
-        //}
-        
-        //
-        // Prepopulate the users location when they add a new report.
-        //
-        // Note: We need to not only prepopulate these fields within the
-        //       Feature Layer but we also need to update the sketch layer
-        //       so that the GPS uses that same location. If we update
-        //       the sketch layer, we also need to come back and refill
-        //       these fields as well.
-        //
-        if ([field.name hasPrefix:@"lat"] || [field.name hasPrefix:@"long"]) {
-            
-            [template.prototype setAttributeWithFloat:viUserLocationLongitude forKey:@"long_push"];
-            [template.prototype setAttributeWithFloat:viUserLocationLatitude forKey:@"lat_push"];
-            
-            //NSLog(@"long_push: %@; lat_push: %@;", [template.prototype valueForKey:@"long_push"], [template.prototype valueForKey:@"lat_push"]);
-            
-        }
-        
-        //
-        // Point to Polygon
-        //
-        // Determine what watershed a user is in when they launch the application
-        // and set their default based on the results of their GPS or geolocation
-        //
-        // In order to implement this see if we can use the "containsPoint" method
-        // provided by the AGSPolygon Class.
-        //
-        // For more information see http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_polygon.html#a64a3986417a6f545d3d721827969ee55
-        //
-        if ([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) {
-            //[template.prototype setAttributeWithString:@"A keeper was found" forKey:field.name];
-        }
-        
-    }
-    
+
     //create a new feature based on the template
     _newFeature = [self.featureLayer featureWithTemplate:template];
     
@@ -637,18 +559,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     //feature from the feature layer (see implementation for popupsContainer:didCancelEditingGraphicForPopup: below)
     [self.featureLayer addGraphic:_newFeature];
     
-    //Iniitalize a popup view controller
-    self.popupVC = [[AGSPopupsContainerViewController alloc] initWithWebMap:self.webmap forFeature:_newFeature usingNavigationControllerStack:YES];
-    self.popupVC.delegate = self;
-    
-    //Only for iPad, set presentation style to Form sheet
-    //We don't want it to cover the entire screen
-    if([[AGSDevice currentDevice] isIPad])
-        self.popupVC.modalPresentationStyle = UIModalPresentationFormSheet;
-    
-    //Animate by covering vertically
-    self.popupVC.modalTransitionStyle =  UIModalTransitionStyleCoverVertical;
-    
+
     //First, dismiss the Feature Template Picker
     [self dismissViewControllerAnimated:NO completion:nil];
     

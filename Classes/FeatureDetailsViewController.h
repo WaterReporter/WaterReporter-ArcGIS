@@ -16,7 +16,7 @@
 @class FeatureTypeViewController;
 @class WaterReporterFeatureLayer;
 
-@interface FeatureDetailsViewController : UITableViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AGSFeatureLayerEditingDelegate> {
+@interface FeatureDetailsViewController : UITableViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AGSFeatureLayerEditingDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
 	
 	WaterReporterFeatureLayer *_featureLayer;
 	AGSGraphic *_feature;					
@@ -31,6 +31,12 @@
     NSMutableArray* _infos;
 	NSMutableArray *_operations;			// all the in-progress operations spawned by this VC, we keep them so we can cancel them if we pop the VC (dealloc cancels them)
 	NSOperation *_retrieveAttachmentOp;		// keep track of the retrieve attachment op so that we only do one of these at a time
+
+    IBOutlet UIPickerView *pickerView;
+    IBOutlet UIDatePicker *datePickerView;
+    NSMutableArray *pollutionPickerData;
+    NSMutableArray *eventPickerData;
+    NSMutableArray *reporterPickerData;
 }
 
 @property (nonatomic, retain) AGSGraphic *feature;
