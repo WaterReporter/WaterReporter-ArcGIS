@@ -19,12 +19,6 @@
  */
 @protocol FeatureTemplatePickerDelegate <NSObject>
 
-@optional
-
--(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController;
-
--(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
-
 @end
 
 
@@ -43,9 +37,6 @@
 @property (nonatomic, strong) NSMutableArray* infos;
 @property (nonatomic, retain) NSMutableArray *operations;
 
-
-
-- (IBAction) dismiss;
 - (void) addTemplatesFromLayer:(AGSFeatureLayer*)layer;
 
 @end

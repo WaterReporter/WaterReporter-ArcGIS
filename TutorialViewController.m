@@ -19,8 +19,10 @@
 }
 
 - (IBAction) presentFeatureTemplatePickerViewController {
-    [self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
+    //[self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
+    //[self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad {
@@ -31,23 +33,41 @@
      */
     NSLog(@"TutorialViewController:viewDidLoad");
 
-    NSArray *colors = [NSArray arrayWithObjects:[UIColor redColor], [UIColor greenColor], [UIColor blueColor], nil];
-    for (int i = 0; i < colors.count; i++) {
+    // TODO – fill with your photos
+    NSArray *photos = [[NSArray arrayWithObjects:
+                        [UIImage imageNamed:@"slide002-ChooseYourReport"],
+                        [UIImage imageNamed:@"slide003-TellUsMore"],
+                        [UIImage imageNamed:@"slide004-PhotoVideo"],
+                        [UIImage imageNamed:@"slide005-Save"],
+                        [UIImage imageNamed:@"slide006-Copyright"],
+                        nil] retain];
+    
+    int i = 0;
+    for (NSString *image in photos) {
+        
+        UIImage *images = [photos objectAtIndex:i];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:images];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.clipsToBounds = YES;
+        
         CGRect frame;
         frame.origin.x = self.tutorialView.frame.size.width * i;
         frame.origin.y = 0;
         frame.size = self.tutorialView.frame.size;
+
+        imageView.frame = frame;
         
-        UIView *subview = [[UIView alloc] initWithFrame:frame];
-        subview.backgroundColor = [colors objectAtIndex:i];
-        [self.tutorialView addSubview:subview];
-        [subview release];
+        NSLog(@"%@", [photos objectAtIndex:i]);
+
+        [self.tutorialView addSubview:imageView];
+        [imageView release];
     }
+    self.tutorialView.contentSize = CGSizeMake(self.tutorialView.frame.size.width * photos.count, self.tutorialView.frame.size.height);
+    self.tutorialView.delegate = self;
     
-    self.tutorialView.contentSize = CGSizeMake(self.tutorialView.frame.size.width * colors.count, self.tutorialView.frame.size.height);
-
-    //self.tutorialView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundTutorial@2x.png"]];
-
+    NSLog(@"Showing the tutorial");
+    
+    [self.tutorialView release];
 }
 
 - (void)didReceiveMemoryWarning {

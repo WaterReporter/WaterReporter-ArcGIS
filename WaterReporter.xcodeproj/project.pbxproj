@@ -55,18 +55,24 @@
 		F570C900172ED0CA0059FC19 /* Museo_Slab_900italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */; };
 		F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */; };
 		F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */; };
+		F5792743173D87E800C49B31 /* slide006-Copyright.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273C173D87E700C49B31 /* slide006-Copyright.png */; };
+		F5792744173D87E800C49B31 /* slide004-PhotoVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273D173D87E800C49B31 /* slide004-PhotoVideo.png */; };
+		F5792745173D87E800C49B31 /* slide005-Save.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273E173D87E800C49B31 /* slide005-Save.png */; };
+		F5792746173D87E800C49B31 /* slide003-TellUsMore.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273F173D87E800C49B31 /* slide003-TellUsMore.png */; };
+		F5792747173D87E800C49B31 /* slide002-ChooseYourReport.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792740173D87E800C49B31 /* slide002-ChooseYourReport.png */; };
+		F5792748173D87E800C49B31 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792741173D87E800C49B31 /* default@2x.png */; };
+		F579275C173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275A173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png */; };
+		F579275D173D8F9600C49B31 /* buttonAddPhotoVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275B173D8F9600C49B31 /* buttonAddPhotoVideo.png */; };
+		F5792760173D8FE700C49B31 /* buttonUpdateLocation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275E173D8FE700C49B31 /* buttonUpdateLocation@2x.png */; };
+		F5792761173D8FE700C49B31 /* buttonUpdateLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275F173D8FE700C49B31 /* buttonUpdateLocation.png */; };
+		F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792762173D98DB00C49B31 /* Default-568h@2x.png */; };
+		F5792765173DA04E00C49B31 /* slide001-Introduction.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792764173DA04D00C49B31 /* slide001-Introduction.png */; };
 		F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* release-notes.md */; };
 		F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D91F54173BE53700E19079 /* TutorialViewController.m */; };
 		F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F55173BE53700E19079 /* TutorialViewController.xib */; };
 		F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */; };
 		F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */; };
 		F5E8F8E617341C8E006ABF22 /* slides.md in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E517341C8E006ABF22 /* slides.md */; };
-		F5E8F8F817344271006ABF22 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F617344271006ABF22 /* default.png */; };
-		F5E8F8F917344271006ABF22 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8F717344271006ABF22 /* default@2x.png */; };
-		F5E8F8FD173442C9006ABF22 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8FC173442C9006ABF22 /* Default@2x.png */; };
-		F5E8F8FE173442D9006ABF22 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 975E752A167A5F3D005FB57B /* Default-568h@2x.png */; };
-		F5E8F8FF17344304006ABF22 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8FA173442B6006ABF22 /* Default.png */; };
-		F5E8F9011734517D006ABF22 /* buttonChooseFile.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F9001734517D006ABF22 /* buttonChooseFile.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,7 +114,6 @@
 		9702E550144652AC00A46CA5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		975E7526167A5F1C005FB57B /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		975E7528167A5F28005FB57B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		975E752A167A5F3D005FB57B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		979315161314426C003B935E /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		97E19FD713590CA600872878 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		C1E1C5B4172C3B420089361A /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ArcGIS.bundle; sourceTree = "<group>"; };
@@ -132,6 +137,18 @@
 		F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_900italic.otf; sourceTree = "<group>"; };
 		F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000.otf; sourceTree = "<group>"; };
 		F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000italic.otf; sourceTree = "<group>"; };
+		F579273C173D87E700C49B31 /* slide006-Copyright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide006-Copyright.png"; sourceTree = "<group>"; };
+		F579273D173D87E800C49B31 /* slide004-PhotoVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide004-PhotoVideo.png"; sourceTree = "<group>"; };
+		F579273E173D87E800C49B31 /* slide005-Save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide005-Save.png"; sourceTree = "<group>"; };
+		F579273F173D87E800C49B31 /* slide003-TellUsMore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide003-TellUsMore.png"; sourceTree = "<group>"; };
+		F5792740173D87E800C49B31 /* slide002-ChooseYourReport.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide002-ChooseYourReport.png"; sourceTree = "<group>"; };
+		F5792741173D87E800C49B31 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
+		F579275A173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAddPhotoVideo@2x.png"; sourceTree = "<group>"; };
+		F579275B173D8F9600C49B31 /* buttonAddPhotoVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonAddPhotoVideo.png; sourceTree = "<group>"; };
+		F579275E173D8FE700C49B31 /* buttonUpdateLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonUpdateLocation@2x.png"; sourceTree = "<group>"; };
+		F579275F173D8FE700C49B31 /* buttonUpdateLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonUpdateLocation.png; sourceTree = "<group>"; };
+		F5792762173D98DB00C49B31 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		F5792764173DA04D00C49B31 /* slide001-Introduction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slide001-Introduction.png"; path = "../../../../../Desktop/slide001-Introduction.png"; sourceTree = "<group>"; };
 		F5D5FAD6172FF45C007CD69B /* release-notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "release-notes.md"; sourceTree = "<group>"; };
 		F5D91F53173BE53700E19079 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialViewController.h; path = ../TutorialViewController.h; sourceTree = "<group>"; };
 		F5D91F54173BE53700E19079 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialViewController.m; path = ../TutorialViewController.m; sourceTree = "<group>"; };
@@ -139,11 +156,6 @@
 		F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "backgroundTutorial@2x.png"; path = "Classes/backgroundTutorial@2x.png"; sourceTree = "<group>"; };
 		F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonNewFeature@2x.png"; sourceTree = "<group>"; };
 		F5E8F8E517341C8E006ABF22 /* slides.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = slides.md; sourceTree = "<group>"; };
-		F5E8F8F617344271006ABF22 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
-		F5E8F8F717344271006ABF22 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
-		F5E8F8FA173442B6006ABF22 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		F5E8F8FC173442C9006ABF22 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		F5E8F9001734517D006ABF22 /* buttonChooseFile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonChooseFile.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,7 +263,6 @@
 			isa = PBXGroup;
 			children = (
 				F53CC54D17380F24008315CE /* MainWindow-iPad.xib */,
-				F5D91F55173BE53700E19079 /* TutorialViewController.xib */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -303,6 +314,7 @@
 				9401AD9E124828830010FADB /* ImageViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				947B240A124AD4EF00414CFF /* MoviePlayerViewController.xib */,
+				F5D91F55173BE53700E19079 /* TutorialViewController.xib */,
 				2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */,
 			);
 			name = layouts;
@@ -339,15 +351,21 @@
 		F5E8F8E017340363006ABF22 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F5792762173D98DB00C49B31 /* Default-568h@2x.png */,
+				F579275E173D8FE700C49B31 /* buttonUpdateLocation@2x.png */,
+				F579275F173D8FE700C49B31 /* buttonUpdateLocation.png */,
+				F579275A173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png */,
+				F579275B173D8F9600C49B31 /* buttonAddPhotoVideo.png */,
+				F579273C173D87E700C49B31 /* slide006-Copyright.png */,
+				F579273D173D87E800C49B31 /* slide004-PhotoVideo.png */,
+				F579273E173D87E800C49B31 /* slide005-Save.png */,
+				F579273F173D87E800C49B31 /* slide003-TellUsMore.png */,
+				F5792740173D87E800C49B31 /* slide002-ChooseYourReport.png */,
+				F5792764173DA04D00C49B31 /* slide001-Introduction.png */,
+				F5792741173D87E800C49B31 /* default@2x.png */,
 				F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */,
-				F5E8F8FC173442C9006ABF22 /* Default@2x.png */,
-				F5E8F8FA173442B6006ABF22 /* Default.png */,
-				975E752A167A5F3D005FB57B /* Default-568h@2x.png */,
 				C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */,
 				C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */,
-				F5E8F8F617344271006ABF22 /* default.png */,
-				F5E8F9001734517D006ABF22 /* buttonChooseFile.png */,
-				F5E8F8F717344271006ABF22 /* default@2x.png */,
 				F5E8F8E3173403DF006ABF22 /* buttonNewFeature@2x.png */,
 				F570C8E4172EBF950059FC19 /* backgroundDefault.png */,
 				F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */,
@@ -434,15 +452,21 @@
 				F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */,
 				F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */,
 				F5E8F8E617341C8E006ABF22 /* slides.md in Resources */,
-				F5E8F8F817344271006ABF22 /* default.png in Resources */,
-				F5E8F8F917344271006ABF22 /* default@2x.png in Resources */,
-				F5E8F8FD173442C9006ABF22 /* Default@2x.png in Resources */,
-				F5E8F8FE173442D9006ABF22 /* Default-568h@2x.png in Resources */,
-				F5E8F8FF17344304006ABF22 /* Default.png in Resources */,
-				F5E8F9011734517D006ABF22 /* buttonChooseFile.png in Resources */,
 				F53CC54E17380F24008315CE /* MainWindow-iPad.xib in Resources */,
 				F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */,
 				F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */,
+				F5792743173D87E800C49B31 /* slide006-Copyright.png in Resources */,
+				F5792744173D87E800C49B31 /* slide004-PhotoVideo.png in Resources */,
+				F5792745173D87E800C49B31 /* slide005-Save.png in Resources */,
+				F5792746173D87E800C49B31 /* slide003-TellUsMore.png in Resources */,
+				F5792747173D87E800C49B31 /* slide002-ChooseYourReport.png in Resources */,
+				F5792748173D87E800C49B31 /* default@2x.png in Resources */,
+				F579275C173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png in Resources */,
+				F579275D173D8F9600C49B31 /* buttonAddPhotoVideo.png in Resources */,
+				F5792760173D8FE700C49B31 /* buttonUpdateLocation@2x.png in Resources */,
+				F5792761173D8FE700C49B31 /* buttonUpdateLocation.png in Resources */,
+				F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */,
+				F5792765173DA04E00C49B31 /* slide001-Introduction.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

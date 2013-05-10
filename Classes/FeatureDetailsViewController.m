@@ -281,16 +281,13 @@
 	return self;
 }
 
-#pragma mark helper methods
-
 -(void)cancel{
     
     /**
      * This allows us to see what is being fired and when
      */	
     NSLog(@"FeaturesDetailsViewController:cancel");
-	// this will eventually dealloc this VC and the operations that haven't completed yet
-	// will be cancelled
+
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -620,11 +617,13 @@
 			}
 		}
 
-	} else if (section == 1){ // details
+	} else if (section == 1) { // details
 //		return [self.infos count];
         NSLog(@"THERE ARE %d FIELDS IN THIS FEATURE", self.featureLayer.fields.count-6);
         return (self.featureLayer.fields.count - 6);
-	}
+	} else if (section == 3) { // Location
+        return 1;
+    }
 	
 	return 0;
 }
@@ -652,11 +651,6 @@
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
 
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: titleForHeaderInSection");
-    
     switch (section) {
             
         case 0: // Feature Type, auto-populated with our application
@@ -728,7 +722,8 @@
 		// and view or remove pictures
 		if (_newFeature){
 			if (indexPath.row == self.attachments.count){
-                cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonChooseFile.png"]];
+                cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAddPhotoVideo"]];
+
 				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 cell.accessoryType = UITableViewCellAccessoryNone;
 				cell.textLabel.text = nil;
@@ -763,8 +758,8 @@
 			else {
 				AGSAttachmentInfo *ai = [self.attachmentInfos objectAtIndex:indexPath.row];
 				cell.textLabel.text = ai.name;
-				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				// if we've already retrieved the photo, show a thumbnail
 				if ([ai.contentType isEqualToString:@"image/jpeg"] && [self.attachments objectAtIndex:indexPath.row] != [NSNull null]){
 					cell.imageView.image = [self thumbnailForImageWithPath:[self.attachments objectAtIndex:indexPath.row] size:36];
@@ -782,10 +777,15 @@
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:locationCellIdentifier] autorelease];
 		}
         
-		cell.imageView.image = nil;
-		cell.textLabel.text = nil;
-		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (indexPath.row == 0) {
+            
+        }
+        
+        cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonUpdateLocation"]];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.backgroundColor =  [UIColor clearColor];
+        
+        cell.textLabel.backgroundColor = [UIColor clearColor];
     }
 
     // Feature Details
@@ -816,9 +816,7 @@
          *
          */
         for (AGSField* field in self.featureLayer.fields) {
-            
-            NSLog(@"%@", field.name);
-            
+                       
             //
             // Prepopulate the date field for the user
             //
@@ -830,12 +828,12 @@
                 // All about date formatting in iOS https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html
                 // get the current date
                 //
-                NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
+                //NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
                 
-                double theAGSCompatibleTime = theCurrentTime * 1000; // We must do this so that ArcGIS translates it appropriately
+                //double theAGSCompatibleTime = theCurrentTime * 1000; // We must do this so that ArcGIS translates it appropriately
                 
                 //[cell.detailTextLabel.text setAttributeWithDouble:theAGSCompatibleTime forKey:@"date"];
-                NSNumber *theAGSCompatibleTimeAsString = [NSNumber numberWithDouble:theAGSCompatibleTime];
+                //NSNumber *theAGSCompatibleTimeAsString = [NSNumber numberWithDouble:theAGSCompatibleTime];
 
             
                 //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -846,8 +844,11 @@
                 
                 dateField.placeholder = field.alias;
                 
-                dateField.text = [theAGSCompatibleTimeAsString stringValue];
-                dateField.inputView = [[UIDatePicker alloc]init];
+                UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
+                
+                //dateField.text = [theAGSCompatibleTimeAsString stringValue];
+                dateField.inputView = thisDatePicker;
+                [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
                 
                 [cell.contentView addSubview:dateField];
                 
@@ -862,7 +863,7 @@
             //       later in the process when a user interacts with the
             //       form by attaching files (e.g., image, video)
             //
-            if (field.editable && ([field.name isEqualToString:@"event"]) && indexPath.row == 1) {
+            if (field.editable && [field.name isEqualToString:@"event"] && indexPath.row == 1) {
                 //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 UITextField *eventField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
                 
@@ -877,9 +878,7 @@
                 [cell.contentView addSubview:eventField];
                 
                 [eventField release];
-            }
-            
-            if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
+            } else if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
                 //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 UITextField *pollutionField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
                 
@@ -987,13 +986,15 @@
             //
             // Reporter's Email Address
             //
-            if (field.editable && [field.name isEqualToString:@"email"] && indexPath.row == 5) {                
-                UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-
+            if (field.editable && [field.name isEqualToString:@"email"] && indexPath.row == 5) {
+                                               
+                UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(10, 14, 260, 30)];
+                                
                 emailField.textColor = DEFAULT_TEXT_COLOR;
                 emailField.font = DEFAULT_BODY_FONT;
                 
                 emailField.placeholder = field.alias;
+                
                 emailField.keyboardType = UIKeyboardTypeEmailAddress;
                 emailField.returnKeyType = UIReturnKeyDefault;
                 
@@ -1062,6 +1063,18 @@
     return cell;
 }
 
+- (void)datePickerValueUpdated:(id)sender inFeatureLayer:(AGSFeatureLayer *)featureLayer {
+//    [featureLayer.attributes setValue:@"" forKey:@"date"];
+    
+    for (AGSField* field in self.featureLayer.fields) {
+        if (field.editable && [field.name isEqualToString:@"date"]) {
+            NSLog(@"Update that field!");
+        }
+    }
+    
+    
+    NSLog(@"value:%@ %@",[sender date], featureLayer);
+}
 
 -(UITableViewCell *)reuseTableViewCellWithIdentifier:(NSString *)identifier withIndexPath:(NSIndexPath *)indexPath {
     
@@ -1198,7 +1211,10 @@
 
 			}
 		}
-	}	
+	}
+    else if (indexPath.section == 3) {
+        NSLog(@"Launch the sketch layer!!!!");
+    }
 }
 
 #pragma mark Action sheet delegate methods

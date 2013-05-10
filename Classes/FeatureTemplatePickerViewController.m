@@ -29,9 +29,6 @@
     UIBarButtonItem *cancel = [[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)]autorelease];
     self.navigationItem.leftBarButtonItem = cancel;
     
-    UIBarButtonItem *commit = [[[UIBarButtonItem alloc]initWithTitle:@"Commit" style:UIBarButtonItemStylePlain target:self action:@selector(commit)]autorelease];
-    self.navigationItem.rightBarButtonItem = commit;
-    
     self.navigationItem.title = @"Choose Type";
 
 }
@@ -96,15 +93,14 @@
     
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
-
-- (IBAction) dismiss {
-    //Notify the delegate that user tried to dismiss the view controller
-	if ([self.delegate respondsToSelector:@selector(featureTemplatePickerViewControllerWasDismissed:)]){
-		[self.delegate featureTemplatePickerViewControllerWasDismissed:self];
-	}
+-(void)cancel{
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeaturesDetailsViewController:cancel");
+    
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark -

@@ -144,20 +144,9 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 #pragma mark UIView methods
 
 -(void)viewWillAppear:(BOOL)animated{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: viewWillAppear");
-    
 }
 
 - (void)viewDidLoad {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: viewDidLoad");
     
     /**
      * Plus/Add Button on main map view.
@@ -227,7 +216,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         //
         // [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
         //
-        [self presentViewController:self.tutorialViewController animated:YES completion:nil];
+        [self presentViewController:self.tutorialViewController animated:NO completion:nil];
     }
     
     /**
@@ -260,7 +249,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         //this will then automatically set the callout's title to a value
         //from the display field of the feature service
         featureLayer.infoTemplateDelegate = featureLayer;
-        
+
         //Get all the fields
         featureLayer.outFields = [NSArray arrayWithObject:@"*"];
         
@@ -298,8 +287,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
-        [self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {        
+        [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
     }
     
     
@@ -325,15 +314,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     
 }
 
-
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
-
 - (void) webMap:(AGSWebMap *)webMap didFailToLoadLayer:(AGSWebMapLayerInfo *)layerInfo baseLayer:(BOOL)baseLayer federated:(BOOL)federated withError:(NSError *)error {
     
     NSLog(@"Failed to load layer : %@", layerInfo.title);
@@ -344,71 +324,26 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 
 
 - (void)didReceiveMemoryWarning {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: didReceiveMemoryWarning");
-    
-	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: viewDidUnload");
-    
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 }
-
-#pragma mark -
-#pragma mark AGSLayerDelegate methods
-
-
-- (void)layerDidLoad:(AGSLayer *)layer {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: layerDidLoad");
-    
-}
-
-#pragma mark -
-#pragma mark UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: alertView:clickedButtonAtIndex");
-    
 }
 
-#pragma mark -
-#pragma mark AGSMapViewCalloutDelegate
-
-- (BOOL)mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic
-{
+- (BOOL)mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic {
     
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"WaterReporterViewController: mapView:shouldShowCalloutForGraphic");
+    NSLog(@"WaterReporterViewController:mapView:shouldShowCalloutForGraphic [We aren't in editing mode, so therefore this should be a read only Feature Detail window]");
     
     //only show callout if we're not editing
     return !_editingMode;
 }
-
-#pragma mark -
-#pragma mark AGSCalloutDelegate
 
 /**
  * Implements didClickAccessoryButtonForCallout
@@ -422,6 +357,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
  */
 - (void)didClickAccessoryButtonForCallout:(AGSCallout *) callout {
 
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"didClickAccessoryButtonForCallout");
+
     AGSGraphic* graphic = (AGSGraphic*) callout.representedObject;
 
 	/**
@@ -434,9 +375,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
-
-#pragma mark -
-#pragma mark AGSInfoTemplate methods
 
 - (NSString *)titleForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *) map{
     
@@ -462,7 +400,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     NSLog(@"WaterReporterViewController: detailForGraphic");
     
-    
 	// get the center point of the geometry
     AGSPoint *centerPoint = graphic.geometry.envelope.center;
     return [NSString stringWithFormat:@"x = %0.2f, y = %0.2f",centerPoint.x,centerPoint.y];
@@ -471,8 +408,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 #pragma mark -
 #pragma mark Editing
 
--(void)commitGeometry:(id)sender
-{
+-(void)commitGeometry:(id)sender {
     
     /**
      * This allows us to see what is being fired and when
@@ -486,9 +422,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     AGSGeometry *geometry = sketchLayer.geometry;
     
     //now create the feature details vc and display it
-    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer
-                                                                                            feature:nil
-                                                                                    featureGeometry:geometry] autorelease];
+    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer feature:nil featureGeometry:geometry] autorelease];
     
 	/**
      * Prepares the details for the new feature.
@@ -521,7 +455,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    [self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
+    //[self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
+    [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
 }
 
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{
@@ -576,7 +511,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      * Prepares the details for the new feature.
      */
     [self.navigationController pushViewController:detailViewController animated:YES];
-    
+
+    NSLog(@"GEOMETRY: %@", geometry);
 }
 
 #pragma mark dealloc

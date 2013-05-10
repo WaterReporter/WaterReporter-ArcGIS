@@ -1,7 +1,15 @@
 # Release Notes
 
+v0.1.1 Release Notes: Update May 10, 2013
+
+## How-to
+
+- "How To"/tutorial launches automatically the first time the user loads the application. All subsequent visits to the application will result in the Feature Template Picker (e.g., Pollution Report, Event Report) being displayed.
+- First round of designs have been implemented for the UISlideView
+
 v0.9.0 Release Notes: Update April 30, 2013
 
+# Tasks
 ## How-to
 
 - Install logic for "how-to"
