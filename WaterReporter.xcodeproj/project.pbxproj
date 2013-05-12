@@ -36,6 +36,7 @@
 		975E7529167A5F28005FB57B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 975E7528167A5F28005FB57B /* OpenGLES.framework */; };
 		97E19FD813590CA600872878 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E19FD713590CA600872878 /* CoreText.framework */; };
 		C1B82895172C4D55003072BB /* FeatureTemplatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */; };
+		C1DBC47F173F299D0014A977 /* slide001-Introduction.png in Resources */ = {isa = PBXBuildFile; fileRef = C1DBC47E173F299D0014A977 /* slide001-Introduction.png */; };
 		C1E1C5B5172C3B420089361A /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B4172C3B420089361A /* ArcGIS.bundle */; };
 		C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */; };
 		C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */; };
@@ -66,7 +67,6 @@
 		F5792760173D8FE700C49B31 /* buttonUpdateLocation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275E173D8FE700C49B31 /* buttonUpdateLocation@2x.png */; };
 		F5792761173D8FE700C49B31 /* buttonUpdateLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275F173D8FE700C49B31 /* buttonUpdateLocation.png */; };
 		F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792762173D98DB00C49B31 /* Default-568h@2x.png */; };
-		F5792765173DA04E00C49B31 /* slide001-Introduction.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792764173DA04D00C49B31 /* slide001-Introduction.png */; };
 		F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* release-notes.md */; };
 		F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D91F54173BE53700E19079 /* TutorialViewController.m */; };
 		F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F55173BE53700E19079 /* TutorialViewController.xib */; };
@@ -116,6 +116,7 @@
 		975E7528167A5F28005FB57B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		979315161314426C003B935E /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		97E19FD713590CA600872878 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		C1DBC47E173F299D0014A977 /* slide001-Introduction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide001-Introduction.png"; sourceTree = "<group>"; };
 		C1E1C5B4172C3B420089361A /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ArcGIS.bundle; sourceTree = "<group>"; };
 		C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-charcoal-default.png"; sourceTree = "<group>"; };
 		C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-charcoal-default@2x.png"; sourceTree = "<group>"; };
@@ -148,7 +149,6 @@
 		F579275E173D8FE700C49B31 /* buttonUpdateLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonUpdateLocation@2x.png"; sourceTree = "<group>"; };
 		F579275F173D8FE700C49B31 /* buttonUpdateLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonUpdateLocation.png; sourceTree = "<group>"; };
 		F5792762173D98DB00C49B31 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		F5792764173DA04D00C49B31 /* slide001-Introduction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slide001-Introduction.png"; path = "../../../../../Desktop/slide001-Introduction.png"; sourceTree = "<group>"; };
 		F5D5FAD6172FF45C007CD69B /* release-notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "release-notes.md"; sourceTree = "<group>"; };
 		F5D91F53173BE53700E19079 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialViewController.h; path = ../TutorialViewController.h; sourceTree = "<group>"; };
 		F5D91F54173BE53700E19079 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialViewController.m; path = ../TutorialViewController.m; sourceTree = "<group>"; };
@@ -361,7 +361,7 @@
 				F579273E173D87E800C49B31 /* slide005-Save.png */,
 				F579273F173D87E800C49B31 /* slide003-TellUsMore.png */,
 				F5792740173D87E800C49B31 /* slide002-ChooseYourReport.png */,
-				F5792764173DA04D00C49B31 /* slide001-Introduction.png */,
+				C1DBC47E173F299D0014A977 /* slide001-Introduction.png */,
 				F5792741173D87E800C49B31 /* default@2x.png */,
 				F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */,
 				C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */,
@@ -466,7 +466,7 @@
 				F5792760173D8FE700C49B31 /* buttonUpdateLocation@2x.png in Resources */,
 				F5792761173D8FE700C49B31 /* buttonUpdateLocation.png in Resources */,
 				F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */,
-				F5792765173DA04E00C49B31 /* slide001-Introduction.png in Resources */,
+				C1DBC47F173F299D0014A977 /* slide001-Introduction.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

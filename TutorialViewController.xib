@@ -57,6 +57,21 @@
 									<string key="NSResourceName">backgroundTutorial@2x.png</string>
 								</object>
 							</object>
+							<object class="IBUIImageView" id="427335374">
+								<reference key="NSNextResponder" ref="407911214"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrameSize">{320, 480}</string>
+								<reference key="NSSuperview" ref="407911214"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="953669400"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">slide001-Introduction.png</string>
+								</object>
+							</object>
 							<object class="IBUIPageControl" id="953669400">
 								<reference key="NSNextResponder" ref="407911214"/>
 								<int key="NSvFlags">1325</int>
@@ -130,21 +145,6 @@
 								<reference key="IBUINormalTitleShadowColor" ref="642524861"/>
 								<reference key="IBUIFontDescription" ref="876042210"/>
 								<reference key="IBUIFont" ref="404163188"/>
-							</object>
-							<object class="IBUIImageView" id="427335374">
-								<reference key="NSNextResponder" ref="407911214"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{320, 480}</string>
-								<reference key="NSSuperview" ref="407911214"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="953669400"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">slide001-Introduction.png</string>
-								</object>
 							</object>
 						</array>
 						<string key="NSFrameSize">{320, 548}</string>
