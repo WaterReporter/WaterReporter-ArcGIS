@@ -63,7 +63,7 @@
         [imageView release];
     }
     self.tutorialView.contentSize = CGSizeMake(self.tutorialView.frame.size.width * photos.count, self.tutorialView.frame.size.height);
-    self.tutorialView.delegate = self;
+    //self.tutorialView.delegate = self;
     
     NSLog(@"Showing the tutorial");
     

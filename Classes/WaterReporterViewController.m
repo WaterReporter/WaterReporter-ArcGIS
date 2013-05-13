@@ -13,10 +13,6 @@
 #import "WaterReporterViewController.h"
 #import "WaterReporterFeatureLayer.h"
 #import "FeatureDetailsViewController.h"
-#import "CodedValueUtility.h"
-
-#define kFeatureLayerName @"Feature Layer"
-#define kSketchLayerName  @"Sketch layer"
 
 /**
  * Define the Web Map ID that we wish to load
@@ -32,24 +28,23 @@
 #define TUTORIAL_IS_ACTIVE YES
 #define FEATURE_SERVICE_ZOOM 150000
 
-double viUserLocationLongitude;
-double viUserLocationLatitude;
 NSInteger viFeatureAddButtonX = 264.0;
 NSInteger viFeatureAddButtonY = 404.0;
 NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
 NSInteger viDefaultUserLocationZoomLevel = 150000;
 
-
-
 @implementation WaterReporterViewController
 
 @synthesize mapView = _mapView;
-@synthesize featureLayer = _featureLayer;
+@synthesize viUserLocationLatitude = viUserLocationLatitude;
+@synthesize viUserLocationLongitude = viUserLocationLongitude;
 @synthesize webmap = _webmap;
+@synthesize featureLayer = _featureLayer;
+@synthesize locationManager = _locationManager;
+
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 @synthesize tutorialViewController = _tutorialViewController;
-@synthesize locationManager = _locationManager;
-@synthesize sketchLayer = _sketchLayer;
+
 
 
 /**
@@ -60,14 +55,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
  * feature layers.
  *
  */
-+ (double)viUserLocationLongitude {
-    return viUserLocationLongitude;
-}
-
-+ (double)viUserLocationLatitude {
-    return viUserLocationLatitude;
-}
-
 + (int)viFeatureAddButtonX {
     return viFeatureAddButtonX;
 }
@@ -75,73 +62,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 + (int)viFeatureAddButtonY {
     return viFeatureAddButtonY;
 }
-
-- (void)respondToGeomChanged: (NSNotification*) notification {
-        
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: respondToGeomChanged");
-    
-    /**
-     * Update the interface and associated fields if the
-     * user selected geometry is valid.
-     */
-    if([self.sketchLayer.geometry isValid] && ![self.sketchLayer.geometry isEmpty]) {
-        
-        // Display the "Done" button
-        //self.sketchCompleteButton.enabled = YES;
-        
-        /***
-         ** TODO: FOR NOW WE ONLY NEED POINTS, BUT IN THE FUTURE
-         ** WE ARE GOING TO NEED TO ADD SUPPORT FOR POLYGONS AND
-         ** LINES WITHIN OUR GEOMETRY TOOLS.
-         ***/
-        AGSPoint *currentSketchValue = (AGSPoint*)AGSGeometryWebMercatorToGeographic(self.sketchLayer.geometry);
-        
-        viUserLocationLongitude = currentSketchValue.x;
-        viUserLocationLatitude = currentSketchValue.y;
-        
-        NSLog(@"long_push: %f; lat_push: %f;", viUserLocationLongitude, viUserLocationLatitude);
-
-        /***
-         ** WE NEED SOME TYPE OF LISTENER HERE TO UPDATE
-         ** THE FIELDS FOR US PROGRAMATICALLY. WE NEED TO
-         ** INSERT THE NEW GEOMETRY INTO THE APPROPRIATE
-         ** FIELDS OF THE FEATURE LAYER FORM.
-         **
-         ** self.sketchLayer.geometry
-         **
-         ***/
-        
-        /***
-         ** WE ALSO NEED TO FIGURE OUT WHETHER THE POINT
-         ** IS CONTAINED WITHIN THE POLYGON OF ONE OF THE
-         ** WATERSHEDS THAT IS DISPLAYED ON OUR MAP.
-         **
-         ** http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_envelope.html#ad7fdaa3ec058a14c2b9c3af92585086e
-         **
-         ***/
-        
-        //
-        // Iterate through all of the selected Feature Layer's
-        // fields and perform the necessary pre-display actions
-        // upon each field one at a time.
-        //
-        // These operations primarily concern the prepopulation
-        // of specific fields such as the date and geolocation.
-        // While others like the Attachments and associated image
-        // fields depend on user interaction later in the process
-        // to be updated dynamically.
-        //
-        
-    }
-    
-    NSLog(@"long_push: %f; lat_push: %f;", viUserLocationLongitude, viUserLocationLatitude);
-
-}
-
-#pragma mark UIView methods
 
 -(void)viewWillAppear:(BOOL)animated{
 }
@@ -172,7 +92,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     self.mapView.touchDelegate = self;
 	self.mapView.calloutDelegate = self;
     self.mapView.callout.delegate = self;
-    self.mapView.showMagnifierOnTapAndHold = YES;
 	self.mapView.layerDelegate = self;
 	
     /**
@@ -227,6 +146,52 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     
     [self.mapView addSubview:addNewFeatureToMap];
 
+    NSLog(@"Starting core location from didOpenWebMap");
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    
+    /**
+     * If we are not already displaying the users
+     * current location on the map, then we need to
+     * add an indicator to the map, showing the user
+     * where the application thinks they are currently.
+     *
+     * @see For more information on AGSLocationDisplay
+     *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
+     */
+    if(!self.mapView.locationDisplay.dataSourceStarted) {
+        [self.mapView.locationDisplay startDataSource];
+        self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
+        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
+    }
+
+    /**
+     * Create an AGSLocation instance so that we can
+     * fetch the X & Y coordinates and update the
+     * variables for our feature layer form.
+     */
+    AGSLocation* agsLoc = self.mapView.locationDisplay.location;
+    
+    
+    /**
+     * Check to see if the Longitude or Latitude has changed
+     * since the last update. If it hasn't then don't change
+     * it repeatedly.
+     */
+    if (self.viUserLocationLongitude != agsLoc.point.x && self.viUserLocationLatitude != agsLoc.point.y) {
+        
+        WaterReporterViewController *waterReporterViewController = [[WaterReporterViewController alloc] init];
+        waterReporterViewController.viUserLocationLongitude = agsLoc.point.x;
+        waterReporterViewController.viUserLocationLatitude = agsLoc.point.y;
+        
+        NSLog(@"Update GeoCode [x: %f; y: %f]", waterReporterViewController.viUserLocationLongitude, waterReporterViewController.viUserLocationLatitude);
+        
+        [self.locationManager stopUpdatingLocation];
+    } else {
+        NSLog(@"still updating");
+    }
+    
     [super viewDidLoad];
 }
 
@@ -261,29 +226,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     }
 }
 
-
 - (void) didOpenWebMap:(AGSWebMap *)webMap intoMapView:(AGSMapView *)mapView {
     
-    /**
-     * Once all the layers in the web map are loaded
-     * we will add a dormant sketch layer on top. We
-     * will activate the sketch layer when the time is right.
-     */
-    self.sketchLayer = [[AGSSketchGraphicsLayer alloc] init];
-    [self.mapView addMapLayer:self.sketchLayer withName:@"Sketch Layer"];
-    
-    
-    /**
-     * Register Notification for receiving notifications
-     * from the sketch layer
-     *
-     * - @addObserver self
-     * - @selector respondToGeomChanged
-     */
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
-    
-    
-
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */
@@ -291,26 +235,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
     }
     
-    
-    NSLog(@"Starting core location from didOpenWebMap");
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    [self.locationManager startUpdatingLocation];
-    
-    /**
-     * If we are not already displaying the users
-     * current location on the map, then we need to
-     * add an indicator to the map, showing the user
-     * where the application thinks they are currently.
-     *
-     * @see For more information on AGSLocationDisplay
-     *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
-     */
-    if(!self.mapView.locationDisplay.dataSourceStarted) {
-        [self.mapView.locationDisplay startDataSource];
-        self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
-        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
-    }
     
 }
 
@@ -376,23 +300,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-- (NSString *)titleForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *) map{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: titleForGraphic");
-    
-
-	NSString *val = [CodedValueUtility getCodedValueFromFeature:graphic forField:@"trailtype" inFeatureLayer:self.featureLayer];
-	
-	if ((NSNull*)val == [NSNull null]){
-		return nil;
-	}
-	
-	return val;
-}
-
 - (NSString *)detailForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *)map{
     
     /**
@@ -403,31 +310,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 	// get the center point of the geometry
     AGSPoint *centerPoint = graphic.geometry.envelope.center;
     return [NSString stringWithFormat:@"x = %0.2f, y = %0.2f",centerPoint.x,centerPoint.y];
-}
-
-#pragma mark -
-#pragma mark Editing
-
--(void)commitGeometry:(id)sender {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: commitGeometry");
-    
-    //get sketchLayer from the mapView
-    AGSSketchGraphicsLayer *sketchLayer = (AGSSketchGraphicsLayer *)[self.mapView mapLayerForName:kSketchLayerName];
-        
-    //get the sketch layer geometry
-    AGSGeometry *geometry = sketchLayer.geometry;
-    
-    //now create the feature details vc and display it
-    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer feature:nil featureGeometry:geometry] autorelease];
-    
-	/**
-     * Prepares the details for the new feature.
-     */
-    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 /**
@@ -498,11 +380,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     //First, dismiss the Feature Template Picker
     [self dismissViewControllerAnimated:NO completion:nil];
     
-    //get sketchLayer from the mapView
-    AGSSketchGraphicsLayer *sketchLayer = (AGSSketchGraphicsLayer *)[self.mapView mapLayerForName:kSketchLayerName];
+    AGSGeometry *geometry = nil;
     
-    //get the sketch layer geometry
-    AGSGeometry *geometry = sketchLayer.geometry;
     
     //now create the feature details vc and display it
     FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer feature:nil featureGeometry:geometry] autorelease];
@@ -511,11 +390,78 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      * Prepares the details for the new feature.
      */
     [self.navigationController pushViewController:detailViewController animated:YES];
-
-    NSLog(@"GEOMETRY: %@", geometry);
 }
 
 #pragma mark dealloc
+
+/*
+ * We want to get and store a location measurement that meets the desired accuracy. For this example, we are
+ *      going to use horizontal accuracy as the deciding factor. In other cases, you may wish to use vertical
+ *      accuracy, or both together.
+ */
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    /**
+     * Ensure horizontal accuracy doesn't resolve to
+     * an invalid measurement.
+     */
+    if (newLocation.horizontalAccuracy < 0) {
+        return;
+    }
+    
+    
+    /**
+     * Add the existing GPS point to the sketch layer
+     */
+    //[self.sketchLayer insertVertex:[self.mapView.locationDisplay mapLocation] inPart:0 atIndex:-1];
+    
+    
+//    /**
+//     * Create an AGSLocation instance so that we can
+//     * fetch the X & Y coordinates and update the
+//     * variables for our feature layer form.
+//     */
+//    AGSLocation* agsLoc = self.mapView.locationDisplay.location;
+//    
+//    
+//    /**
+//     * Check to see if the Longitude or Latitude has changed
+//     * since the last update. If it hasn't then don't change
+//     * it repeatedly.
+//     */
+//    if (viUserLocationLongitude != agsLoc.point.x && viUserLocationLatitude != agsLoc.point.y) {
+//        
+//        viUserLocationLongitude = agsLoc.point.x;
+//        viUserLocationLatitude = agsLoc.point.y;
+//        
+//        NSLog(@"Update GeoCode [x: %f; y: %f]", viUserLocationLongitude, viUserLocationLatitude);
+//        
+//        [self.locationManager stopUpdatingLocation];
+//    } else {
+//        NSLog(@"still updating");
+//    }
+    
+}
+
+/**
+ * If the Location Manager fails, we need to stop it so that it doesn't start
+ * looping through error after error.
+ */
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    // The location "unknown" error simply means the manager is currently unable to get the location.
+    if ([error code] != kCLErrorLocationUnknown) {
+        [self stopUpdatingLocation];
+    }
+}
+
+/**
+ * Stop updating the Location Manager and remove the delegate
+ */
+- (void)stopUpdatingLocation {
+    //stop the location manager and set the delegate to nil;
+    [self.locationManager stopUpdatingLocation];
+    self.locationManager.delegate = nil;
+}
 
 - (void)dealloc {
     
@@ -525,9 +471,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     NSLog(@"WaterReporterViewController: dealloc");
     
 	self.mapView = nil;
+    self.locationManager = nil;
 	self.featureLayer = nil;
-    
-    self.commitGeometryButton = nil;
 
     [super dealloc];
 }

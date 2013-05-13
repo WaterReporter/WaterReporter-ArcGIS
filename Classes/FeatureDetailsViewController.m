@@ -32,6 +32,7 @@
 
 #import "CodedValueUtility.h"
 #import "WaterReporterFeatureLayer.h"
+#import "WaterReporterViewController.h"
 
 #define DEFAULT_TEXT_COLOR [UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0]
 #define DEFAULT_BODY_FONT [UIFont fontWithName:@"Helvetica-Bold" size:13.0]
@@ -46,6 +47,7 @@
 @end
 
 @implementation FeatureDetailsViewController
+
 @synthesize feature = _feature;
 @synthesize featureGeometry = _featureGeometry;
 @synthesize featureLayer = _featureLayer;
@@ -196,7 +198,7 @@
          */
 		self.navigationItem.title = @"Report Details";
 	}
-	
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -241,13 +243,29 @@
      */
     NSLog(@"FeatureDetailsViewController:initWithFeatureLayer");
 	
-	if (self = [super initWithStyle:UITableViewStylePlain]){
+	if (self = [super initWithStyle:UITableViewStylePlain]) {
+        
+        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:[super initWithStyle:UITableViewStylePlain]");
+        
+        /**
+         * Testing
+         *
+         * checking whether or not we have successfully passed our location variables to the feature
+         * detail view controller.
+         */
+        WaterReporterViewController *waterReporterViewController = [[WaterReporterViewController alloc] init];
+        NSLog(@"viUserLocationLatitude:%f", waterReporterViewController.viUserLocationLatitude);
+        //AGSPoint *temp = [AGSPoint pointFromLat:viUserLocationLatitude lon:waterReporterViewController.viUserLocationLongitude];
+        
+        
 
 		self.featureLayer = featureLayer;
 		self.featureLayer.editingDelegate = self;
 		self.featureGeometry = featureGeometry;
         self.feature = feature;
 		self.operations = [NSMutableArray array];
+        
+        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureGeometry > %@", featureGeometry);
 		
 		// if the attributes are nil, it is a new feature, set flat
 		if (!feature){
@@ -368,8 +386,8 @@
     self.feature.geometry = self.featureGeometry;
     
     // set the recordedon value; the other default values will come from the template
-    //NSTimeInterval timeInterval = [self.date timeIntervalSince1970];
-    //[self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"date" ];
+    NSTimeInterval timeInterval = [self.date timeIntervalSince1970];
+    [self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"date" ];
     
     //set the callout info template to the layer's infoTemplateDelegate
     self.feature.infoTemplateDelegate = self.featureLayer.infoTemplateDelegate;
@@ -1213,13 +1231,28 @@
 		}
 	}
     else if (indexPath.section == 3) {
-        NSLog(@"Launch the sketch layer!!!!");
+        
+        /**
+         * This allows us to see what is being fired and when
+         */
+        NSLog(@"FeaturesDetailsViewController:didSelectRowAtIndexPath:displaySketchLayer");
+        
+        /**
+         * Sketch Layer
+         *
+         * This is where the sketch layer should be activated. When the user clicks the
+         * location icon within the Feature template.
+         *
+         */
+        NSLog(@"Activate Sketch Layer");
+        
     }
 }
 
 #pragma mark Action sheet delegate methods
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+
     /**
      * This allows us to see what is being fired and when
      */
@@ -1312,8 +1345,19 @@
      */
     NSLog(@"FeaturesDetailsViewController: viewDidUnload");
 
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
+	self.featureLayer.editingDelegate = nil;
+	
+    self.feature = nil;
+	self.featureGeometry = nil;
+	self.featureLayer = nil;
+	self.attachments = nil;
+	self.date = nil;
+	self.dateFormat = nil;
+	self.timeFormat = nil;
+	self.attachmentInfos = nil;
+	self.infos = nil;
+	self.operations = nil;
+	self.retrieveAttachmentOp = nil;
 }
 
 - (void)dealloc {
@@ -1334,7 +1378,7 @@
 	// a dealloc'd object
 	self.featureLayer.editingDelegate = nil;
 	
-	self.feature = nil;
+    self.feature = nil;
 	self.featureGeometry = nil;
 	self.featureLayer = nil;
 	self.attachments = nil;
@@ -1342,7 +1386,9 @@
 	self.dateFormat = nil;
 	self.timeFormat = nil;
 	self.attachmentInfos = nil;
+	self.infos = nil;
 	self.operations = nil;
+	self.retrieveAttachmentOp = nil;
     [super dealloc];
 }
 
