@@ -36,12 +36,10 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 @implementation WaterReporterViewController
 
 @synthesize mapView = _mapView;
-@synthesize viUserLocationLatitude = viUserLocationLatitude;
-@synthesize viUserLocationLongitude = viUserLocationLongitude;
 @synthesize webmap = _webmap;
 @synthesize featureLayer = _featureLayer;
 @synthesize locationManager = _locationManager;
-
+@synthesize newFeature = _newFeature;
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 @synthesize tutorialViewController = _tutorialViewController;
 
@@ -166,32 +164,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
     }
 
-    /**
-     * Create an AGSLocation instance so that we can
-     * fetch the X & Y coordinates and update the
-     * variables for our feature layer form.
-     */
-    AGSLocation* agsLoc = self.mapView.locationDisplay.location;
-    
-    
-    /**
-     * Check to see if the Longitude or Latitude has changed
-     * since the last update. If it hasn't then don't change
-     * it repeatedly.
-     */
-    if (self.viUserLocationLongitude != agsLoc.point.x && self.viUserLocationLatitude != agsLoc.point.y) {
-        
-        WaterReporterViewController *waterReporterViewController = [[WaterReporterViewController alloc] init];
-        waterReporterViewController.viUserLocationLongitude = agsLoc.point.x;
-        waterReporterViewController.viUserLocationLatitude = agsLoc.point.y;
-        
-        NSLog(@"Update GeoCode [x: %f; y: %f]", waterReporterViewController.viUserLocationLongitude, waterReporterViewController.viUserLocationLatitude);
-        
-        [self.locationManager stopUpdatingLocation];
-    } else {
-        NSLog(@"still updating");
-    }
-    
     [super viewDidLoad];
 }
 
@@ -265,8 +237,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     NSLog(@"WaterReporterViewController:mapView:shouldShowCalloutForGraphic [We aren't in editing mode, so therefore this should be a read only Feature Detail window]");
     
-    //only show callout if we're not editing
-    return !_editingMode;
 }
 
 /**

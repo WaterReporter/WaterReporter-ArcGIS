@@ -21,6 +21,7 @@
 	
 	WaterReporterFeatureLayer *_featureLayer;
 	WaterReporterViewController *_waterReporterViewController;
+    UITextField *_dateField;
 	AGSGraphic *_feature;
 	AGSGeometry *_featureGeometry;					
 	NSMutableArray *_attachments;			// any attachments, for not newFeature it will start filled with NSNull, then populated as we retrieve the data for the attachments (happens when they click on to view an attachment)
@@ -42,6 +43,7 @@
     NSMutableArray *reporterPickerData;
 }
 
+@property (nonatomic, retain) UITextField *dateField;
 @property (nonatomic, retain) AGSGraphic *feature;
 @property (nonatomic, retain) AGSGeometry *featureGeometry;
 @property (nonatomic, retain) WaterReporterFeatureLayer *featureLayer;
