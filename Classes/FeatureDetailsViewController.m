@@ -32,9 +32,9 @@
 
 #import "CodedValueUtility.h"
 #import "WaterReporterFeatureLayer.h"
-#import "WaterReporterViewController.h"
 
 #define DEFAULT_TEXT_COLOR [UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0]
+#define DEFAULT_LABEL_COLOR [UIColor colorWithRed:181.0/255.0 green:181.0/255.0 blue:181.0/255.0 alpha:1.0]
 #define DEFAULT_BODY_FONT [UIFont fontWithName:@"Helvetica-Bold" size:13.0]
 #define DEFAULT_TITLE_FONT [UIFont fontWithName:@"MuseoSlab-500" size:16.0]
 #define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]]
@@ -48,16 +48,15 @@
 
 @implementation FeatureDetailsViewController
 
-@synthesize dateField = _dateField;
 @synthesize feature = _feature;
 @synthesize featureGeometry = _featureGeometry;
 @synthesize featureLayer = _featureLayer;
 @synthesize attachments = _attachments;
+@synthesize dateField = _dateField;
 @synthesize date = _date;
 @synthesize dateFormat = _dateFormat;
 @synthesize timeFormat = _timeFormat;
 @synthesize attachmentInfos = _attachmentInfos;
-@synthesize infos = _infos;
 @synthesize operations = _operations;
 @synthesize retrieveAttachmentOp = _retrieveAttachmentOp;
 
@@ -826,55 +825,28 @@
             // Prepopulate the date field for the user
             //
             if (field.editable && [field.name isEqualToString:@"date"] && indexPath.row == 0) {
-                                
-                //
-                // Get the current date and time and auto-fill the form field
-                //
-                // All about date formatting in iOS https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html
-                // get the current date
-                //
-                //NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
                 
-                //double theAGSCompatibleTime = theCurrentTime * 1000; // We must do this so that ArcGIS translates it appropriately
                 
-                //[self.dateField.text setAttributeWithDouble:theAGSCompatibleTime forKey:@"date"];
-                //NSNumber *theAGSCompatibleTimeAsString = [NSNumber numberWithDouble:theAGSCompatibleTime];
-
-            
-                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-//                self.dateField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-//                
-//                self.dateField.textColor = DEFAULT_TEXT_COLOR;
-//                self.dateField.font = DEFAULT_BODY_FONT;
-//                
-//                self.dateField.placeholder = field.alias;
-//                
-//                UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
-//                
-//                //dateField.text = [theAGSCompatibleTimeAsString stringValue];
-//                self.dateField.inputView = thisDatePicker;
-//                [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
-//                
-//                [cell.contentView addSubview:self.dateField];
-//                
-//                [self.dateField release];
-                BOOL exists;
-                double *recorededOn = [NSNumber numberWithDouble:[self.feature attributeAsDoubleForKey:@"date" exists:&exists]];
-                NSString *detailString = @"";
-                
-                if (recorededOn && (recorededOn != (id)[NSNull null])) {
-                    //attribute dates/times are in milliseconds; NSDate dates are in seconds
-                    NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
-                    
-                    double theAGSCompatibleTime = theCurrentTime * 1000; // We must do this so that ArcGIS translates it appropriately
-
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:*recorededOn];
-                    detailString = [self.dateFormat stringFromDate:date];
-                }
-                cell.detailTextLabel.text = detailString;
-                
-                field = [CodedValueUtility findField:@"date" inFeatureLayer:self.featureLayer];
+                self.dateField.textColor = DEFAULT_TEXT_COLOR;
+                self.dateField.font = DEFAULT_BODY_FONT;
+                self.dateField.textAlignment = NSTextAlignmentRight;
                 cell.textLabel.text = field.alias;
+
+                NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
+                double recordedOn = theCurrentTime; // We must do this so that ArcGIS translates it appropriately
+                
+                if (recordedOn) {
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:recordedOn];
+                    self.dateField.text = [self.dateFormat stringFromDate:date];
+                }
+                
+                UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
+                self.dateField.inputView = thisDatePicker;
+                [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
+
+                [cell.contentView addSubview:self.dateField];
+                
+                [self.dateField release];
             }
 
             //
@@ -1076,7 +1048,7 @@
     /**
      * Set the label, image, etc for the templates
      */
-    cell.textLabel.textColor = DEFAULT_TEXT_COLOR;
+    cell.textLabel.textColor = DEFAULT_LABEL_COLOR;
     cell.textLabel.font = DEFAULT_BODY_FONT;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.detailTextLabel.textColor = DEFAULT_TEXT_COLOR;
@@ -1085,14 +1057,18 @@
     return cell;
 }
 
+-(void)datePickerSelection {
+    
+    NSLog(@"!!! datePickerSelection !!!");
+}
+
 - (void)datePickerValueUpdated:(id)sender {
     
-    self.dateField.text = [sender date];
-
-    //[self.feature setValue:[sender date] forKey:@"date"];
+    //[self.featureLayer setValue:[sender date] forKey:@"date"];
     
+    self.dateField.text = [[sender date] stringValue];
     NSLog(@"value:%@", [sender date]);
-    NSLog(@"%@", self.feature);
+
 }
 
 -(UITableViewCell *)reuseTableViewCellWithIdentifier:(NSString *)identifier withIndexPath:(NSIndexPath *)indexPath {
@@ -1150,8 +1126,8 @@
 	}
 	
 	else if (indexPath.section == 2){
-		
-		if (_newFeature){ 
+        		        
+		if (_newFeature){
 			// if creating a new feature and they click on an attachment
 			
 			if (indexPath.row == self.attachments.count){
@@ -1356,7 +1332,6 @@
 	self.dateFormat = nil;
 	self.timeFormat = nil;
 	self.attachmentInfos = nil;
-	self.infos = nil;
 	self.operations = nil;
 	self.retrieveAttachmentOp = nil;
 }
@@ -1387,9 +1362,9 @@
 	self.dateFormat = nil;
 	self.timeFormat = nil;
 	self.attachmentInfos = nil;
-	self.infos = nil;
 	self.operations = nil;
 	self.retrieveAttachmentOp = nil;
+    
     [super dealloc];
 }
 
