@@ -30,6 +30,9 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 
 @implementation WaterReporterViewController
 
+@synthesize viUserLocationLongitude = _viUserLocationLongitude;
+@synthesize viUserLocationLatitude = _viUserLocationLatitude;
+
 @synthesize mapView = _mapView;
 @synthesize webmap = _webmap;
 @synthesize featureLayer = _featureLayer;
@@ -105,26 +108,11 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      * feature from the template picker at any time.
      */
     [self presentFeatureTemplatePickerButton];
-    
-    NSLog(@"Starting core location from didOpenWebMap");
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    [self.locationManager startUpdatingLocation];
-    
+
     /**
-     * If we are not already displaying the users
-     * current location on the map, then we need to
-     * add an indicator to the map, showing the user
-     * where the application thinks they are currently.
-     *
-     * @see For more information on AGSLocationDisplay
-     *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
+     * Locate the user via their GPS cooridnates
      */
-    if(!self.mapView.locationDisplay.dataSourceStarted) {
-        [self.mapView.locationDisplay startDataSource];
-        self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
-        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
-    }
+    [self displayUsersGeolocation];
     
     [super viewDidLoad];
 }
@@ -244,6 +232,39 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 }
 
 /**
+ * Display users geolocation on map
+ *
+ */
+-(void)displayUsersGeolocation {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController:displayUsersGeolocation");
+    
+    
+    NSLog(@"Starting core location from didOpenWebMap");
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    
+    /**
+     * If we are not already displaying the users
+     * current location on the map, then we need to
+     * add an indicator to the map, showing the user
+     * where the application thinks they are currently.
+     *
+     * @see For more information on AGSLocationDisplay
+     *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
+     */
+    if(!self.mapView.locationDisplay.dataSourceStarted) {
+        [self.mapView.locationDisplay startDataSource];
+        self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
+        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
+    }
+}
+
+/**
  * Add a new feature
  *
  * The action for the "+" button that allows
@@ -251,7 +272,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
  * they would like to add to the map
  *
  */
--(void)presentFeatureTemplatePicker{
+-(void)presentFeatureTemplatePicker {
     
     /**
      * This allows us to see what is being fired and when
@@ -357,6 +378,11 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     
     /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController:locationManager:didUpdateToLocation");
+    
+    /**
      * Ensure horizontal accuracy doesn't resolve to
      * an invalid measurement.
      */
@@ -371,31 +397,30 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     //[self.sketchLayer insertVertex:[self.mapView.locationDisplay mapLocation] inPart:0 atIndex:-1];
     
     
-//    /**
-//     * Create an AGSLocation instance so that we can
-//     * fetch the X & Y coordinates and update the
-//     * variables for our feature layer form.
-//     */
-//    AGSLocation* agsLoc = self.mapView.locationDisplay.location;
-//    
-//    
-//    /**
-//     * Check to see if the Longitude or Latitude has changed
-//     * since the last update. If it hasn't then don't change
-//     * it repeatedly.
-//     */
-//    if (viUserLocationLongitude != agsLoc.point.x && viUserLocationLatitude != agsLoc.point.y) {
-//        
-//        viUserLocationLongitude = agsLoc.point.x;
-//        viUserLocationLatitude = agsLoc.point.y;
-//        
-//        NSLog(@"Update GeoCode [x: %f; y: %f]", viUserLocationLongitude, viUserLocationLatitude);
-//        
-//        [self.locationManager stopUpdatingLocation];
-//    } else {
-//        NSLog(@"still updating");
-//    }
+    /**
+     * Create an AGSLocation instance so that we can
+     * fetch the X & Y coordinates and update the
+     * variables for our feature layer form.
+     */
+    AGSLocation* agsLoc = self.mapView.locationDisplay.location;
     
+    
+    /**
+     * Check to see if the Longitude or Latitude has changed
+     * since the last update. If it hasn't then don't change
+     * it repeatedly.
+     */
+    if (self.viUserLocationLongitude != agsLoc.point.x && self.viUserLocationLatitude != agsLoc.point.y) {
+        
+        self.viUserLocationLongitude = agsLoc.point.x;
+        self.viUserLocationLatitude = agsLoc.point.y;
+    
+        NSLog(@"GEOLOCATION [x: %f; y: %f]", self.viUserLocationLongitude, self.viUserLocationLatitude);
+
+        [self.locationManager stopUpdatingLocation];
+    }
+    
+    return;
 }
 
 /**
@@ -403,6 +428,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
  * looping through error after error.
  */
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController:locationManager:didFailWithError");
+    
     // The location "unknown" error simply means the manager is currently unable to get the location.
     if ([error code] != kCLErrorLocationUnknown) {
         [self stopUpdatingLocation];
@@ -413,9 +444,14 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
  * Stop updating the Location Manager and remove the delegate
  */
 - (void)stopUpdatingLocation {
-    //stop the location manager and set the delegate to nil;
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController:stopUpdatingLocation");
+     
     [self.locationManager stopUpdatingLocation];
-    self.locationManager.delegate = nil;
+    [self.locationManager.delegate release];
 }
 
 - (void)dealloc {
@@ -423,7 +459,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"WaterReporterViewController: dealloc");
+    NSLog(@"WaterReporterViewController:dealloc");
     
     [self.mapView release];
     [self.webmap release];

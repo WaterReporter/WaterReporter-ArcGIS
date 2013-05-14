@@ -645,6 +645,40 @@
 }
 
 /**
+ * Implements viewForHeaderInSection:(NSInteger)section
+ *
+ * Set the properties for the Header of each section so
+ * they display consistently.
+ *
+ * @param NSInteger
+ *   The ID of the table view section
+ *
+ * @return view
+ *   The View to be render later in the table view
+ *
+ */
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+    if (sectionTitle == nil) {
+        return nil;
+    }
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(10, 8, 320, 20);
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor blackColor];
+    label.shadowColor = [UIColor clearColor];
+    label.font = DEFAULT_TITLE_FONT;
+    label.text = sectionTitle;
+    
+    UIView *view = [[UIView alloc] init];
+    [view addSubview:label];
+    
+    return view;
+}
+
+/**
  * Implements titleForHeaderInSection:(NSInteger)section
  *
  * Set the number of rows that each of our table view
@@ -825,7 +859,9 @@
             //
             if (field.editable && [field.name isEqualToString:@"date"] && indexPath.row == 0) {
                 
+                UITextField *dateField = [[UITextField alloc] initWithFrame:CGRectMake(120, 14, 170, 30)];
                 
+                self.dateField = dateField;
                 self.dateField.textColor = DEFAULT_TEXT_COLOR;
                 self.dateField.font = DEFAULT_BODY_FONT;
                 self.dateField.textAlignment = NSTextAlignmentRight;
@@ -1030,9 +1066,9 @@
 
 - (void)datePickerValueUpdated:(id)sender {
     
-    //[self.featureLayer setValue:[sender date] forKey:@"date"];
-    
-    self.dateField.text = [[sender date] stringValue];
+    NSString *thisDateString = [self.dateFormat stringFromDate:[sender date]];
+
+    self.dateField.text = thisDateString;
     NSLog(@"value:%@", [sender date]);
 
 }
