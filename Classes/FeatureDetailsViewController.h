@@ -19,7 +19,6 @@
 	AGSGeometry *_featureGeometry;
     NSObject *_templatePrototype;
 	NSMutableArray *_attachments;			// any attachments, for not newFeature it will start filled with NSNull, then populated as we retrieve the data for the attachments (happens when they click on to view an attachment)
-	UITextField *_dateField;
     NSDate *_date;							// date of when the feature was created
 	NSDateFormatter *_dateFormat;			// used for displaying the date
 	NSDateFormatter *_timeFormat;			// used for displaying the time
@@ -28,6 +27,8 @@
 	NSArray *_attachmentInfos;				// when the feature is already existing, then we query for the attachment infos, store them in this var
 	NSMutableArray *_operations;			// all the in-progress operations spawned by this VC, we keep them so we can cancel them if we pop the VC (dealloc cancels them)
 	NSOperation *_retrieveAttachmentOp;		// keep track of the retrieve attachment op so that we only do one of these at a time
+	UITextField *_dateField;
+	UITextField *_eventField;
 }
 
 @property (nonatomic, retain) AGSGraphic *feature;
@@ -36,6 +37,7 @@
 @property (nonatomic, retain) WaterReporterFeatureLayer *featureLayer;
 @property (nonatomic, retain) NSMutableArray *attachments;
 @property (nonatomic, retain) UITextField *dateField;
+@property (nonatomic, retain) UITextField *eventField;
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, retain) NSDateFormatter *dateFormat;
 @property (nonatomic, retain) NSDateFormatter *timeFormat;

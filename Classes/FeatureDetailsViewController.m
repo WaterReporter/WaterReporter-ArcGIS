@@ -53,6 +53,7 @@
 @synthesize date = _date;
 @synthesize dateFormat = _dateFormat;
 @synthesize timeFormat = _timeFormat;
+@synthesize eventField = _eventField;
 @synthesize attachmentInfos = _attachmentInfos;
 @synthesize operations = _operations;
 @synthesize retrieveAttachmentOp = _retrieveAttachmentOp;
@@ -711,6 +712,10 @@
     
 }
 
+-(UITextField *)textFieldTemplate {
+    return [[UITextField alloc] initWithFrame:CGRectMake(120, 14, 170, 30)];
+}
+
 /**
  * Implements cellForRowAtIndexPath:(NSIndexPath *)indexPath
  *
@@ -858,20 +863,18 @@
             // Prepopulate the date field for the user
             //
             if (field.editable && [field.name isEqualToString:@"date"] && indexPath.row == 0) {
-                
-                UITextField *dateField = [[UITextField alloc] initWithFrame:CGRectMake(120, 14, 170, 30)];
-                
-                self.dateField = dateField;
+                                
+                self.dateField = [self textFieldTemplate];
                 self.dateField.textColor = DEFAULT_TEXT_COLOR;
                 self.dateField.font = DEFAULT_BODY_FONT;
                 self.dateField.textAlignment = NSTextAlignmentRight;
                 cell.textLabel.text = field.alias;
 
                 NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
-                double recordedOn = theCurrentTime; // We must do this so that ArcGIS translates it appropriately
+                double currentDate = theCurrentTime; // We must do this so that ArcGIS translates it appropriately
                 
-                if (recordedOn) {
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:recordedOn];
+                if (currentDate) {
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:currentDate];
                     self.dateField.text = [self.dateFormat stringFromDate:date];
                 }
                 
@@ -893,22 +896,21 @@
             //       form by attaching files (e.g., image, video)
             //
             if (field.editable && [field.name isEqualToString:@"event"] && indexPath.row == 1) {
-                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-                UITextField *eventField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
                 
-                eventField.textColor = DEFAULT_TEXT_COLOR;
-                eventField.font = DEFAULT_BODY_FONT;
-                
-                eventField.placeholder = field.alias;
+                self.eventField = [self textFieldTemplate];
+                self.eventField.textColor = DEFAULT_TEXT_COLOR;
+                self.eventField.font = DEFAULT_BODY_FONT;
+                self.eventField.textAlignment = NSTextAlignmentRight;
+                cell.textLabel.text = field.alias;
                 
                 cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
-                eventField.inputView = [[UIPickerView alloc]init];
+                self.eventField.inputView = [[UIPickerView alloc]init];
                 
-                [cell.contentView addSubview:eventField];
+                [cell.contentView addSubview:self.eventField];
                 
-                [eventField release];
+                [self.eventField release];
+                
             } else if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
-                //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 UITextField *pollutionField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
                 
                 pollutionField.textColor = DEFAULT_TEXT_COLOR;
@@ -1059,18 +1061,11 @@
     return cell;
 }
 
--(void)datePickerSelection {
-    
-    NSLog(@"!!! datePickerSelection !!!");
-}
-
 - (void)datePickerValueUpdated:(id)sender {
     
     NSString *thisDateString = [self.dateFormat stringFromDate:[sender date]];
 
     self.dateField.text = thisDateString;
-    NSLog(@"value:%@", [sender date]);
-
 }
 
 -(UITableViewCell *)reuseTableViewCellWithIdentifier:(NSString *)identifier withIndexPath:(NSIndexPath *)indexPath {
