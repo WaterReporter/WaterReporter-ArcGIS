@@ -1,14 +1,10 @@
-// Copyright 2012 ESRI
-//
-// All rights reserved under the copyright laws of the United States
-// and applicable international laws, treaties, and conventions.
-//
-// You may freely redistribute and use this sample code, with or
-// without modification, provided you include the original copyright
-// notice and use restrictions.
-//
-// See the use restrictions at http://help.arcgis.com/en/sdk/10.0/usageRestrictions.htm
-//
+/**
+ * Water Reporter
+ *
+ * Created by Viable Industries L.L.C. in March 2013.
+ * Copyright (c) 2013 Viable Industries L.L.C. All rights reserved.
+ *
+ */
 
 #import "WaterReporterViewController.h"
 #import "WaterReporterFeatureLayer.h"
@@ -17,7 +13,6 @@
 /**
  * Define the Web Map ID that we wish to load
  */
-//#define FEATURE_SERVICE_URL @"70f0fef3990a462397fcd4b9409c09cb"
 #define FEATURE_SERVICE_URL @"7f587e3a53dc455f92972a15031c94f8"
 
 /**
@@ -39,51 +34,14 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 @synthesize webmap = _webmap;
 @synthesize featureLayer = _featureLayer;
 @synthesize locationManager = _locationManager;
-@synthesize newFeature = _newFeature;
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 @synthesize tutorialViewController = _tutorialViewController;
-
-
-
-/**
- * Begin using the users geographic location
- *
- * Make these variables accessible throughout
- * entire application. Especially when editing
- * feature layers.
- *
- */
-+ (int)viFeatureAddButtonX {
-    return viFeatureAddButtonX;
-}
-
-+ (int)viFeatureAddButtonY {
-    return viFeatureAddButtonY;
-}
 
 -(void)viewWillAppear:(BOOL)animated{
 }
 
 - (void)viewDidLoad {
     
-    /**
-     * Plus/Add Button on main map view.
-     *
-     * We want the image to display in the bottom left of the screen regardless
-     * of the users device (e.g., iPhone, iPhone 4" Retina, iPad, iPad Retina. So
-     * we need to update the X, Y, and the image being used depending on what the
-     * user is viewing the application on.
-     
-     */   
-    UIImage *addNewFeatureImage = [UIImage imageNamed:viFeatureAddButtonURL];
-    UIButton *addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeCustom];
-    addNewFeatureToMap.frame = CGRectMake(viFeatureAddButtonX, viFeatureAddButtonY, 36.0, 36.0);
-    
-    addNewFeatureToMap.userInteractionEnabled = YES;
-    addNewFeatureToMap.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-    [addNewFeatureToMap setImage:addNewFeatureImage forState:UIControlStateNormal];
-    [addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
-
     /**
      * Set the delegates so that they can do the job they are here for
      */
@@ -142,8 +100,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
     
-    [self.mapView addSubview:addNewFeatureToMap];
-
+    /**
+     * Add a button to the Map View so that users can add a new
+     * feature from the template picker at any time.
+     */
+    [self presentFeatureTemplatePickerButton];
+    
     NSLog(@"Starting core location from didOpenWebMap");
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -163,12 +125,9 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
         self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
     }
-
+    
     [super viewDidLoad];
 }
-
-
-#pragma mark - AGSWebMapDelegate methods
  
 - (void) webMap:(AGSWebMap *)webMap didLoadLayer:(AGSLayer *)layer {
     
@@ -206,8 +165,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {        
         [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
     }
-    
-    
 }
 
 - (void) webMap:(AGSWebMap *)webMap didFailToLoadLayer:(AGSWebMapLayerInfo *)layerInfo baseLayer:(BOOL)baseLayer federated:(BOOL)federated withError:(NSError *)error {
@@ -219,15 +176,18 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 }
 
 
+- (void)respondToGeomChanged: (NSNotification*) notification {
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
 - (void)viewDidUnload {
+    [super viewDidUnload];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
 }
 
 - (BOOL)mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic {
@@ -237,6 +197,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     NSLog(@"WaterReporterViewController:mapView:shouldShowCalloutForGraphic [We aren't in editing mode, so therefore this should be a read only Feature Detail window]");
     
+    return nil;
 }
 
 /**
@@ -311,6 +272,34 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
 }
 
+-(void)presentFeatureTemplatePickerButton {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController:presentFeatureTemplatePickerButton");
+    
+    /**
+     * Plus/Add Button on main map view.
+     *
+     * We want the image to display in the bottom left of the screen regardless
+     * of the users device (e.g., iPhone, iPhone 4" Retina, iPad, iPad Retina. So
+     * we need to update the X, Y, and the image being used depending on what the
+     * user is viewing the application on.
+     *
+     */
+    UIImage *addNewFeatureImage = [UIImage imageNamed:viFeatureAddButtonURL];
+    UIButton *addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeCustom];
+    addNewFeatureToMap.frame = CGRectMake(viFeatureAddButtonX, viFeatureAddButtonY, 36.0, 36.0);
+    
+    addNewFeatureToMap.userInteractionEnabled = YES;
+    addNewFeatureToMap.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+    [addNewFeatureToMap setImage:addNewFeatureImage forState:UIControlStateNormal];
+    [addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.mapView addSubview:addNewFeatureToMap];
+}
+
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{
     
     /**
@@ -326,8 +315,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"WaterReporterViewController: featureTemplatePickerViewController");
-    
+    NSLog(@"WaterReporterViewController: featureTemplatePickerViewController");   
    
     //
     // Set the active feature layer to the one we are going to edit
@@ -350,19 +338,16 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     //First, dismiss the Feature Template Picker
     [self dismissViewControllerAnimated:NO completion:nil];
     
-    AGSGeometry *geometry = nil;
-    
+    AGSGeometry *geometry = [[AGSGeometry alloc] init];
     
     //now create the feature details vc and display it
-    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer feature:nil featureGeometry:geometry] autorelease];
+    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer feature:nil featureGeometry:geometry templatePrototype:template.prototype] autorelease];
     
 	/**
      * Prepares the details for the new feature.
      */
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
-
-#pragma mark dealloc
 
 /*
  * We want to get and store a location measurement that meets the desired accuracy. For this example, we are
@@ -440,9 +425,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     NSLog(@"WaterReporterViewController: dealloc");
     
-	self.mapView = nil;
-    self.locationManager = nil;
-	self.featureLayer = nil;
+    [self.mapView release];
+    [self.webmap release];
+    [self.featureLayer release];
+    [self.locationManager release];
+    [self.featureTemplatePickerViewController release];
+    [self.tutorialViewController release];
 
     [super dealloc];
 }

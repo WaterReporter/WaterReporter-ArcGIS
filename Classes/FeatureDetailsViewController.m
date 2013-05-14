@@ -1,14 +1,10 @@
-// Copyright 2012 ESRI
-//
-// All rights reserved under the copyright laws of the United States
-// and applicable international laws, treaties, and conventions.
-//
-// You may freely redistribute and use this sample code, with or
-// without modification, provided you include the original copyright
-// notice and use restrictions.
-//
-// See the use restrictions at http://help.arcgis.com/en/sdk/10.0/usageRestrictions.htm
-//
+/**
+ * Water Reporter
+ *
+ * Created by Viable Industries L.L.C. in March 2013.
+ * Copyright (c) 2013 Viable Industries L.L.C. All rights reserved.
+ *
+ */
 
 
 /**
@@ -50,6 +46,7 @@
 
 @synthesize feature = _feature;
 @synthesize featureGeometry = _featureGeometry;
+@synthesize templatePrototype = _templatePrototype;
 @synthesize featureLayer = _featureLayer;
 @synthesize attachments = _attachments;
 @synthesize dateField = _dateField;
@@ -173,7 +170,7 @@
      * This allows us to see what is being fired and when
      */
     NSLog(@"FeatureDetailsViewController:viewDidLoad");
-	
+    
     if (_newFeature){
         /**
          * This is the "Cancel" button when you're adding a new feature to the map
@@ -235,7 +232,7 @@
 
 #pragma mark init method
 
--(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry{
+-(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject *)templatePrototype{
 	
     
     /**
@@ -243,6 +240,8 @@
      */
     NSLog(@"FeatureDetailsViewController:initWithFeatureLayer");
 	
+    NSLog(@"Prototype from the FDVC: %@", templatePrototype);
+
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
         
 		self.featureLayer = featureLayer;
@@ -250,9 +249,7 @@
 		self.featureGeometry = featureGeometry;
         self.feature = feature;
 		self.operations = [NSMutableArray array];
-        
-        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureGeometry > %@", featureGeometry);
-		
+        		
 		// if the attributes are nil, it is a new feature, set flat
 		if (!feature){
 			_newFeature = YES;
@@ -583,121 +580,123 @@
 }
 
 
-#pragma mark -
-#pragma mark Table view data source
 
+/**
+ * Implements numberOfSectionsInTableView:(UITableView *)tableView
+ *
+ * Set the number of section our table view needs
+ * in order to display properly.
+ *
+ * @return NSInteger
+ *   The number of sections we need to display
+ *
+ */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
     /**
-     * This allows us to see what is being fired and when
+     * The current application requires that we have 4 sections
+     * available in our UITableView.
+     *
+     * - Type
+     * - Details
+     * - Attachments
+     * - Location
+     *
      */
-    NSLog(@"FeaturesDetailsViewController: numberOfSectionsInTableView");
+    
 	return 4;
 }
 
-
+/**
+ * Implements numberOfRowsInSection:(NSInteger)section
+ *
+ * Set the number of rows that each of our table view
+ * sections needs in order to display properly.
+ *
+ * @param NSInteger
+ *   The ID of the table view section
+ *
+ * @return NSInteger
+ *   The number of rows per section we need to display
+ *
+ */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: numberOfRowsInSection");
-
-    // Return the number of rows in the section.
-    if (section == 2){ // attachments
-		if (_newFeature){
-			return self.attachments.count + 1;
-		}
-		else {
-			if (self.attachmentInfos){
-				if (self.attachmentInfos.count == 0){
-					return 1;
-				}
-				else {
-					return self.attachmentInfos.count;
-				}
-			}
-			else {
-				return 1;
-			}
-		}
-
-	} else if (section == 1) { // details
-//		return [self.infos count];
-        NSLog(@"THERE ARE %d FIELDS IN THIS FEATURE", self.featureLayer.fields.count-6);
-        return (self.featureLayer.fields.count - 6);
-	} else if (section == 3) { // Location
-        return 1;
-    }
-	
-	return 0;
-}
-
-- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
-    if (sectionTitle == nil) {
-        return nil;
-    }
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(10, 8, 320, 20);
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor blackColor];
-    label.shadowColor = [UIColor clearColor];
-    label.font = DEFAULT_TITLE_FONT;
-    label.text = sectionTitle;
-    
-    UIView *view = [[UIView alloc] init];
-    [view addSubview:label];
-    
-    return view;
-}
-
--(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-
     switch (section) {
             
-        case 0: // Feature Type, auto-populated with our application
-            return nil;
+        case 1:
+            return (self.featureLayer.fields.count - 6);
             
         case 2:
-            return @"Attachments"; // Photo/Video Attachments
+            if (_newFeature){
+                return self.attachments.count + 1;
+            } else if (self.attachmentInfos.count != 0) {
+                return self.attachmentInfos.count;
+            } else {
+                return 1;
+            }            
+        case 3:
+            return 1;
+            
+        default:
+            return 0;
+    }
+
+}
+
+/**
+ * Implements titleForHeaderInSection:(NSInteger)section
+ *
+ * Set the number of rows that each of our table view
+ * sections needs in order to display properly.
+ *
+ * @param NSInteger
+ *   The ID of the table view section
+ *
+ * @return NSString
+ *   The string to be used as the title for section header
+ *
+ */
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+
+    switch (section) {
             
         case 1:
             return @"Details"; // Feature Details
             
+        case 2:
+            return @"Attachments"; // Photo/Video Attachments
+            
         case 3:
             return @"Location"; // Feature Details
             
+        default:
+            return nil;
+            
     }
     
-	return nil;
 }
 
--(AGSField*)findStatusField{
-
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: findStatusField");
-
-	// helper method to find the status field
-	for (int i=0; i<self.featureLayer.fields.count; i++){
-		AGSField *field = [self.featureLayer.fields objectAtIndex:i];
-		if ([field.name isEqualToString: @"status"]){
-			return field;
-		}
-	}
-	return nil;
-}
-
-// Customize the appearance of table view cells.
+/**
+ * Implements cellForRowAtIndexPath:(NSIndexPath *)indexPath
+ *
+ * Setup the individual table cells and modify them to match
+ * the intended design.
+ *
+ * @param NSIndexPath
+ *   The indexPath of the row/section
+ *
+ * @return cell
+ *   The cell object to be displayed to the user
+ *
+ */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: cellForRowAtIndexPath");
 	
+    /**
+     * Make sure we are setting our 'cell' to nil so that
+     * we don't carry over data/details from the previous
+     * time this method was used.
+     */
 	UITableViewCell *cell = nil;
         
 	/**
@@ -997,39 +996,6 @@
                 [emailField release];
             }
         }
-        
-//		if (indexPath.row == 0){
-//			cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
-//            field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
-//			cell.textLabel.text = field.alias;
-//		}
-//		else if (indexPath.row == 1){
-//            BOOL exists;
-//            NSNumber *recorededOn =
-//            [NSNumber numberWithDouble:[self.feature attributeAsDoubleForKey:@"date" exists:&exists]];
-//            NSString *detailString = @"";
-//            if (recorededOn && (recorededOn != (id)[NSNull null]))
-//            {
-//                //attribute dates/times are in milliseconds; NSDate dates are in seconds
-//                NSDate *date = [NSDate dateWithTimeIntervalSince1970:([recorededOn doubleValue] / 1000.0)];
-//                detailString = [self.dateFormat stringFromDate:date];
-//            }
-//			cell.detailTextLabel.text = detailString;
-//            
-//            field = [CodedValueUtility findField:@"date" inFeatureLayer:self.featureLayer];
-//			cell.textLabel.text = field.alias;
-//		}
-//		else if (indexPath.row == 2){
-//			cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"difficulty" inFeatureLayer:self.featureLayer];
-//            field = [CodedValueUtility findField:@"difficulty" inFeatureLayer:self.featureLayer];
-//			cell.textLabel.text = field.alias;
-//		}
-//		else if (indexPath.row == 3){
-//            NSString *value = [self.feature attributeAsStringForKey:@"notes"];
-//			cell.detailTextLabel.text = (value == (id)[NSNull null] ? @"" : value);
-//            field = [CodedValueUtility findField:@"notes" inFeatureLayer:self.featureLayer];
-//			cell.textLabel.text = field.alias;
-//		}
     }
 
     /**

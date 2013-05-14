@@ -1,14 +1,10 @@
-// Copyright 2012 ESRI
-//
-// All rights reserved under the copyright laws of the United States
-// and applicable international laws, treaties, and conventions.
-//
-// You may freely redistribute and use this sample code, with or
-// without modification, provided you include the original copyright
-// notice and use restrictions.
-//
-// See the use restrictions at http://help.arcgis.com/en/sdk/10.0/usageRestrictions.htm
-//
+/**
+ * Water Reporter
+ *
+ * Created by Viable Industries L.L.C. in March 2013.
+ * Copyright (c) 2013 Viable Industries L.L.C. All rights reserved.
+ *
+ */
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
@@ -16,11 +12,12 @@
 @class FeatureTypeViewController;
 @class WaterReporterFeatureLayer;
 
-@interface FeatureDetailsViewController : UITableViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AGSFeatureLayerEditingDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
+@interface FeatureDetailsViewController : UITableViewController <UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AGSFeatureLayerEditingDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
 	
     WaterReporterFeatureLayer *_featureLayer;
 	AGSGraphic *_feature;
-	AGSGeometry *_featureGeometry;					
+	AGSGeometry *_featureGeometry;
+    NSObject *_templatePrototype;
 	NSMutableArray *_attachments;			// any attachments, for not newFeature it will start filled with NSNull, then populated as we retrieve the data for the attachments (happens when they click on to view an attachment)
 	UITextField *_dateField;
     NSDate *_date;							// date of when the feature was created
@@ -35,6 +32,7 @@
 
 @property (nonatomic, retain) AGSGraphic *feature;
 @property (nonatomic, retain) AGSGeometry *featureGeometry;
+@property (nonatomic, retain) NSObject *templatePrototype;
 @property (nonatomic, retain) WaterReporterFeatureLayer *featureLayer;
 @property (nonatomic, retain) NSMutableArray *attachments;
 @property (nonatomic, retain) UITextField *dateField;
@@ -45,7 +43,7 @@
 @property (nonatomic, retain) NSMutableArray *operations;
 @property (nonatomic, retain) NSOperation *retrieveAttachmentOp;
 
--(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry;
+-(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject*)templatePrototype;
 -(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc;
 
 @end
