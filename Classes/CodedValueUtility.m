@@ -39,6 +39,7 @@
         //loop through all the coded values and compare to our attribute value
         for (int i=0; i<cvd.codedValues.count; i++){
             AGSCodedValue *val = [cvd.codedValues objectAtIndex:i];
+            NSLog(@"AGSCodedValue *val: %@", val);
             
             //must switch on kind of object val.code is...
             if ([val.code isKindOfClass:[NSNumber class]])

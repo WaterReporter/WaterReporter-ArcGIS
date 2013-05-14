@@ -29,6 +29,9 @@
 	NSOperation *_retrieveAttachmentOp;		// keep track of the retrieve attachment op so that we only do one of these at a time
 	UITextField *_dateField;
 	UITextField *_eventField;
+    
+	UIPickerView *eventPicker;
+    NSMutableArray *eventFieldOptions;
 }
 
 @property (nonatomic, retain) AGSGraphic *feature;
@@ -44,6 +47,9 @@
 @property (nonatomic, retain) NSArray *attachmentInfos;
 @property (nonatomic, retain) NSMutableArray *operations;
 @property (nonatomic, retain) NSOperation *retrieveAttachmentOp;
+
+@property (nonatomic, strong) IBOutlet UIPickerView *eventPicker;
+@property (nonatomic, retain) NSMutableArray *eventFieldOptions;
 
 -(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject*)templatePrototype;
 -(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc;

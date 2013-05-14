@@ -54,6 +54,8 @@
 @synthesize dateFormat = _dateFormat;
 @synthesize timeFormat = _timeFormat;
 @synthesize eventField = _eventField;
+@synthesize eventPicker;
+@synthesize eventFieldOptions;
 @synthesize attachmentInfos = _attachmentInfos;
 @synthesize operations = _operations;
 @synthesize retrieveAttachmentOp = _retrieveAttachmentOp;
@@ -904,10 +906,34 @@
                 cell.textLabel.text = field.alias;
                 
                 cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
-                self.eventField.inputView = [[UIPickerView alloc]init];
                 
+                
+                self.eventField.inputView = [[UIPickerView alloc] init];
+
+                
+                /**
+                 * This loop is what we need to pull out the actual event options
+                 * from the system. They are stored in what is called "Domains"
+                 *
+                 * @see http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
+                 *
+                 */
+                eventFieldOptions = [[NSMutableArray alloc] init];
+                AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
+                for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
+                    AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
+                    [eventFieldOptions addObject:val.code];
+                    NSLog(@"Added %@ to eventFieldOptions Array", val.code);
+                }
+
+                eventPicker.delegate = self;
+                eventPicker.dataSource = self;
+                
+                [eventPicker reloadAllComponents];
+
                 [cell.contentView addSubview:self.eventField];
-                
+                [self.eventPicker release];
+                [self.eventFieldOptions release];
                 [self.eventField release];
                 
             } else if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
@@ -1111,7 +1137,46 @@
 		return;
 	}
 	
-	if (_newFeature && indexPath.section == 0){
+    // Feature Details
+	if (indexPath.section == 1){
+        
+         /**
+         * Iterate through all of the selected Feature Layer's
+         * fields and perform the necessary pre-display actions
+         * upon each field one at a time.
+         *
+         * These operations primarily concern the prepopulation
+         * of specific fields such as the date and geolocation.
+         * While others like the Attachments and associated image
+         * fields depend on user interaction later in the process
+         * to be updated dynamically.
+         *
+         */
+        for (AGSField* field in self.featureLayer.fields) {
+                       
+            //
+            // Prepopulate the users images as they upload attachments.
+            //
+            // NOTE: We don't want to prepopulate the image fields. What
+            //       we really want to do is fill these fields automatically
+            //       later in the process when a user interacts with the
+            //       form by attaching files (e.g., image, video)
+            //
+            if (field.editable && [field.name isEqualToString:@"event"] && indexPath.row == 1) {
+//                // if creating a new feature and they clicked on the feature type, then let them choose a
+//                // feature template
+//                FeatureTypeViewController *ftvc = [[[FeatureTypeViewController alloc]init]autorelease];
+//                ftvc.featureLayer = self.featureLayer;
+//                ftvc.feature = self.feature;
+//                ftvc.completedDelegate = self;
+//                
+//                [self.navigationController pushViewController:ftvc animated:YES];
+                
+            }
+        }
+    }
+    
+    if (_newFeature && indexPath.section == 0){
 		// if creating a new feature and they clicked on the feature type, then let them choose a
 		// feature template
 		FeatureTypeViewController *ftvc = [[[FeatureTypeViewController alloc]init]autorelease];
@@ -1365,6 +1430,27 @@
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Picker View Methods
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+	
+	return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+	
+	return [eventFieldOptions count];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+	
+	return [eventFieldOptions objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    NSLog(@"[%d] %@", row, [eventFieldOptions objectAtIndex:row]);
+}
 
 @end
 
