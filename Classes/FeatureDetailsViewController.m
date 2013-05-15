@@ -738,9 +738,8 @@
      * we don't carry over data/details from the previous
      * time this method was used.
      */
-	NSString *CellIdentifier;
-    UITableViewCell *cell;
-        
+	UITableViewCell *cell = nil;
+    
 	/**
      * Attachments
      *
@@ -860,233 +859,44 @@
          * to be updated dynamically.
          *
          */
-        NSLog(@"%@", self.featureLayer.fields);
-        for (AGSField* field in self.featureLayer.fields) {
-                       
-            //
-            // Prepopulate the date field for the user
-            //
-            if (field.editable && [field.name isEqualToString:@"date"] && indexPath.row == 0) {
-                                
-                self.dateField = [self textFieldTemplate];
-                self.dateField.textColor = DEFAULT_TEXT_COLOR;
-                self.dateField.font = DEFAULT_BODY_FONT;
-                self.dateField.textAlignment = NSTextAlignmentRight;
-                cell.textLabel.text = field.alias;
-
-                NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
-                double currentDate = theCurrentTime; // We must do this so that ArcGIS translates it appropriately
-                
-                if (currentDate) {
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:currentDate];
-                    self.dateField.text = [self.dateFormat stringFromDate:date];
-                }
-                
-                UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
-                self.dateField.inputView = thisDatePicker;
-                [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
-
-                [cell.contentView addSubview:self.dateField];
-                
-                [thisDatePicker release];
-                [self.dateField release];
-            }
-
-            //
-            // Prepopulate the users images as they upload attachments.
-            //
-            // NOTE: We don't want to prepopulate the image fields. What
-            //       we really want to do is fill these fields automatically
-            //       later in the process when a user interacts with the
-            //       form by attaching files (e.g., image, video)
-            //
-            if (field.editable && [field.name isEqualToString:@"event"] && indexPath.row == 1) {
-                
-                self.eventField = [self textFieldTemplate];
-                self.eventField.textColor = DEFAULT_TEXT_COLOR;
-                self.eventField.font = DEFAULT_BODY_FONT;
-                self.eventField.textAlignment = NSTextAlignmentRight;
-                cell.textLabel.text = field.alias;
-                
-                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
-                
-                /**
-                 * This loop is what we need to pull out the actual event options
-                 * from the system. They are stored in what is called "Domains"
-                 *
-                 * @see http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
-                 *
-                 */
-                eventFieldOptions = [[NSMutableArray alloc] init];
-                AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
-                for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
-                    AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
-                    [eventFieldOptions addObject:val.code];
-                    NSLog(@"Added %@ to eventFieldOptions Array", val.code);
-                }
-                
-                self.eventPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
-                self.eventPicker.delegate = self;
-                self.eventPicker.dataSource = self;
-                
-                [self.eventPicker reloadAllComponents];
-                
-                self.eventField.inputView = self.eventPicker;
-
-
-                [cell.contentView addSubview:self.eventField];
-                //[self.eventPicker release];
-                //[self.eventFieldOptions release];
-                //[self.eventField release];
-                
-//            } else if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
-//                UITextField *pollutionField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-//                
-//                pollutionField.textColor = DEFAULT_TEXT_COLOR;
-//                pollutionField.font = DEFAULT_BODY_FONT;
-//                
-//                pollutionField.placeholder = field.alias;
-//                
-//                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"pollution" inFeatureLayer:self.featureLayer];
-//                pollutionField.inputView = [[UIPickerView alloc]init];
-//
-//                [cell.contentView addSubview:pollutionField];
-//                
-//                [pollutionField release];
-            }
+        AGSField *field = nil;
+        if (indexPath.row == 0) {
+            NSString *thisCodedValue = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"date" inFeatureLayer:self.featureLayer];
             
-            //
-            // Reporter of Pollution Report
-            //
-//            if (field.editable && [field.name isEqualToString:@"reporter"] && indexPath.row == 2) {
-//                UITextField *reporterField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-//                
-//                reporterField.textColor = DEFAULT_TEXT_COLOR;
-//                reporterField.font = DEFAULT_BODY_FONT;
-//                
-//                reporterField.placeholder = field.alias;
-//                
-//                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"reporter" inFeatureLayer:self.featureLayer];
-//                reporterField.inputView = [[UIPickerView alloc]init];
-//
-//                [cell.contentView addSubview:reporterField];
-//                
-//                [reporterField release];
-//            }
+            NSLog(@"thisCodedValue: %@", thisCodedValue);
             
-            //
-            // Prepopulate the users images as they upload attachments.
-            //
-            // NOTE: We don't want to prepopulate the image fields. What
-            //       we really want to do is fill these fields automatically
-            //       later in the process when a user interacts with the
-            //       form by attaching files (e.g., image, video)
-            //
-//            if (field.editable && [field.name isEqualToString:@"comments"] && indexPath.row == 3) {
-//                UITextField *commentField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-//                
-//                commentField.textColor = DEFAULT_TEXT_COLOR;
-//                commentField.font = DEFAULT_BODY_FONT;
-//                
-//                commentField.placeholder = field.alias;
-//                                              
-//                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
-//                [cell.contentView addSubview:commentField];
-//                
-//                [commentField release];
-//            }
+            if (thisCodedValue == 0) {
+                NSLog(@"EMPTY thisCodedValue");
+            } else {
+                NSLog(@"thisCodedValue value: %@",thisCodedValue);
+                self.dateField.text = thisCodedValue;
+            }
+            field = [CodedValueUtility findField:@"date" inFeatureLayer:self.featureLayer];
+            
+            self.dateField = [self textFieldTemplate];
+            self.dateField.textColor = DEFAULT_TEXT_COLOR;
+            self.dateField.font = DEFAULT_BODY_FONT;
+            self.dateField.textAlignment = NSTextAlignmentRight;
+            cell.textLabel.text = field.alias;
+            
+            NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
+            double currentDate = theCurrentTime; // We must do this so that ArcGIS translates it appropriately
+            
+            if (currentDate) {
+                NSDate *date = [NSDate dateWithTimeIntervalSince1970:currentDate];
+                self.dateField.text = [self.dateFormat stringFromDate:date];
+            }
+//
+//            UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
+//            self.dateField.inputView = thisDatePicker;
+//            [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
 //            
-            //
-            // Prepopulate the users images as they upload attachments.
-            //
-            // NOTE: We don't want to prepopulate the image fields. What
-            //       we really want to do is fill these fields automatically
-            //       later in the process when a user interacts with the
-            //       form by attaching files (e.g., image, video)
-            //
-            if ([field.name hasPrefix:@"image"] || [field.name hasSuffix:@"image"]) {
-            }
-            
-            //
-            // Prepopulate the users location when they add a new report.
-            //
-            // Note: We need to not only prepopulate these fields within the
-            //       Feature Layer but we also need to update the sketch layer
-            //       so that the GPS uses that same location. If we update
-            //       the sketch layer, we also need to come back and refill
-            //       these fields as well.
-            //
-            if ([field.name hasPrefix:@"lat"] || [field.name hasPrefix:@"long"]) {
-            }
-
-            //
-            // Point to Polygon
-            //
-            // Determine what watershed a user is in when they launch the application
-            // and set their default based on the results of their GPS or geolocation
-            //
-            // In order to implement this see if we can use the "containsPoint" method
-            // provided by the AGSPolygon Class.
-            //
-            // For more information see http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_polygon.html#a64a3986417a6f545d3d721827969ee55
-            //
-//            if (([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) && indexPath.row == 4) {
-//                UITextField *keeperField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-//                
-//                keeperField.textColor = DEFAULT_TEXT_COLOR;
-//                keeperField.font = DEFAULT_BODY_FONT;
-//                
-//                keeperField.placeholder = field.alias;
-//                
-//                [cell.contentView addSubview:keeperField];
-//                
-//                [keeperField release];
-//            }
-            
-            //
-            // Reporter's Email Address
-            //
-//            if (field.editable && [field.name isEqualToString:@"email"] && indexPath.row == 5) {
-//                                               
-//                UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(10, 14, 260, 30)];
-//                                
-//                emailField.textColor = DEFAULT_TEXT_COLOR;
-//                emailField.font = DEFAULT_BODY_FONT;
-//                
-//                emailField.placeholder = field.alias;
-//                
-//                emailField.keyboardType = UIKeyboardTypeEmailAddress;
-//                emailField.returnKeyType = UIReturnKeyDefault;
-//                
-//                [cell.contentView addSubview:emailField];
-//                
-//                [emailField release];
-//            }
+            [cell.contentView addSubview:self.dateField];
+//            
+//            [thisDatePicker release];
+//            [self.dateField release];
         }
     }
-
-    /**
-     * Replace the default pinstripe background with our new linen pattern
-     */
-    UIView* backgroundView = [[UIView alloc] init];
-    backgroundView.backgroundColor = BACKGROUND_LINEN_LIGHT;
-    [tableView setBackgroundView:backgroundView];
-	
-    /**
-     * Remove the separators between cells in the tableView
-     */
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.separatorColor = [UIColor clearColor];
-    
-    /**
-     * Set the label, image, etc for the templates
-     */
-    cell.textLabel.textColor = DEFAULT_LABEL_COLOR;
-    cell.textLabel.font = DEFAULT_BODY_FONT;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.detailTextLabel.textColor = DEFAULT_TEXT_COLOR;
-    cell.detailTextLabel.font = DEFAULT_BODY_FONT;
-    
     return cell;
 }
 
