@@ -738,7 +738,8 @@
      * we don't carry over data/details from the previous
      * time this method was used.
      */
-	UITableViewCell *cell = nil;
+	NSString *CellIdentifier;
+    UITableViewCell *cell;
         
 	/**
      * Attachments
@@ -835,7 +836,7 @@
     // Feature Details
 	if (indexPath.section == 1){
 
-        static NSString *detailsCellIdentifier = @"detailsCell";
+        static NSString *detailsCellIdentifier = @"date";
         
 		cell = [tableView dequeueReusableCellWithIdentifier:detailsCellIdentifier];
 		if (cell == nil) {
@@ -859,6 +860,7 @@
          * to be updated dynamically.
          *
          */
+        NSLog(@"%@", self.featureLayer.fields);
         for (AGSField* field in self.featureLayer.fields) {
                        
             //
@@ -886,6 +888,7 @@
 
                 [cell.contentView addSubview:self.dateField];
                 
+                [thisDatePicker release];
                 [self.dateField release];
             }
 
@@ -907,10 +910,6 @@
                 
                 cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
                 
-                
-                self.eventField.inputView = [[UIPickerView alloc] init];
-
-                
                 /**
                  * This loop is what we need to pull out the actual event options
                  * from the system. They are stored in what is called "Domains"
@@ -925,51 +924,55 @@
                     [eventFieldOptions addObject:val.code];
                     NSLog(@"Added %@ to eventFieldOptions Array", val.code);
                 }
-
-                eventPicker.delegate = self;
-                eventPicker.dataSource = self;
                 
-                [eventPicker reloadAllComponents];
+                self.eventPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
+                self.eventPicker.delegate = self;
+                self.eventPicker.dataSource = self;
+                
+                [self.eventPicker reloadAllComponents];
+                
+                self.eventField.inputView = self.eventPicker;
+
 
                 [cell.contentView addSubview:self.eventField];
-                [self.eventPicker release];
-                [self.eventFieldOptions release];
-                [self.eventField release];
+                //[self.eventPicker release];
+                //[self.eventFieldOptions release];
+                //[self.eventField release];
                 
-            } else if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
-                UITextField *pollutionField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-                
-                pollutionField.textColor = DEFAULT_TEXT_COLOR;
-                pollutionField.font = DEFAULT_BODY_FONT;
-                
-                pollutionField.placeholder = field.alias;
-                
-                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"pollution" inFeatureLayer:self.featureLayer];
-                pollutionField.inputView = [[UIPickerView alloc]init];
-
-                [cell.contentView addSubview:pollutionField];
-                
-                [pollutionField release];
+//            } else if (field.editable && ([field.name isEqualToString:@"pollution"]) && indexPath.row == 1) {
+//                UITextField *pollutionField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+//                
+//                pollutionField.textColor = DEFAULT_TEXT_COLOR;
+//                pollutionField.font = DEFAULT_BODY_FONT;
+//                
+//                pollutionField.placeholder = field.alias;
+//                
+//                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"pollution" inFeatureLayer:self.featureLayer];
+//                pollutionField.inputView = [[UIPickerView alloc]init];
+//
+//                [cell.contentView addSubview:pollutionField];
+//                
+//                [pollutionField release];
             }
             
             //
             // Reporter of Pollution Report
             //
-            if (field.editable && [field.name isEqualToString:@"reporter"] && indexPath.row == 2) {
-                UITextField *reporterField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-                
-                reporterField.textColor = DEFAULT_TEXT_COLOR;
-                reporterField.font = DEFAULT_BODY_FONT;
-                
-                reporterField.placeholder = field.alias;
-                
-                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"reporter" inFeatureLayer:self.featureLayer];
-                reporterField.inputView = [[UIPickerView alloc]init];
-
-                [cell.contentView addSubview:reporterField];
-                
-                [reporterField release];
-            }
+//            if (field.editable && [field.name isEqualToString:@"reporter"] && indexPath.row == 2) {
+//                UITextField *reporterField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+//                
+//                reporterField.textColor = DEFAULT_TEXT_COLOR;
+//                reporterField.font = DEFAULT_BODY_FONT;
+//                
+//                reporterField.placeholder = field.alias;
+//                
+//                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"reporter" inFeatureLayer:self.featureLayer];
+//                reporterField.inputView = [[UIPickerView alloc]init];
+//
+//                [cell.contentView addSubview:reporterField];
+//                
+//                [reporterField release];
+//            }
             
             //
             // Prepopulate the users images as they upload attachments.
@@ -979,20 +982,20 @@
             //       later in the process when a user interacts with the
             //       form by attaching files (e.g., image, video)
             //
-            if (field.editable && [field.name isEqualToString:@"comments"] && indexPath.row == 3) {
-                UITextField *commentField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-                
-                commentField.textColor = DEFAULT_TEXT_COLOR;
-                commentField.font = DEFAULT_BODY_FONT;
-                
-                commentField.placeholder = field.alias;
-                                              
-                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
-                [cell.contentView addSubview:commentField];
-                
-                [commentField release];
-            }
-            
+//            if (field.editable && [field.name isEqualToString:@"comments"] && indexPath.row == 3) {
+//                UITextField *commentField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+//                
+//                commentField.textColor = DEFAULT_TEXT_COLOR;
+//                commentField.font = DEFAULT_BODY_FONT;
+//                
+//                commentField.placeholder = field.alias;
+//                                              
+//                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
+//                [cell.contentView addSubview:commentField];
+//                
+//                [commentField release];
+//            }
+//            
             //
             // Prepopulate the users images as they upload attachments.
             //
@@ -1027,38 +1030,38 @@
             //
             // For more information see http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_polygon.html#a64a3986417a6f545d3d721827969ee55
             //
-            if (([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) && indexPath.row == 4) {
-                UITextField *keeperField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
-                
-                keeperField.textColor = DEFAULT_TEXT_COLOR;
-                keeperField.font = DEFAULT_BODY_FONT;
-                
-                keeperField.placeholder = field.alias;
-                
-                [cell.contentView addSubview:keeperField];
-                
-                [keeperField release];
-            }
+//            if (([field.name hasPrefix:@"keeper"] || [field.name hasSuffix:@"keeper"]) && indexPath.row == 4) {
+//                UITextField *keeperField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 260, 30)];
+//                
+//                keeperField.textColor = DEFAULT_TEXT_COLOR;
+//                keeperField.font = DEFAULT_BODY_FONT;
+//                
+//                keeperField.placeholder = field.alias;
+//                
+//                [cell.contentView addSubview:keeperField];
+//                
+//                [keeperField release];
+//            }
             
             //
             // Reporter's Email Address
             //
-            if (field.editable && [field.name isEqualToString:@"email"] && indexPath.row == 5) {
-                                               
-                UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(10, 14, 260, 30)];
-                                
-                emailField.textColor = DEFAULT_TEXT_COLOR;
-                emailField.font = DEFAULT_BODY_FONT;
-                
-                emailField.placeholder = field.alias;
-                
-                emailField.keyboardType = UIKeyboardTypeEmailAddress;
-                emailField.returnKeyType = UIReturnKeyDefault;
-                
-                [cell.contentView addSubview:emailField];
-                
-                [emailField release];
-            }
+//            if (field.editable && [field.name isEqualToString:@"email"] && indexPath.row == 5) {
+//                                               
+//                UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(10, 14, 260, 30)];
+//                                
+//                emailField.textColor = DEFAULT_TEXT_COLOR;
+//                emailField.font = DEFAULT_BODY_FONT;
+//                
+//                emailField.placeholder = field.alias;
+//                
+//                emailField.keyboardType = UIKeyboardTypeEmailAddress;
+//                emailField.returnKeyType = UIReturnKeyDefault;
+//                
+//                [cell.contentView addSubview:emailField];
+//                
+//                [emailField release];
+//            }
         }
     }
 
@@ -1391,8 +1394,12 @@
 	self.featureLayer = nil;
 	self.attachments = nil;
 	self.date = nil;
+    self.dateField = nil;
 	self.dateFormat = nil;
 	self.timeFormat = nil;
+    self.eventPicker = nil;
+    self.eventField = nil;
+    self.eventFieldOptions = nil;
 	self.attachmentInfos = nil;
 	self.operations = nil;
 	self.retrieveAttachmentOp = nil;
@@ -1449,6 +1456,9 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+        
+    self.eventField.text = [eventFieldOptions objectAtIndex:row];
+
     NSLog(@"[%d] %@", row, [eventFieldOptions objectAtIndex:row]);
 }
 
