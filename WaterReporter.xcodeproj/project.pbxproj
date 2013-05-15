@@ -56,9 +56,6 @@
 		F570C900172ED0CA0059FC19 /* Museo_Slab_900italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */; };
 		F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */; };
 		F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */; };
-		F57272791742D1AE0089B637 /* PickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F57272781742D1AE0089B637 /* PickerView.xib */; };
-		F572727A1742D2340089B637 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F57272771742D1A80089B637 /* PickerViewController.m */; };
-		F572727B1742D23A0089B637 /* PickerViewAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F57272751742D1A70089B637 /* PickerViewAppDelegate.m */; };
 		F5792743173D87E800C49B31 /* slide006-Copyright.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273C173D87E700C49B31 /* slide006-Copyright.png */; };
 		F5792744173D87E800C49B31 /* slide004-PhotoVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273D173D87E800C49B31 /* slide004-PhotoVideo.png */; };
 		F5792745173D87E800C49B31 /* slide005-Save.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273E173D87E800C49B31 /* slide005-Save.png */; };
@@ -141,11 +138,6 @@
 		F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_900italic.otf; sourceTree = "<group>"; };
 		F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000.otf; sourceTree = "<group>"; };
 		F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000italic.otf; sourceTree = "<group>"; };
-		F57272741742D1A70089B637 /* PickerViewAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PickerViewAppDelegate.h; sourceTree = "<group>"; };
-		F57272751742D1A70089B637 /* PickerViewAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickerViewAppDelegate.m; sourceTree = "<group>"; };
-		F57272761742D1A80089B637 /* PickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PickerViewController.h; sourceTree = "<group>"; };
-		F57272771742D1A80089B637 /* PickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickerViewController.m; sourceTree = "<group>"; };
-		F57272781742D1AE0089B637 /* PickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerView.xib; sourceTree = "<group>"; };
 		F579273C173D87E700C49B31 /* slide006-Copyright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide006-Copyright.png"; sourceTree = "<group>"; };
 		F579273D173D87E800C49B31 /* slide004-PhotoVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide004-PhotoVideo.png"; sourceTree = "<group>"; };
 		F579273E173D87E800C49B31 /* slide005-Save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide005-Save.png"; sourceTree = "<group>"; };
@@ -298,10 +290,6 @@
 		F53CC551173814A1008315CE /* features */ = {
 			isa = PBXGroup;
 			children = (
-				F57272741742D1A70089B637 /* PickerViewAppDelegate.h */,
-				F57272751742D1A70089B637 /* PickerViewAppDelegate.m */,
-				F57272761742D1A80089B637 /* PickerViewController.h */,
-				F57272771742D1A80089B637 /* PickerViewController.m */,
 				1C6CA60E1321CAB700E19E9D /* CodedValueUtility.h */,
 				1C6CA60F1321CAB700E19E9D /* CodedValueUtility.m */,
 				94922976124417AC00CB16AB /* FeatureDetailsViewController.h */,
@@ -321,7 +309,6 @@
 			children = (
 				F53CC54C17380F23008315CE /* iPad */,
 				94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */,
-				F57272781742D1AE0089B637 /* PickerView.xib */,
 				C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */,
 				949229FA1244248200CB16AB /* FeatureTypeViewController.xib */,
 				9401AD9E124828830010FADB /* ImageViewController.xib */,
@@ -480,7 +467,6 @@
 				F5792761173D8FE700C49B31 /* buttonUpdateLocation.png in Resources */,
 				F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */,
 				C1DBC47F173F299D0014A977 /* slide001-Introduction.png in Resources */,
-				F57272791742D1AE0089B637 /* PickerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,8 +477,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F572727B1742D23A0089B637 /* PickerViewAppDelegate.m in Sources */,
-				F572727A1742D2340089B637 /* PickerViewController.m in Sources */,
 				C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* WaterReporterAppDelegate.m in Sources */,
