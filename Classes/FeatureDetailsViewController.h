@@ -29,9 +29,12 @@
 	NSOperation *_retrieveAttachmentOp;		// keep track of the retrieve attachment op so that we only do one of these at a time
 	UITextField *_dateField;
 	UITextField *_eventField;
+    UITextField *_reporterField;
     
 	UIPickerView *eventPicker;
-    NSMutableArray *eventFieldOptions;
+	UIPickerView *reporterPicker;
+    NSMutableArray *eventPickerViewFieldOptions;
+    NSMutableArray *reporterPickerViewFieldOptions;
 }
 
 @property (nonatomic, retain) AGSGraphic *feature;
@@ -41,6 +44,7 @@
 @property (nonatomic, retain) NSMutableArray *attachments;
 @property (nonatomic, retain) UITextField *dateField;
 @property (nonatomic, retain) UITextField *eventField;
+@property (nonatomic, retain) UITextField *reporterField;
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, retain) NSDateFormatter *dateFormat;
 @property (nonatomic, retain) NSDateFormatter *timeFormat;
@@ -49,7 +53,9 @@
 @property (nonatomic, retain) NSOperation *retrieveAttachmentOp;
 
 @property (nonatomic, strong) IBOutlet UIPickerView *eventPicker;
-@property (nonatomic, retain) NSMutableArray *eventFieldOptions;
+@property (nonatomic, strong) IBOutlet UIPickerView *reporterPicker;
+@property (nonatomic, retain) NSMutableArray *eventPickerViewFieldOptions;
+@property (nonatomic, retain) NSMutableArray *reporterPickerViewFieldOptions;
 
 -(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject*)templatePrototype;
 -(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc;

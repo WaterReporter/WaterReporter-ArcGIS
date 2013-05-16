@@ -54,8 +54,11 @@
 @synthesize dateFormat = _dateFormat;
 @synthesize timeFormat = _timeFormat;
 @synthesize eventField = _eventField;
+@synthesize reporterField = _reporterField;
 @synthesize eventPicker;
-@synthesize eventFieldOptions;
+@synthesize reporterPicker;
+@synthesize eventPickerViewFieldOptions;
+@synthesize reporterPickerViewFieldOptions;
 @synthesize attachmentInfos = _attachmentInfos;
 @synthesize operations = _operations;
 @synthesize retrieveAttachmentOp = _retrieveAttachmentOp;
@@ -715,7 +718,7 @@
 }
 
 -(UITextField *)textFieldTemplate {
-    return [[UITextField alloc] initWithFrame:CGRectMake(120, 14, 170, 30)];
+    return [[UITextField alloc] initWithFrame:CGRectMake(120, 14, 170, 20)];
 }
 
 /**
@@ -817,7 +820,7 @@
 	}
 	
     // Geolocation
-	if (indexPath.section == 3){
+	else if (indexPath.section == 3){
         
 		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -836,7 +839,7 @@
     }
 
     // Feature Details
-	if (indexPath.section == 1){
+	else if (indexPath.section == 1){
         
 		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -856,23 +859,13 @@
          *
          */
         if (indexPath.row == 0 && !self.dateField && !self.dateField.text) {
-            NSString *thisCodedValue = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"date" inFeatureLayer:self.featureLayer];
-            
-            NSLog(@"thisCodedValue: %@", thisCodedValue);
-            
-            if (thisCodedValue == 0) {
-                NSLog(@"EMPTY thisCodedValue");
-            } else {
-                NSLog(@"thisCodedValue value: %@",thisCodedValue);
-                self.dateField.text = thisCodedValue;
-            }
             field = [CodedValueUtility findField:@"date" inFeatureLayer:self.featureLayer];
             
             self.dateField = [self textFieldTemplate];
             self.dateField.textColor = DEFAULT_TEXT_COLOR;
             self.dateField.font = DEFAULT_BODY_FONT;
             self.dateField.textAlignment = NSTextAlignmentRight;
-            cell.textLabel.text = (NSString *)@"Date";
+            cell.textLabel.text = field.alias;
             
             NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
             double currentDate = theCurrentTime; // We must do this so that ArcGIS translates it appropriately
@@ -887,11 +880,114 @@
             [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
             
             [cell.contentView addSubview:self.dateField];
+        }
+        
+        /**
+         * Event Field (Only available on the "River Event" feature
+         */
+        
+        if (indexPath.row == 1 && !self.eventField && !self.eventField.text) {
+            field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
             
-            //[thisDatePicker release];
-            //[self.dateField release];
+            self.eventField = [self textFieldTemplate];
+            self.eventField.textColor = DEFAULT_TEXT_COLOR;
+            self.eventField.font = DEFAULT_BODY_FONT;
+            self.eventField.textAlignment = NSTextAlignmentRight;
+            cell.textLabel.text = field.alias;
+            
+            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
+            
+            /**
+             * This loop is what we need to pull out the actual event options
+             * from the system. They are stored in what is called "Domains"
+             *
+             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
+             *
+             */
+            eventPickerViewFieldOptions = [[NSMutableArray alloc] init];
+            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
+            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
+                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
+                [eventPickerViewFieldOptions addObject:val.code];
+                NSLog(@"Added %@ to pickerViewFieldOptions Array", val.code);
+            }
+            
+            self.eventPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
+            self.eventPicker.delegate = self;
+            self.eventPicker.dataSource = self;
+            
+            [self.eventPicker reloadAllComponents];
+            
+            self.eventField.inputView = self.eventPicker;
+            
+            
+            [cell.contentView addSubview:self.eventField];
+        }
+        
+        /**
+         * Event Field (Only available on the "River Event" feature
+         */
+        
+        if (indexPath.row == 2 && !self.reporterField && !self.reporterField.text) {
+            field = [CodedValueUtility findField:@"reporter" inFeatureLayer:self.featureLayer];
+            
+            self.reporterField = [self textFieldTemplate];
+            self.reporterField.textColor = DEFAULT_TEXT_COLOR;
+            self.reporterField.font = DEFAULT_BODY_FONT;
+            self.reporterField.textAlignment = NSTextAlignmentRight;
+            cell.textLabel.text = field.alias;
+            
+            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"reporter" inFeatureLayer:self.featureLayer];
+            
+            /**
+             * This loop is what we need to pull out the actual event options
+             * from the system. They are stored in what is called "Domains"
+             *
+             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
+             *
+             */
+            reporterPickerViewFieldOptions = [[NSMutableArray alloc] init];
+            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
+            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
+                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
+                [reporterPickerViewFieldOptions addObject:val.code];
+                NSLog(@"Added %@ to pickerViewFieldOptions Array", val.code);
+            }
+            
+            self.reporterPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
+            self.reporterPicker.delegate = self;
+            self.reporterPicker.dataSource = self;
+                        
+            [self.reporterPicker reloadAllComponents];
+            
+            self.reporterField.inputView = self.reporterPicker;
+            
+            [cell.contentView addSubview:self.reporterField];
         }
     }
+    
+    /**
+     * Replace the default pinstripe background with our new linen pattern
+     */
+    UIView* backgroundView = [[UIView alloc] init];
+    backgroundView.backgroundColor = BACKGROUND_LINEN_LIGHT;
+    [tableView setBackgroundView:backgroundView];
+    
+    /**
+     * Remove the separators between cells in the tableView
+     */
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.separatorColor = [UIColor clearColor];
+    
+    /**
+     * Set the label, image, etc for the templates
+     */
+    cell.textLabel.textColor = DEFAULT_TEXT_COLOR;
+    cell.textLabel.font = DEFAULT_BODY_FONT;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.detailTextLabel.textColor = DEFAULT_TEXT_COLOR;
+    cell.detailTextLabel.font = DEFAULT_BODY_FONT;
+    
     return cell;
 }
 
@@ -944,46 +1040,7 @@
 	if (_newFeature && self.operations.count > 0){
 		return;
 	}
-	
-    // Feature Details
-	if (indexPath.section == 1){
-        
-         /**
-         * Iterate through all of the selected Feature Layer's
-         * fields and perform the necessary pre-display actions
-         * upon each field one at a time.
-         *
-         * These operations primarily concern the prepopulation
-         * of specific fields such as the date and geolocation.
-         * While others like the Attachments and associated image
-         * fields depend on user interaction later in the process
-         * to be updated dynamically.
-         *
-         */
-        for (AGSField* field in self.featureLayer.fields) {
-                       
-            //
-            // Prepopulate the users images as they upload attachments.
-            //
-            // NOTE: We don't want to prepopulate the image fields. What
-            //       we really want to do is fill these fields automatically
-            //       later in the process when a user interacts with the
-            //       form by attaching files (e.g., image, video)
-            //
-            if (field.editable && [field.name isEqualToString:@"event"] && indexPath.row == 1) {
-//                // if creating a new feature and they clicked on the feature type, then let them choose a
-//                // feature template
-//                FeatureTypeViewController *ftvc = [[[FeatureTypeViewController alloc]init]autorelease];
-//                ftvc.featureLayer = self.featureLayer;
-//                ftvc.feature = self.feature;
-//                ftvc.completedDelegate = self;
-//                
-//                [self.navigationController pushViewController:ftvc animated:YES];
-                
-            }
-        }
-    }
-    
+
     if (_newFeature && indexPath.section == 0){
 		// if creating a new feature and they clicked on the feature type, then let them choose a
 		// feature template
@@ -1203,8 +1260,11 @@
 	self.dateFormat = nil;
 	self.timeFormat = nil;
     self.eventPicker = nil;
+    self.reporterPicker = nil;
     self.eventField = nil;
-    self.eventFieldOptions = nil;
+    self.reporterField = nil;
+    self.eventPickerViewFieldOptions = nil;
+    self.reporterPickerViewFieldOptions = nil;
 	self.attachmentInfos = nil;
 	self.operations = nil;
 	self.retrieveAttachmentOp = nil;
@@ -1238,7 +1298,14 @@
 	self.attachmentInfos = nil;
 	self.operations = nil;
 	self.retrieveAttachmentOp = nil;
-    
+
+    self.eventPicker = nil;
+    self.reporterPicker = nil;
+    self.eventField = nil;
+    self.reporterField = nil;
+    self.eventPickerViewFieldOptions = nil;
+    self.reporterPickerViewFieldOptions = nil;
+
     [super dealloc];
 }
 
@@ -1252,19 +1319,34 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
 	
-	return [eventFieldOptions count];
+    if (pickerView == self.eventPicker) {
+        return [self.eventPickerViewFieldOptions count];
+    } else if (pickerView == self.reporterPicker) {
+        return [self.reporterPickerViewFieldOptions count];
+    }
+    
+    return nil;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
 	
-	return [eventFieldOptions objectAtIndex:row];
+    if (pickerView == self.eventPicker) {
+        return [self.eventPickerViewFieldOptions objectAtIndex:row];
+    } else if (pickerView == self.reporterPicker) {
+        return [self.reporterPickerViewFieldOptions objectAtIndex:row];
+    }
+    
+    return nil;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-        
-    self.eventField.text = [eventFieldOptions objectAtIndex:row];
-
-    NSLog(@"[%d] %@", row, [eventFieldOptions objectAtIndex:row]);
+    
+    if (pickerView == self.eventPicker) {
+        self.eventField.text = [self.eventPickerViewFieldOptions objectAtIndex:row];
+    } else if (pickerView == self.reporterPicker) {
+        self.reporterField.text = [self.reporterPickerViewFieldOptions objectAtIndex:row];
+    }
+    
 }
 
 @end
