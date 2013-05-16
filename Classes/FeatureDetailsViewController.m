@@ -53,12 +53,22 @@
 @synthesize date = _date;
 @synthesize dateFormat = _dateFormat;
 @synthesize timeFormat = _timeFormat;
+
 @synthesize eventField = _eventField;
 @synthesize reporterField = _reporterField;
+@synthesize commentField = _commentField;
+@synthesize keeperField = _keeperField;
+@synthesize pollutionField = _pollutionField;
+@synthesize emailField = _emailField;
+
 @synthesize eventPicker;
 @synthesize reporterPicker;
+@synthesize keeperPicker;
+@synthesize pollutionPicker;
 @synthesize eventPickerViewFieldOptions;
 @synthesize reporterPickerViewFieldOptions;
+@synthesize keeperPickerViewFieldOptions;
+@synthesize pollutionPickerViewFieldOptions;
 @synthesize attachmentInfos = _attachmentInfos;
 @synthesize operations = _operations;
 @synthesize retrieveAttachmentOp = _retrieveAttachmentOp;
@@ -631,7 +641,7 @@
     switch (section) {
             
         case 1:
-            return (self.featureLayer.fields.count - 6);
+            return (self.featureLayer.fields.count - 7);
             
         case 2:
             if (_newFeature){
@@ -718,7 +728,7 @@
 }
 
 -(UITextField *)textFieldTemplate {
-    return [[UITextField alloc] initWithFrame:CGRectMake(120, 14, 170, 20)];
+    return [[UITextField alloc] initWithFrame:CGRectMake(130, 14, 160, 20)];
 }
 
 /**
@@ -885,49 +895,92 @@
         /**
          * Event Field (Only available on the "River Event" feature
          */
-        
-        if (indexPath.row == 1 && !self.eventField && !self.eventField.text) {
-            field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
-            
-            self.eventField = [self textFieldTemplate];
-            self.eventField.textColor = DEFAULT_TEXT_COLOR;
-            self.eventField.font = DEFAULT_BODY_FONT;
-            self.eventField.textAlignment = NSTextAlignmentRight;
-            cell.textLabel.text = field.alias;
-            
-            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
-            
-            /**
-             * This loop is what we need to pull out the actual event options
-             * from the system. They are stored in what is called "Domains"
-             *
-             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
-             *
-             */
-            eventPickerViewFieldOptions = [[NSMutableArray alloc] init];
-            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
-            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
-                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
-                [eventPickerViewFieldOptions addObject:val.code];
-                NSLog(@"Added %@ to pickerViewFieldOptions Array", val.code);
+        if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
+            if (indexPath.row == 1 && !self.eventField && !self.eventField.text) {
+                NSLog(@"%@", self.featureLayer.name);
+                field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
+                
+                self.eventField = [self textFieldTemplate];
+                self.eventField.textColor = DEFAULT_TEXT_COLOR;
+                self.eventField.font = DEFAULT_BODY_FONT;
+                self.eventField.textAlignment = NSTextAlignmentRight;
+                cell.textLabel.text = field.alias;
+                
+                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"event" inFeatureLayer:self.featureLayer];
+                
+                /**
+                 * This loop is what we need to pull out the actual event options
+                 * from the system. They are stored in what is called "Domains"
+                 *
+                 * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
+                 *
+                 */
+                eventPickerViewFieldOptions = [[NSMutableArray alloc] init];
+                AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
+                for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
+                    AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
+                    [eventPickerViewFieldOptions addObject:val.code];
+                }
+                
+                self.eventPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
+                self.eventPicker.delegate = self;
+                self.eventPicker.dataSource = self;
+                
+                [self.eventPicker reloadAllComponents];
+                
+                self.eventField.inputView = self.eventPicker;
+                
+                
+                [cell.contentView addSubview:self.eventField];
             }
-            
-            self.eventPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
-            self.eventPicker.delegate = self;
-            self.eventPicker.dataSource = self;
-            
-            [self.eventPicker reloadAllComponents];
-            
-            self.eventField.inputView = self.eventPicker;
-            
-            
-            [cell.contentView addSubview:self.eventField];
         }
         
         /**
          * Event Field (Only available on the "River Event" feature
          */
+        if ([self.featureLayer.name isEqualToString:@"Pollution Report"]) {
+            if (indexPath.row == 1 && !self.pollutionField && !self.pollutionField.text) {
+                NSLog(@"%@", self.featureLayer.name);
+                field = [CodedValueUtility findField:@"pollution" inFeatureLayer:self.featureLayer];
+                
+                self.pollutionField = [self textFieldTemplate];
+                self.pollutionField.textColor = DEFAULT_TEXT_COLOR;
+                self.pollutionField.font = DEFAULT_BODY_FONT;
+                self.pollutionField.textAlignment = NSTextAlignmentRight;
+                cell.textLabel.text = field.alias;
+                
+                cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"pollution" inFeatureLayer:self.featureLayer];
+                
+                /**
+                 * This loop is what we need to pull out the actual event options
+                 * from the system. They are stored in what is called "Domains"
+                 *
+                 * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
+                 *
+                 */
+                pollutionPickerViewFieldOptions = [[NSMutableArray alloc] init];
+                AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
+                for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
+                    AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
+                    [pollutionPickerViewFieldOptions addObject:val.code];
+                }
+                
+                self.pollutionPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
+                self.pollutionPicker.delegate = self;
+                self.pollutionPicker.dataSource = self;
+                
+                [self.pollutionPicker reloadAllComponents];
+                
+                self.pollutionField.inputView = self.pollutionPicker;
+                
+                
+                [cell.contentView addSubview:self.pollutionField];
+            }
+        }
         
+        /**
+         * Event Field (Only available on the "River Event" feature)
+         */
         if (indexPath.row == 2 && !self.reporterField && !self.reporterField.text) {
             field = [CodedValueUtility findField:@"reporter" inFeatureLayer:self.featureLayer];
             
@@ -963,6 +1016,79 @@
             self.reporterField.inputView = self.reporterPicker;
             
             [cell.contentView addSubview:self.reporterField];
+        }
+
+        /**
+         * Comment Field
+         */
+        if (indexPath.row == 3 && !self.commentField && !self.commentField.text) {
+            field = [CodedValueUtility findField:@"comments" inFeatureLayer:self.featureLayer];
+            
+            self.commentField = [self textFieldTemplate];
+            self.commentField.textColor = DEFAULT_TEXT_COLOR;
+            self.commentField.font = DEFAULT_BODY_FONT;
+            self.commentField.textAlignment = NSTextAlignmentRight;
+            cell.textLabel.text = field.alias;
+            
+            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
+            
+            [cell.contentView addSubview:self.commentField];
+        }
+        
+        /**
+         * Keeper Bounds Field
+         */
+        if (indexPath.row == 4 && !self.keeperField && !self.keeperField.text) {
+            field = [CodedValueUtility findField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
+            
+            self.keeperField = [self textFieldTemplate];
+            self.keeperField.textColor = DEFAULT_TEXT_COLOR;
+            self.keeperField.font = DEFAULT_BODY_FONT;
+            self.keeperField.textAlignment = NSTextAlignmentRight;
+            cell.textLabel.text = field.alias;
+            
+            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
+            
+            /**
+             * This loop is what we need to pull out the actual event options
+             * from the system. They are stored in what is called "Domains"
+             *
+             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
+             *
+             */
+            keeperPickerViewFieldOptions = [[NSMutableArray alloc] init];
+            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
+            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
+                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
+                [keeperPickerViewFieldOptions addObject:val.code];
+            }
+            
+            self.keeperPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
+            self.keeperPicker.delegate = self;
+            self.keeperPicker.dataSource = self;
+            
+            [self.keeperPicker reloadAllComponents];
+            
+            self.keeperField.inputView = self.keeperPicker;
+            
+            [cell.contentView addSubview:self.keeperField];
+        }
+
+        /**
+         * Keeper Bounds Field
+         */
+        if (indexPath.row == 5 && !self.emailField && !self.emailField.text) {
+            field = [CodedValueUtility findField:@"email" inFeatureLayer:self.featureLayer];
+            
+            self.emailField = [self textFieldTemplate];
+            self.emailField.textColor = DEFAULT_TEXT_COLOR;
+            self.emailField.font = DEFAULT_BODY_FONT;
+            self.emailField.textAlignment = NSTextAlignmentRight;
+            cell.textLabel.text = field.alias;
+            
+            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"email" inFeatureLayer:self.featureLayer];
+            
+            [cell.contentView addSubview:self.emailField];
         }
     }
     
@@ -1313,7 +1439,6 @@
 #pragma mark Picker View Methods
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-	
 	return 1;
 }
 
@@ -1323,6 +1448,10 @@
         return [self.eventPickerViewFieldOptions count];
     } else if (pickerView == self.reporterPicker) {
         return [self.reporterPickerViewFieldOptions count];
+    } else if (pickerView == self.keeperPicker) {
+        return [self.keeperPickerViewFieldOptions count];
+    } else if (pickerView == self.pollutionPicker) {
+        return [self.pollutionPickerViewFieldOptions count];
     }
     
     return nil;
@@ -1334,6 +1463,10 @@
         return [self.eventPickerViewFieldOptions objectAtIndex:row];
     } else if (pickerView == self.reporterPicker) {
         return [self.reporterPickerViewFieldOptions objectAtIndex:row];
+    } else if (pickerView == self.keeperPicker) {
+        return [self.keeperPickerViewFieldOptions objectAtIndex:row];
+    } else if (pickerView == self.pollutionPicker) {
+        return [self.pollutionPickerViewFieldOptions objectAtIndex:row];
     }
     
     return nil;
@@ -1345,6 +1478,10 @@
         self.eventField.text = [self.eventPickerViewFieldOptions objectAtIndex:row];
     } else if (pickerView == self.reporterPicker) {
         self.reporterField.text = [self.reporterPickerViewFieldOptions objectAtIndex:row];
+    } else if (pickerView == self.keeperPicker) {
+        self.keeperField.text = [self.keeperPickerViewFieldOptions objectAtIndex:row];
+    } else if (pickerView == self.pollutionPicker) {
+        self.pollutionField.text = [self.pollutionPickerViewFieldOptions objectAtIndex:row];
     }
     
 }

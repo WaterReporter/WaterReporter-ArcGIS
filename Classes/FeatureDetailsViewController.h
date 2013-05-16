@@ -27,14 +27,23 @@
 	NSArray *_attachmentInfos;				// when the feature is already existing, then we query for the attachment infos, store them in this var
 	NSMutableArray *_operations;			// all the in-progress operations spawned by this VC, we keep them so we can cancel them if we pop the VC (dealloc cancels them)
 	NSOperation *_retrieveAttachmentOp;		// keep track of the retrieve attachment op so that we only do one of these at a time
+
 	UITextField *_dateField;
 	UITextField *_eventField;
     UITextField *_reporterField;
+    UITextField *_commentField;
+    UITextField *_keeperField;
+	UITextField *_pollutionField;
+    UITextField *_emailField;
     
 	UIPickerView *eventPicker;
 	UIPickerView *reporterPicker;
+    UIPickerView *keeperPicker;
+    UIPickerView *pollutionPicker;
     NSMutableArray *eventPickerViewFieldOptions;
     NSMutableArray *reporterPickerViewFieldOptions;
+    NSMutableArray *keeperPickerViewFieldOptions;
+    NSMutableArray *pollutionPickerViewFieldOptions;
 }
 
 @property (nonatomic, retain) AGSGraphic *feature;
@@ -42,9 +51,6 @@
 @property (nonatomic, retain) NSObject *templatePrototype;
 @property (nonatomic, retain) WaterReporterFeatureLayer *featureLayer;
 @property (nonatomic, retain) NSMutableArray *attachments;
-@property (nonatomic, retain) UITextField *dateField;
-@property (nonatomic, retain) UITextField *eventField;
-@property (nonatomic, retain) UITextField *reporterField;
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, retain) NSDateFormatter *dateFormat;
 @property (nonatomic, retain) NSDateFormatter *timeFormat;
@@ -52,10 +58,22 @@
 @property (nonatomic, retain) NSMutableArray *operations;
 @property (nonatomic, retain) NSOperation *retrieveAttachmentOp;
 
+@property (nonatomic, retain) UITextField *dateField;
+@property (nonatomic, retain) UITextField *eventField;
+@property (nonatomic, retain) UITextField *reporterField;
+@property (nonatomic, retain) UITextField *commentField;
+@property (nonatomic, retain) UITextField *keeperField;
+@property (nonatomic, retain) UITextField *pollutionField;
+@property (nonatomic, retain) UITextField *emailField;
+
 @property (nonatomic, strong) IBOutlet UIPickerView *eventPicker;
 @property (nonatomic, strong) IBOutlet UIPickerView *reporterPicker;
+@property (nonatomic, strong) IBOutlet UIPickerView *keeperPicker;
+@property (nonatomic, strong) IBOutlet UIPickerView *pollutionPicker;
 @property (nonatomic, retain) NSMutableArray *eventPickerViewFieldOptions;
 @property (nonatomic, retain) NSMutableArray *reporterPickerViewFieldOptions;
+@property (nonatomic, retain) NSMutableArray *keeperPickerViewFieldOptions;
+@property (nonatomic, retain) NSMutableArray *pollutionPickerViewFieldOptions;
 
 -(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject*)templatePrototype;
 -(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc;
