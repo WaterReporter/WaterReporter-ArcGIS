@@ -739,7 +739,8 @@
      * time this method was used.
      */
 	UITableViewCell *cell = nil;
-    
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell %d_%d",indexPath.section,indexPath.row];
+
 	/**
      * Attachments
      *
@@ -749,12 +750,10 @@
      *
      */
 	if (indexPath.section == 2){
-		
-		static NSString *attachmentsCellIdentifier = @"attachmentsCell";
-		
-		cell = [tableView dequeueReusableCellWithIdentifier:attachmentsCellIdentifier];
+				
+		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:attachmentsCellIdentifier] autorelease];
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		}
 		
         cell.imageView.image = nil;
@@ -814,11 +813,10 @@
 	
     // Geolocation
 	if (indexPath.section == 3){
-        static NSString *locationCellIdentifier = @"locationCell";
         
-		cell = [tableView dequeueReusableCellWithIdentifier:locationCellIdentifier];
+		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:locationCellIdentifier] autorelease];
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		}
         
         if (indexPath.row == 0) {
@@ -834,12 +832,10 @@
 
     // Feature Details
 	if (indexPath.section == 1){
-
-        static NSString *detailsCellIdentifier = @"date";
         
-		cell = [tableView dequeueReusableCellWithIdentifier:detailsCellIdentifier];
+		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:detailsCellIdentifier] autorelease];
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		}
         
 		cell.imageView.image = nil;
@@ -860,7 +856,7 @@
          *
          */
         AGSField *field = nil;
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0 && !self.dateField && !self.dateField.text) {
             NSString *thisCodedValue = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"date" inFeatureLayer:self.featureLayer];
             
             NSLog(@"thisCodedValue: %@", thisCodedValue);
@@ -886,15 +882,15 @@
                 NSDate *date = [NSDate dateWithTimeIntervalSince1970:currentDate];
                 self.dateField.text = [self.dateFormat stringFromDate:date];
             }
-//
-//            UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
-//            self.dateField.inputView = thisDatePicker;
-//            [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
-//            
+
+            UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
+            self.dateField.inputView = thisDatePicker;
+            [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
+            
             [cell.contentView addSubview:self.dateField];
-//            
-//            [thisDatePicker release];
-//            [self.dateField release];
+            
+            [thisDatePicker release];
+            [self.dateField release];
         }
     }
     return cell;
