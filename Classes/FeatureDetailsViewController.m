@@ -982,7 +982,7 @@
     /**
      * Set the label, image, etc for the templates
      */
-    cell.textLabel.textColor = DEFAULT_TEXT_COLOR;
+    cell.textLabel.textColor = DEFAULT_LABEL_COLOR;
     cell.textLabel.font = DEFAULT_BODY_FONT;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.detailTextLabel.textColor = DEFAULT_TEXT_COLOR;
