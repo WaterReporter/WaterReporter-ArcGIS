@@ -30,6 +30,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 
 @implementation WaterReporterViewController
 
+@synthesize userLocation;
+
 @synthesize viUserLocationLongitude = _viUserLocationLongitude;
 @synthesize viUserLocationLatitude = _viUserLocationLatitude;
 
@@ -213,6 +215,9 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc] initWithFeatureLayer:self.featureLayer feature:graphic featureGeometry:graphic.geometry] autorelease];
 
+    detailViewController.viUserLocationLongitude = self.viUserLocationLongitude;
+    detailViewController.viUserLocationLatitude = self.viUserLocationLatitude;
+    
 	/**
      * Display the details for the active or clicked on feature.
      */
@@ -358,12 +363,18 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 
     //First, dismiss the Feature Template Picker
     [self dismissViewControllerAnimated:NO completion:nil];
-    
-    AGSGeometry *geometry = [[AGSGeometry alloc] init];
+
+    AGSGeometryEngine *ge = [AGSGeometryEngine defaultGeometryEngine];
+    AGSGeometry *geometry = [ge projectGeometry:self.userLocation toSpatialReference:self.userLocation.spatialReference];
     
     //now create the feature details vc and display it
     FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer feature:nil featureGeometry:geometry templatePrototype:template.prototype] autorelease];
     
+    detailViewController.userLocation = self.userLocation;
+    
+    NSLog(@"userLocation: %@", userLocation);
+    detailViewController.viUserLocationLatitude = self.viUserLocationLatitude;
+
 	/**
      * Prepares the details for the new feature.
      */
@@ -411,6 +422,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      * it repeatedly.
      */
     if (self.viUserLocationLongitude != agsLoc.point.x && self.viUserLocationLatitude != agsLoc.point.y) {
+        
+        self.userLocation = (AGSPoint *)agsLoc.point;
         
         self.viUserLocationLongitude = agsLoc.point.x;
         self.viUserLocationLatitude = agsLoc.point.y;

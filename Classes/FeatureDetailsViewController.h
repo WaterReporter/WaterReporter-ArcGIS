@@ -14,9 +14,12 @@
 
 @interface FeatureDetailsViewController : UITableViewController <UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AGSFeatureLayerEditingDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
 	
+
     WaterReporterFeatureLayer *_featureLayer;
+	AGSGraphic *_rogueFeature;
 	AGSGraphic *_feature;
 	AGSGeometry *_featureGeometry;
+    AGSPoint *_userLocation;
     NSObject *_templatePrototype;
 	NSMutableArray *_attachments;			// any attachments, for not newFeature it will start filled with NSNull, then populated as we retrieve the data for the attachments (happens when they click on to view an attachment)
     NSDate *_date;							// date of when the feature was created
@@ -46,8 +49,13 @@
     NSMutableArray *pollutionPickerViewFieldOptions;
 }
 
+@property (nonatomic) double viUserLocationLongitude;
+@property (nonatomic) double viUserLocationLatitude;
+
 @property (nonatomic, retain) AGSGraphic *feature;
+@property (nonatomic, retain) AGSGraphic *rogueFeature;
 @property (nonatomic, retain) AGSGeometry *featureGeometry;
+@property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, retain) NSObject *templatePrototype;
 @property (nonatomic, retain) WaterReporterFeatureLayer *featureLayer;
 @property (nonatomic, retain) NSMutableArray *attachments;

@@ -20,6 +20,7 @@
     AGSMapView *_mapView;
     AGSWebMap* _webmap;
 	AGSFeatureLayer *_featureLayer;
+    AGSPoint *_userLocation;
     CLLocationManager *_locationManager;
     AGSGraphic *_newFeature;
 
@@ -33,6 +34,7 @@
 @property (nonatomic, strong) IBOutlet AGSMapView *mapView;
 @property (nonatomic, strong) AGSWebMap* webmap;
 @property (nonatomic, retain) AGSFeatureLayer *featureLayer;
+@property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) AGSGraphic* newFeature;
 

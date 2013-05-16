@@ -23,6 +23,7 @@
 #import "FeatureTypeViewController.h"
 #import "ImageViewController.h"
 #import "MoviePlayerViewController.h"
+#import "WaterReporterViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <MediaPlayer/MediaPlayer.h>
 
@@ -44,8 +45,13 @@
 
 @implementation FeatureDetailsViewController
 
+@synthesize viUserLocationLongitude = _viUserLocationLongitude;
+@synthesize viUserLocationLatitude = _viUserLocationLatitude;
+
 @synthesize feature = _feature;
+@synthesize rogueFeature = _rogueFeature;
 @synthesize featureGeometry = _featureGeometry;
+@synthesize userLocation = _userLocation;
 @synthesize templatePrototype = _templatePrototype;
 @synthesize featureLayer = _featureLayer;
 @synthesize attachments = _attachments;
@@ -241,7 +247,8 @@
     
     NSLog(@"Attributes: %@", attributes);
     
-	self.navigationItem.rightBarButtonItem.enabled = (attributes!=nil && [attributes count]>0);
+	//self.navigationItem.rightBarButtonItem.enabled = (attributes!=nil && [attributes count]>0);
+	self.navigationItem.rightBarButtonItem.enabled = YES;
 
 }
 
@@ -259,6 +266,8 @@
     NSLog(@"Prototype from the FDVC: %@", templatePrototype);
 
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
+        
+        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureGeometry:%@", featureGeometry);
         
 		self.featureLayer = featureLayer;
 		self.featureLayer.editingDelegate = self;
@@ -317,19 +326,21 @@
     NSLog(@"FeaturesDetailsViewController:commit");
     
 	// disable the commit button
-	self.navigationItem.rightBarButtonItem.enabled = NO;
+	//self.navigationItem.rightBarButtonItem.enabled = NO;
     
-    if (self.featureLayer.bOnline)
-    {
-        // kick off the add feature operation
-        [self.operations addObject:[self.featureLayer addFeatures:[NSArray arrayWithObject:self.feature]]];	
-    }
-    else {
-        //add features offline
-        [self.featureLayer addOfflineFeature:self.feature withAttachments:self.attachments];
-        _objectId = -1; //set up dummy id
-		[self doneSucceeded];
-    }
+    NSLog(@"Save that feature %@", self.rogueFeature);
+//    
+//    if (self.featureLayer.bOnline)
+//    {
+//        // kick off the add feature operation
+//        [self.operations addObject:[self.featureLayer addFeatures:[NSArray arrayWithObject:self.feature]]];	
+//    }
+//    else {
+//        //add features offline
+//        [self.featureLayer addOfflineFeature:self.feature withAttachments:self.attachments];
+//        _objectId = -1; //set up dummy id
+//		[self doneSucceeded];
+//    }
 }
 
 -(void)doneSucceeded{
@@ -727,8 +738,47 @@
     
 }
 
+- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+
+    NSString *sectionTitle = [self tableView:tableView titleForFooterInSection:section];
+    if (sectionTitle == nil) {
+        return nil;
+    }
+
+    if (section == 3) {
+        UILabel *label = [[UILabel alloc] init];
+        label.frame = CGRectMake(10, 8, 320, 20);
+        label.backgroundColor = [UIColor clearColor];
+        label.textColor = [UIColor colorWithRed:121.0/255.0 green:121.0/255.0 blue:121.0/255.0 alpha:1.0];
+        label.shadowColor = [UIColor clearColor];
+        label.font = [UIFont fontWithName:@"Helvetica" size:13.0];
+        label.text = sectionTitle;
+        label.textAlignment = NSTextAlignmentCenter;
+        
+        UIView *view = [[UIView alloc] init];
+        [view addSubview:label];
+        
+        return view;
+    }
+
+    return nil;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    
+    switch (section) {
+        case 3:
+            return @"Tap to update your location.       "; // Feature Details
+            
+        default:
+            return nil;
+            
+    }
+    
+}
+
 -(UITextField *)textFieldTemplate {
-    return [[UITextField alloc] initWithFrame:CGRectMake(130, 14, 160, 20)];
+    return [[UITextField alloc] initWithFrame:CGRectMake(140, 14, 150, 20)];
 }
 
 /**
@@ -883,6 +933,7 @@
             if (currentDate) {
                 NSDate *date = [NSDate dateWithTimeIntervalSince1970:currentDate];
                 self.dateField.text = [self.dateFormat stringFromDate:date];
+                [self.rogueFeature setAttributeWithDouble:currentDate forKey:@"date"];
             }
 
             UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
@@ -930,6 +981,7 @@
                 
                 self.eventField.inputView = self.eventPicker;
                 
+                [self.feature setValue:@"event" forKey:self.eventField.text];
                 
                 [cell.contentView addSubview:self.eventField];
             }
@@ -1075,7 +1127,7 @@
         }
 
         /**
-         * Keeper Bounds Field
+         * Email Field
          */
         if (indexPath.row == 5 && !self.emailField && !self.emailField.text) {
             field = [CodedValueUtility findField:@"email" inFeatureLayer:self.featureLayer];
@@ -1090,6 +1142,27 @@
             
             [cell.contentView addSubview:self.emailField];
         }
+
+        /**
+         * Location Fields
+         */
+        if ([CodedValueUtility findField:@"long_push" inFeatureLayer:self.featureLayer]) {
+
+            AGSGeometry *myPointReprojected = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:self.userLocation toSpatialReference:self.userLocation.spatialReference];
+            
+            self.rogueFeature.geometry = (AGSGeometry *)myPointReprojected;
+            
+            NSLog(@"self.feature.geometry: %@", self.rogueFeature.geometry);
+            NSLog(@"myPointReprojected: %@", myPointReprojected);
+        }
+
+        /**
+         * Location Fields
+         */
+        if ([CodedValueUtility findField:@"lat_push" inFeatureLayer:self.featureLayer]) {
+            NSLog(@"Record Latitude: %d", self.viUserLocationLatitude);
+        }
+
     }
     
     /**
@@ -1385,15 +1458,26 @@
     self.dateField = nil;
 	self.dateFormat = nil;
 	self.timeFormat = nil;
-    self.eventPicker = nil;
-    self.reporterPicker = nil;
-    self.eventField = nil;
-    self.reporterField = nil;
-    self.eventPickerViewFieldOptions = nil;
-    self.reporterPickerViewFieldOptions = nil;
 	self.attachmentInfos = nil;
 	self.operations = nil;
 	self.retrieveAttachmentOp = nil;
+
+    self.dateField = nil;
+    self.eventField = nil;
+    self.reporterField = nil;
+    self.pollutionField = nil;
+    self.keeperField = nil;
+    self.emailField = nil;
+    
+    self.eventPicker = nil;
+    self.reporterPicker = nil;
+    self.pollutionPicker = nil;
+    self.keeperPicker = nil;
+    
+    self.eventPickerViewFieldOptions = nil;
+    self.reporterPickerViewFieldOptions = nil;
+    self.pollutionPickerViewFieldOptions = nil;
+    self.keeperPickerViewFieldOptions = nil;
 }
 
 - (void)dealloc {
@@ -1425,12 +1509,22 @@
 	self.operations = nil;
 	self.retrieveAttachmentOp = nil;
 
-    self.eventPicker = nil;
-    self.reporterPicker = nil;
+    self.dateField = nil;
     self.eventField = nil;
     self.reporterField = nil;
+    self.pollutionField = nil;
+    self.keeperField = nil;
+    self.emailField = nil;
+
+    self.eventPicker = nil;
+    self.reporterPicker = nil;
+    self.pollutionPicker = nil;
+    self.keeperPicker = nil;
+    
     self.eventPickerViewFieldOptions = nil;
     self.reporterPickerViewFieldOptions = nil;
+    self.pollutionPickerViewFieldOptions = nil;
+    self.keeperPickerViewFieldOptions = nil;
 
     [super dealloc];
 }
