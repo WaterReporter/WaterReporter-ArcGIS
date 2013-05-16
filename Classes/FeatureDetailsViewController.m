@@ -734,13 +734,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     /**
-     * Make sure we are setting our 'cell' to nil so that
-     * we don't carry over data/details from the previous
-     * time this method was used.
+     * Reset Cell Configuration
+     *
+     * We need to make sure that every time we call cellForRowAtIndexPath
+     * that we are reseting the cell, the identifier, and the field so that
+     * our TableView display properly. If we don't do these things, it will
+     * get confused and make us sad.
+     *
      */
-	UITableViewCell *cell = nil;
     NSString *CellIdentifier = [NSString stringWithFormat:@"Cell %d_%d",indexPath.section,indexPath.row];
-
+	UITableViewCell *cell = nil;
+    AGSField *field = nil;
+    
 	/**
      * Attachments
      *
@@ -838,11 +843,6 @@
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		}
         
-		cell.imageView.image = nil;
-		cell.textLabel.text = nil;
-		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         /**
          * Iterate through all of the selected Feature Layer's
          * fields and perform the necessary pre-display actions
@@ -855,7 +855,6 @@
          * to be updated dynamically.
          *
          */
-        AGSField *field = nil;
         if (indexPath.row == 0 && !self.dateField && !self.dateField.text) {
             NSString *thisCodedValue = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"date" inFeatureLayer:self.featureLayer];
             
@@ -873,7 +872,7 @@
             self.dateField.textColor = DEFAULT_TEXT_COLOR;
             self.dateField.font = DEFAULT_BODY_FONT;
             self.dateField.textAlignment = NSTextAlignmentRight;
-            cell.textLabel.text = field.alias;
+            cell.textLabel.text = (NSString *)@"Date";
             
             NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
             double currentDate = theCurrentTime; // We must do this so that ArcGIS translates it appropriately
@@ -889,8 +888,8 @@
             
             [cell.contentView addSubview:self.dateField];
             
-            [thisDatePicker release];
-            [self.dateField release];
+            //[thisDatePicker release];
+            //[self.dateField release];
         }
     }
     return cell;
