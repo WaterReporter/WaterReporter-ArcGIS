@@ -263,7 +263,7 @@
      */
     NSLog(@"FeatureDetailsViewController:initWithFeatureLayer");
 	
-    NSLog(@"Prototype from the FDVC: %@", templatePrototype);
+    NSLog(@"self.feature from the FDVC: %@", feature);
 
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
         
@@ -328,8 +328,10 @@
 	// disable the commit button
 	//self.navigationItem.rightBarButtonItem.enabled = NO;
     
-    NSLog(@"Save that feature %@", self.rogueFeature);
-//    
+    NSLog(@"Save that feature %@", [self.feature allAttributes]);
+    NSLog(@"Save that rogueFeature %@", self.rogueFeature);
+    NSLog(@"Save that feature %@", self.feature);
+//
 //    if (self.featureLayer.bOnline)
 //    {
 //        // kick off the add feature operation
@@ -1195,6 +1197,9 @@
     NSString *thisDateString = [self.dateFormat stringFromDate:[sender date]];
 
     self.dateField.text = thisDateString;
+    
+    [self.rogueFeature setAttribute:thisDateString forKey:@"date"];
+
 }
 
 -(UITableViewCell *)reuseTableViewCellWithIdentifier:(NSString *)identifier withIndexPath:(NSIndexPath *)indexPath {
@@ -1235,121 +1240,121 @@
      */
     NSLog(@"FeaturesDetailsViewController: didSelectRowAtIndexPath");
 	
-	// don't allow selection if it is a new feature and we are in the process of committing
-	if (_newFeature && self.operations.count > 0){
-		return;
-	}
-
-    if (_newFeature && indexPath.section == 0){
-		// if creating a new feature and they clicked on the feature type, then let them choose a
-		// feature template
-		FeatureTypeViewController *ftvc = [[[FeatureTypeViewController alloc]init]autorelease];
-		ftvc.featureLayer = self.featureLayer;
-		ftvc.feature = self.feature;
-        ftvc.completedDelegate = self;
-		
-		[self.navigationController pushViewController:ftvc animated:YES];
-	}
-	
-	else if (indexPath.section == 2){
-        		        
-		if (_newFeature){
-			// if creating a new feature and they click on an attachment
-			
-			if (indexPath.row == self.attachments.count){
-				// if they click on "Add"
-				UIImagePickerController *imgPicker = [[[UIImagePickerController alloc] init]autorelease];
-				imgPicker.delegate = self;
-				if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-					imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-					imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
-					imgPicker.allowsEditing = NO;
-					imgPicker.videoQuality = UIImagePickerControllerQualityTypeLow;
-					imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
-				}
-				else {
-					imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-				}
-
-				[self presentViewController:imgPicker animated:YES completion:nil];
-			}
-			else {
-				// if they click on an existing media attachment
-				UIActionSheet *actionSheet = [[[UIActionSheet alloc]initWithTitle:@"What would you like to do?"
-																			delegate:self
-															   cancelButtonTitle:@"Cancel"
-														  destructiveButtonTitle:@"Remove"
-																otherButtonTitles:@"View",nil]autorelease];
-				actionSheet.tag = indexPath.row;
-				[actionSheet showInView:self.view];
-			}
-		}
-		else {
-			// if they are viewing an existing feature
-			
-			if (self.attachmentInfos.count > 0){
-				
-				// first cancel any retrieve operation already going on
-				if (self.retrieveAttachmentOp != nil){
-					[self.retrieveAttachmentOp cancel];
-					[self.operations removeObject:self.retrieveAttachmentOp];
-					self.retrieveAttachmentOp = nil;
-				}
-				
-				if ([self.attachments objectAtIndex:indexPath.row] == [NSNull null]){
-					
-					// if they click on a photo/video that we don't have, retrieve it
-					
-					// set tag to be used later
-					self.tableView.tag = indexPath.row;
-					
-					// kick off operation
-					AGSAttachmentInfo *ai = [self.attachmentInfos objectAtIndex:indexPath.row];
-					if ([ai.contentType isEqualToString:@"image/jpeg"]){
-						self.retrieveAttachmentOp = [self.featureLayer retrieveAttachmentForObjectId:_objectId attachmentId:ai.attachmentId];
-						[self.operations addObject:self.retrieveAttachmentOp];
-					}
-					else if([ai.contentType isEqualToString:@"video/quicktime"]){
-						self.retrieveAttachmentOp = [self.featureLayer retrieveAttachmentForObjectId:_objectId attachmentId:ai.attachmentId];
-						[self.operations addObject:self.retrieveAttachmentOp];
-					}
-				}
-				else {
-					AGSAttachmentInfo *ai = [self.attachmentInfos objectAtIndex:indexPath.row];
-					if ([ai.contentType isEqualToString:@"image/jpeg"]){
-						// if we already have the image, show it
-						UIImage *image = [UIImage imageWithContentsOfFile:[self.attachments objectAtIndex:indexPath.row]];
-						ImageViewController *vc = [[[ImageViewController alloc]initWithImage:image]autorelease];
-						[self.navigationController pushViewController:vc animated:YES];
-					}
-					else if ([ai.contentType isEqualToString:@"video/quicktime"]){
-						// if we already have the video, show it
-						NSString *filepath = [self.attachments objectAtIndex:indexPath.row];
-						MoviePlayerViewController *vc = [[[MoviePlayerViewController alloc]initWithURL:[self urlFromFilePath:filepath]]autorelease];
-						[self.navigationController pushViewController:vc animated:YES];
-					}
-				}
-
-			}
-		}
-	}
-    else if (indexPath.section == 3) {
-        
-        /**
-         * This allows us to see what is being fired and when
-         */
-        NSLog(@"FeaturesDetailsViewController:didSelectRowAtIndexPath:displaySketchLayer");
-        
-        /**
-         * Sketch Layer
-         *
-         * This is where the sketch layer should be activated. When the user clicks the
-         * location icon within the Feature template.
-         *
-         */
-        NSLog(@"Activate Sketch Layer");
-        
-    }
+//	// don't allow selection if it is a new feature and we are in the process of committing
+//	if (_newFeature && self.operations.count > 0){
+//		return;
+//	}
+//
+//    if (_newFeature && indexPath.section == 0){
+//		// if creating a new feature and they clicked on the feature type, then let them choose a
+//		// feature template
+//		FeatureTypeViewController *ftvc = [[[FeatureTypeViewController alloc]init]autorelease];
+//		ftvc.featureLayer = self.featureLayer;
+//		ftvc.feature = self.feature;
+//        ftvc.completedDelegate = self;
+//		
+//		[self.navigationController pushViewController:ftvc animated:YES];
+//	}
+//	
+//	else if (indexPath.section == 2){
+//        		        
+//		if (_newFeature){
+//			// if creating a new feature and they click on an attachment
+//			
+//			if (indexPath.row == self.attachments.count){
+//				// if they click on "Add"
+//				UIImagePickerController *imgPicker = [[[UIImagePickerController alloc] init]autorelease];
+//				imgPicker.delegate = self;
+//				if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+//					imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+//					imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
+//					imgPicker.allowsEditing = NO;
+//					imgPicker.videoQuality = UIImagePickerControllerQualityTypeLow;
+//					imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
+//				}
+//				else {
+//					imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//				}
+//
+//				[self presentViewController:imgPicker animated:YES completion:nil];
+//			}
+//			else {
+//				// if they click on an existing media attachment
+//				UIActionSheet *actionSheet = [[[UIActionSheet alloc]initWithTitle:@"What would you like to do?"
+//																			delegate:self
+//															   cancelButtonTitle:@"Cancel"
+//														  destructiveButtonTitle:@"Remove"
+//																otherButtonTitles:@"View",nil]autorelease];
+//				actionSheet.tag = indexPath.row;
+//				[actionSheet showInView:self.view];
+//			}
+//		}
+//		else {
+//			// if they are viewing an existing feature
+//			
+//			if (self.attachmentInfos.count > 0){
+//				
+//				// first cancel any retrieve operation already going on
+//				if (self.retrieveAttachmentOp != nil){
+//					[self.retrieveAttachmentOp cancel];
+//					[self.operations removeObject:self.retrieveAttachmentOp];
+//					self.retrieveAttachmentOp = nil;
+//				}
+//				
+//				if ([self.attachments objectAtIndex:indexPath.row] == [NSNull null]){
+//					
+//					// if they click on a photo/video that we don't have, retrieve it
+//					
+//					// set tag to be used later
+//					self.tableView.tag = indexPath.row;
+//					
+//					// kick off operation
+//					AGSAttachmentInfo *ai = [self.attachmentInfos objectAtIndex:indexPath.row];
+//					if ([ai.contentType isEqualToString:@"image/jpeg"]){
+//						self.retrieveAttachmentOp = [self.featureLayer retrieveAttachmentForObjectId:_objectId attachmentId:ai.attachmentId];
+//						[self.operations addObject:self.retrieveAttachmentOp];
+//					}
+//					else if([ai.contentType isEqualToString:@"video/quicktime"]){
+//						self.retrieveAttachmentOp = [self.featureLayer retrieveAttachmentForObjectId:_objectId attachmentId:ai.attachmentId];
+//						[self.operations addObject:self.retrieveAttachmentOp];
+//					}
+//				}
+//				else {
+//					AGSAttachmentInfo *ai = [self.attachmentInfos objectAtIndex:indexPath.row];
+//					if ([ai.contentType isEqualToString:@"image/jpeg"]){
+//						// if we already have the image, show it
+//						UIImage *image = [UIImage imageWithContentsOfFile:[self.attachments objectAtIndex:indexPath.row]];
+//						ImageViewController *vc = [[[ImageViewController alloc]initWithImage:image]autorelease];
+//						[self.navigationController pushViewController:vc animated:YES];
+//					}
+//					else if ([ai.contentType isEqualToString:@"video/quicktime"]){
+//						// if we already have the video, show it
+//						NSString *filepath = [self.attachments objectAtIndex:indexPath.row];
+//						MoviePlayerViewController *vc = [[[MoviePlayerViewController alloc]initWithURL:[self urlFromFilePath:filepath]]autorelease];
+//						[self.navigationController pushViewController:vc animated:YES];
+//					}
+//				}
+//
+//			}
+//		}
+//	}
+//    else if (indexPath.section == 3) {
+//        
+//        /**
+//         * This allows us to see what is being fired and when
+//         */
+//        NSLog(@"FeaturesDetailsViewController:didSelectRowAtIndexPath:displaySketchLayer");
+//        
+//        /**
+//         * Sketch Layer
+//         *
+//         * This is where the sketch layer should be activated. When the user clicks the
+//         * location icon within the Feature template.
+//         *
+//         */
+//        NSLog(@"Activate Sketch Layer");
+//        
+//    }
 }
 
 #pragma mark Action sheet delegate methods
@@ -1570,6 +1575,7 @@
     
     if (pickerView == self.eventPicker) {
         self.eventField.text = [self.eventPickerViewFieldOptions objectAtIndex:row];
+        
     } else if (pickerView == self.reporterPicker) {
         self.reporterField.text = [self.reporterPickerViewFieldOptions objectAtIndex:row];
     } else if (pickerView == self.keeperPicker) {

@@ -14,7 +14,6 @@
 			<string>IBProxyObject</string>
 			<string>IBUIButton</string>
 			<string>IBUIImageView</string>
-			<string>IBUIPageControl</string>
 			<string>IBUIScrollView</string>
 			<string>IBUIView</string>
 		</array>
@@ -48,7 +47,7 @@
 								<string key="NSFrameSize">{320, 548}</string>
 								<reference key="NSSuperview" ref="407911214"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="427335374"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -56,36 +55,6 @@
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">backgroundTutorial@2x.png</string>
 								</object>
-							</object>
-							<object class="IBUIImageView" id="427335374">
-								<reference key="NSNextResponder" ref="407911214"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{320, 480}</string>
-								<reference key="NSSuperview" ref="407911214"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="953669400"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">slide001-Introduction.png</string>
-								</object>
-							</object>
-							<object class="IBUIPageControl" id="953669400">
-								<reference key="NSNextResponder" ref="407911214"/>
-								<int key="NSvFlags">1325</int>
-								<object class="NSPSMatrix" key="NSFrameMatrix"/>
-								<string key="NSFrame">{{141, 434}, {38, 36}}</string>
-								<reference key="NSSuperview" ref="407911214"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="95287021"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<int key="IBUINumberOfPages">3</int>
 							</object>
 							<object class="IBUIButton" id="95287021">
 								<reference key="NSNextResponder" ref="407911214"/>
@@ -129,7 +98,6 @@
 								<string key="NSFrame">{{194, 485}, {106, 44}}</string>
 								<reference key="NSSuperview" ref="407911214"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -152,10 +120,15 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1028650570"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<bool key="IBUIBounces">NO</bool>
+						<bool key="IBUIAlwaysBounceHorizontal">YES</bool>
 						<bool key="IBUIPagingEnabled">YES</bool>
+						<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
+						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
 					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 548}}</string>
@@ -251,10 +224,8 @@
 						<reference key="object" ref="407911214"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="1028650570"/>
-							<reference ref="953669400"/>
-							<reference ref="95287021"/>
 							<reference ref="325943972"/>
-							<reference ref="427335374"/>
+							<reference ref="95287021"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -269,18 +240,8 @@
 						<reference key="parent" ref="407911214"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">23</int>
-						<reference key="object" ref="953669400"/>
-						<reference key="parent" ref="407911214"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">21</int>
 						<reference key="object" ref="1028650570"/>
-						<reference key="parent" ref="407911214"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">31</int>
-						<reference key="object" ref="427335374"/>
 						<reference key="parent" ref="407911214"/>
 					</object>
 				</array>
@@ -292,10 +253,8 @@
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
@@ -331,10 +290,10 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="backgroundTutorial@2x.png">{640, 960}</string>
-			<string key="slide001-Introduction.png">{640, 960}</string>
-		</dictionary>
+		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="NS.key.0">backgroundTutorial@2x.png</string>
+			<string key="NS.object.0">{640, 960}</string>
+		</object>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

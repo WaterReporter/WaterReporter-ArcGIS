@@ -294,7 +294,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    //[self presentViewController:self.featureTemplatePickerViewController animated:YES completion:nil];
     [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
 }
 
