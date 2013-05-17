@@ -274,7 +274,14 @@
 		self.featureGeometry = featureGeometry;
         self.feature = feature;
 		self.operations = [NSMutableArray array];
-        		
+        
+        JSONTempalte = [self.templatePrototype encodeJSON];
+
+        AGSFeatureTemplate *template = [self templateFor];
+        
+        //create the feature here
+        self.feature = [self.featureLayer featureWithTemplate:template];
+
 		// if the attributes are nil, it is a new feature, set flat
 		if (!feature){
 			_newFeature = YES;
@@ -327,15 +334,15 @@
     
 	// disable the commit button
 	//self.navigationItem.rightBarButtonItem.enabled = NO;
-    
-    NSLog(@"Save that feature %@", [self.feature allAttributes]);
-    NSLog(@"Save that rogueFeature %@", self.rogueFeature);
+        
     NSLog(@"Save that feature %@", self.feature);
+    NSLog(@"Save that rogueFeature %@", self.rogueFeature);
+    NSLog(@"Save that featureLayer %@", self.featureLayer);
 //
 //    if (self.featureLayer.bOnline)
 //    {
 //        // kick off the add feature operation
-//        [self.operations addObject:[self.featureLayer addFeatures:[NSArray arrayWithObject:self.feature]]];	
+//        [self.operations addObject:[self.featureLayer addFeatures:[NSArray arrayWithObject:self.feature]]];
 //    }
 //    else {
 //        //add features offline
