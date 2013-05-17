@@ -7,16 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FeatureTemplatePickerViewController.h"
+
+@class TutorialViewController;
 
 @interface TutorialViewController : UIViewController <UIScrollViewDelegate, UIScrollViewAccessibilityDelegate> {
     UIScrollView* _tutorialView;
     UIPageControl* _pageControl;
-    FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView* tutorialView;
 @property (nonatomic, retain) UIPageControl* pageControl;
-@property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
 
 @end

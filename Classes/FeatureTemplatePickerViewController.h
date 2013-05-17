@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
+#import "TutorialViewController.h"
+
 @class FeatureTemplatePickerViewController;
 
 /** The delegate that will be notified by FeatureTemplatePickerViewController
@@ -19,13 +21,18 @@
 
 
 @interface FeatureTemplatePickerViewController : UITableViewController<UIActionSheetDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate> {
-	UITableView* _featureTemplatesTableView;
+
+    UITableView* _featureTemplatesTableView;
     id<FeatureTemplatePickerDelegate> __weak _delegate;
 	AGSGraphic *_feature;
 	BOOL _newFeature;						// flag that indicates whether the feature for which details are being viewed is new or existing
     NSMutableArray* _infos;
 	NSMutableArray *_operations;			// all the in-progress operations spawned by this VC, we keep them so we can cancel them if we pop the VC (dealloc cancels them)
+
+    TutorialViewController *_tutorialViewController;
 }
+
+@property (nonatomic, strong) TutorialViewController *tutorialViewController;
 
 @property (nonatomic, retain) AGSGraphic *feature;
 @property (nonatomic, weak) id<FeatureTemplatePickerDelegate> delegate;

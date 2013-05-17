@@ -7,9 +7,15 @@
  */
 
 #import "FeatureTemplatePickerViewController.h"
+#import "TutorialViewController.h"
+
+#define DEFAULT_TEXT_COLOR [UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0]
+#define DEFAULT_BODY_FONT [UIFont fontWithName:@"Helvetica-Bold" size:13.0]
 
 @implementation FeatureTemplatePickerViewController
+
 @synthesize featureTemplatesTableView = _featureTemplatesTableView;
+@synthesize tutorialViewController = _tutorialViewController;
 @synthesize delegate = _delegate;
 @synthesize infos = _infos;
 
@@ -24,6 +30,11 @@
 
     UIBarButtonItem *cancel = [[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)]autorelease];
     self.navigationItem.leftBarButtonItem = cancel;
+    
+    /**
+     * Initialize the feature template picker so that we can show it later when needed
+     */
+    self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
     
     self.navigationItem.title = @"Choose Type";
 
@@ -142,6 +153,64 @@
     return nil;
 }
 
+- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
+
+    /**
+     * Review the Tutorial/How-To
+     */
+    //UIImage *addNewFeatureImage = [UIImage imageNamed:viFeatureAddButtonURL];
+    UIButton *buttonDisplayTutorial = [UIButton buttonWithType:UIButtonTypeCustom];
+    buttonDisplayTutorial.frame = CGRectMake(0, 0, view.frame.size.width, 50);
+    
+    buttonDisplayTutorial.userInteractionEnabled = YES;
+    [buttonDisplayTutorial addTarget:self action:@selector(presentTutorialViewController) forControlEvents:UIControlEventTouchUpInside];
+    [buttonDisplayTutorial setTitle:@"Forget how to use Water Reporter?" forState:UIControlStateNormal];
+    [buttonDisplayTutorial setTitleColor:[UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    buttonDisplayTutorial.titleLabel.textColor = DEFAULT_TEXT_COLOR;
+    buttonDisplayTutorial.titleLabel.font = DEFAULT_BODY_FONT;
+    buttonDisplayTutorial.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+    //[addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
+    
+    [view addSubview:buttonDisplayTutorial];
+    
+    return [view autorelease];
+}
+     
+/**
+ * Add a new feature
+ *
+ * The action for the "+" button that allows
+ * the user to select what kind of Feature
+ * they would like to add to the map
+ *
+ */
+-(void)presentTutorialViewController {
+     
+     /**
+      * This allows us to see what is being fired and when
+      */
+     NSLog(@"WaterReporterViewController: presentFeatureTemplatePicker");
+    
+     self.navigationItem.title = @"Share your report";
+    
+     // iPAD ONLY: Limit the size of the form sheet
+     if([[AGSDevice currentDevice] isIPad]) {
+         self.tutorialViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+     }
+     
+     // ALL: Animate the template picker, covering vertically
+     self.tutorialViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+     
+     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+     [self.navigationController pushViewController:self.tutorialViewController animated:YES];
+}
+ 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 50;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     /**
@@ -250,7 +319,7 @@
     [super viewDidUnload];
 	self.featureTemplatesTableView = nil;
     self.delegate = nil;
-    
+    self.tutorialViewController = nil;
 }
 
 

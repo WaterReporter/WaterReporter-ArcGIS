@@ -7,13 +7,11 @@
 //
 
 #import "TutorialViewController.h"
-#import "FeatureTemplatePickerViewController.h"
 
 @implementation TutorialViewController
 
 @synthesize tutorialView = _tutorialView;
 @synthesize pageControl = _pageControl;
-@synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 
 - (IBAction) dismissTutorialViewController {
     [self dismissViewControllerAnimated:NO completion:nil];

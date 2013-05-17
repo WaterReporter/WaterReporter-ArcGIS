@@ -73,13 +73,13 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     /**
      * Initialize the feature template picker so that we can show it later when needed
      */
-    self.featureTemplatePickerViewController =  [[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil];
+    self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
     self.featureTemplatePickerViewController.delegate = self;
     
     /**
      * Initialize the tutorial so that we can show it later when needed
      */
-    self.tutorialViewController =  [[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil];
+    self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
     
     /**
      * If this is the first time the user is using the application we need
