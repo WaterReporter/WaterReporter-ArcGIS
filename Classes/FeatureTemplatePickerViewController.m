@@ -290,8 +290,6 @@
               
         FeatureTemplatePickerInfo* info = [self.infos objectAtIndex:indexPath.row];
         [self.delegate featureTemplatePickerViewController:self didSelectFeatureTemplate:info.featureTemplate forFeatureLayer:info.featureLayer];
-        
-        NSLog(@"Template selected:%@", info.featureTemplate);
     }
     
     //Unselect the cell

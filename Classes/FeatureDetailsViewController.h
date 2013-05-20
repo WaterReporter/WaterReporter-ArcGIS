@@ -17,6 +17,8 @@
 
     AGSFeatureLayer *_featureLayer;
 	AGSGraphic *_feature;
+    int *_featureObjectId;
+    NSMutableArray *allMediaAttachments;
 	AGSGeometry *_featureGeometry;
     AGSPoint *_userLocation;
     NSObject *_templatePrototype;
@@ -50,6 +52,8 @@
 
 @property (nonatomic) double viUserLocationLongitude;
 @property (nonatomic) double viUserLocationLatitude;
+@property (nonatomic) int featureObjectId;
+@property (nonatomic, retain) NSMutableArray *allMediaAttachments;
 
 @property (nonatomic, retain) AGSGraphic *feature;
 @property (nonatomic, retain) AGSGeometry *featureGeometry;

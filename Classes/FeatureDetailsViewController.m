@@ -47,9 +47,11 @@
 
 @synthesize viUserLocationLongitude = _viUserLocationLongitude;
 @synthesize viUserLocationLatitude = _viUserLocationLatitude;
+@synthesize allMediaAttachments;
 
 @synthesize feature = _feature;
 @synthesize featureGeometry = _featureGeometry;
+@synthesize featureObjectId;
 @synthesize userLocation = _userLocation;
 @synthesize templatePrototype = _templatePrototype;
 @synthesize featureLayer = _featureLayer;
@@ -192,6 +194,9 @@
      */
     NSLog(@"FeatureDetailsViewController:viewDidLoad");
     
+    NSMutableArray *theseMediaAttachments = [[NSMutableArray alloc] init];
+    self.allMediaAttachments = theseMediaAttachments;
+    
     if (_newFeature){
         /**
          * This is the "Cancel" button when you're adding a new feature to the map
@@ -268,12 +273,11 @@
         NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureLayer:%@", featureLayer);
         NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureGeometry:%@", featureGeometry);
         NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:template:%@", templatePrototype);
-        
+
 		self.featureLayer = featureLayer;
 		self.featureLayer.editingDelegate = self;
 		self.featureGeometry = featureGeometry;
         self.feature = (AGSGraphic *)templatePrototype;
-        //self.feature = feature;
 		self.operations = [NSMutableArray array];
 
 		// if the attributes are nil, it is a new feature, set flat
@@ -360,18 +364,24 @@
 	// pop the view controller
 	[self.navigationController popViewControllerAnimated:YES];
 	
-    NSString *messageString = @"You have successfully added a report.";
+    NSString *messageString = @"Your report has been saved. Thanks for submitting.";
 //    if (self.featureLayer.bOnline)
 //    {
 //        messageString = [messageString stringByAppendingString:[NSString stringWithFormat:@" Confirmation number: %i", _objectId]];
 //    }
 
 	// show an alert
-	UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"Report Added"
+	UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"We got it"
 														message:messageString
 													   delegate:nil
-											  cancelButtonTitle:@"Ok"
+											  cancelButtonTitle:@"OK"
 											  otherButtonTitles:nil]autorelease];
+    
+    [self.feature setAttributeToNullForKey:@"pollution"];
+    [self.feature setAttributeToNullForKey:@"event"];
+    [self.feature setAttributeToNullForKey:@"reporter"];
+    [self.feature setAttributeToNullForKey:@"keeper_bounds"];
+    
 	[alertView show];
 }
 
@@ -381,13 +391,13 @@
 	// pop the view controller
 	[self.navigationController popViewControllerAnimated:YES];
 	
-	// show an alert
-	UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"Error"
-														message:@"There was an error adding the report. Please try again."
-													   delegate:nil
-											  cancelButtonTitle:@"Ok"
-											  otherButtonTitles:nil]autorelease];
-	[alertView show];
+//	// show an alert
+//	UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"Error"
+//														message:@"There was an error adding the report. Please try again."
+//													   delegate:nil
+//											  cancelButtonTitle:@"Ok"
+//											  otherButtonTitles:nil]autorelease];
+	//[alertView show];
 }
 
 -(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc
@@ -493,6 +503,7 @@
 	// if added feature, set the objectId
 	NSLog(@"added feature: %d", addResult.objectId);
 	_objectId = addResult.objectId;
+    self.featureObjectId = _objectId;
 	
 	if (self.attachments.count > 0){
 		// add the attachments
@@ -540,16 +551,39 @@
 	// remove the operation
 	[self.operations removeObject:op];
 	
-	if (!attachmentResults.addResult.success){
+    /**
+     * Get the type of report we're adding attachments to
+     */
+    NSString *reportType;
+    
+    if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
+        reportType = @"event_report";
+    } else if ([self.featureLayer.name isEqualToString:@"Pollution Report"]) {
+        reportType = @"pollution_report";
+    }
+    
+    /**
+     * Check to see if our results have uploaded successfully or not
+     */
+    if (!attachmentResults.addResult.success){
 		NSLog(@"failed to add attachment.");
-	}
-	else {
-		NSLog(@"added attachment: %d",attachmentResults.addResult.objectId);
-	}
+	} else {
+                
+        NSString *newMediaAttachment = [NSString stringWithFormat:@"http://services.arcgis.com/I6k5a3a8EwvGOEs3/ArcGIS/rest/services/%@/FeatureServer/0/%d/attachments/%ld", reportType, self.featureObjectId, (long)attachmentResults.addResult.objectId];
+
+        [self.allMediaAttachments addObject:newMediaAttachment];
+    }
 
 	// as we add attachments, we are removing them from the array, so that we know when we are done adding all the attachments
 	if (self.operations.count == 0){
 		// if we get to 0, we are done
+        
+        NSString *mediaAttachmentList = [self.allMediaAttachments componentsJoinedByString:@","];
+        [self.feature setAttributeWithString:mediaAttachmentList forKey:@"image1"];
+        [self.featureLayer updateFeatures:[NSArray arrayWithObject:self.feature]];
+        
+        NSLog(@"LIST OF ATTACHMENTS: %@", mediaAttachmentList);
+
 		[self doneSucceeded];
 	}
 }
@@ -978,7 +1012,7 @@
          */
         if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
             if (indexPath.row == 1 && !self.eventField && !self.eventField.text) {
-                NSLog(@"%@", self.featureLayer.name);
+                NSLog(@"FEATURE LAYER NAME%@", self.featureLayer.name);
                 field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
                 
                 self.eventField = [self textFieldTemplate];
@@ -1182,7 +1216,7 @@
             cell.textLabel.text = field.alias;
             
             cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"email" inFeatureLayer:self.featureLayer];
-            [self.emailField addTarget:self action:@selector(emailFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
+            [self.emailField addTarget:self action:@selector(emailFieldDidEndEditing:) forControlEvents:UIControlEventEditingChanged];
 
             [cell.contentView addSubview:self.emailField];
         }
@@ -1495,106 +1529,6 @@
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark -
-#pragma mark Memory management
-
-- (void)didReceiveMemoryWarning {
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didReceiveMemoryWarning");
-
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidUnload {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: viewDidUnload");
-
-	self.featureLayer.editingDelegate = nil;
-	
-    self.feature = nil;
-	self.featureGeometry = nil;
-	self.featureLayer = nil;
-	self.attachments = nil;
-	self.date = nil;
-    self.dateField = nil;
-	self.dateFormat = nil;
-	self.timeFormat = nil;
-	self.attachmentInfos = nil;
-	self.operations = nil;
-	self.retrieveAttachmentOp = nil;
-
-    self.dateField = nil;
-    self.eventField = nil;
-    self.reporterField = nil;
-    self.pollutionField = nil;
-    self.keeperField = nil;
-    self.emailField = nil;
-    
-    self.eventPicker = nil;
-    self.reporterPicker = nil;
-    self.pollutionPicker = nil;
-    self.keeperPicker = nil;
-    
-    self.eventPickerViewFieldOptions = nil;
-    self.reporterPickerViewFieldOptions = nil;
-    self.pollutionPickerViewFieldOptions = nil;
-    self.keeperPickerViewFieldOptions = nil;
-}
-
-- (void)dealloc {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: dealloc");
-    
-	// cancel any ongoing operations
-	for (NSOperation *op in self.operations){
-		[op cancel];
-	}
-	
-	self.retrieveAttachmentOp = nil;
-	
-	// set delegate to nil so that the feature layer doesn't try to access
-	// a dealloc'd object
-	self.featureLayer.editingDelegate = nil;
-	
-    self.feature = nil;
-	self.featureGeometry = nil;
-	self.featureLayer = nil;
-	self.attachments = nil;
-	self.date = nil;
-	self.dateFormat = nil;
-	self.timeFormat = nil;
-	self.attachmentInfos = nil;
-	self.operations = nil;
-	self.retrieveAttachmentOp = nil;
-
-    self.dateField = nil;
-    self.eventField = nil;
-    self.reporterField = nil;
-    self.pollutionField = nil;
-    self.keeperField = nil;
-    self.emailField = nil;
-
-    self.eventPicker = nil;
-    self.reporterPicker = nil;
-    self.pollutionPicker = nil;
-    self.keeperPicker = nil;
-    
-    self.eventPickerViewFieldOptions = nil;
-    self.reporterPickerViewFieldOptions = nil;
-    self.pollutionPickerViewFieldOptions = nil;
-    self.keeperPickerViewFieldOptions = nil;
-
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark Picker View Methods
@@ -1651,5 +1585,106 @@
     
 }
 
-@end
 
+#pragma mark -
+#pragma mark Memory management
+
+- (void)didReceiveMemoryWarning {
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeaturesDetailsViewController: didReceiveMemoryWarning");
+    
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidUnload {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeaturesDetailsViewController: viewDidUnload");
+    
+	self.featureLayer.editingDelegate = nil;
+	
+    self.feature = nil;
+	self.featureGeometry = nil;
+	self.featureLayer = nil;
+	self.attachments = nil;
+	self.date = nil;
+    self.dateField = nil;
+	self.dateFormat = nil;
+	self.timeFormat = nil;
+	self.attachmentInfos = nil;
+	self.operations = nil;
+	self.retrieveAttachmentOp = nil;
+    
+    self.dateField = nil;
+    self.eventField = nil;
+    self.reporterField = nil;
+    self.pollutionField = nil;
+    self.keeperField = nil;
+    self.emailField = nil;
+    
+    self.eventPicker = nil;
+    self.reporterPicker = nil;
+    self.pollutionPicker = nil;
+    self.keeperPicker = nil;
+    
+    self.eventPickerViewFieldOptions = nil;
+    self.reporterPickerViewFieldOptions = nil;
+    self.pollutionPickerViewFieldOptions = nil;
+    self.keeperPickerViewFieldOptions = nil;
+}
+
+- (void)dealloc {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeaturesDetailsViewController: dealloc");
+    
+	// cancel any ongoing operations
+	for (NSOperation *op in self.operations){
+		[op cancel];
+	}
+	
+	self.retrieveAttachmentOp = nil;
+	
+	// set delegate to nil so that the feature layer doesn't try to access
+	// a dealloc'd object
+	self.featureLayer.editingDelegate = nil;
+	
+    self.feature = nil;
+	self.featureGeometry = nil;
+	self.featureLayer = nil;
+	self.attachments = nil;
+	self.date = nil;
+	self.dateFormat = nil;
+	self.timeFormat = nil;
+	self.attachmentInfos = nil;
+	self.operations = nil;
+	self.retrieveAttachmentOp = nil;
+    
+    self.dateField = nil;
+    self.eventField = nil;
+    self.reporterField = nil;
+    self.pollutionField = nil;
+    self.keeperField = nil;
+    self.emailField = nil;
+    
+    self.eventPicker = nil;
+    self.reporterPicker = nil;
+    self.pollutionPicker = nil;
+    self.keeperPicker = nil;
+    
+    self.eventPickerViewFieldOptions = nil;
+    self.reporterPickerViewFieldOptions = nil;
+    self.pollutionPickerViewFieldOptions = nil;
+    self.keeperPickerViewFieldOptions = nil;
+    
+    [super dealloc];
+}
+
+@end
