@@ -15,8 +15,7 @@
 @interface FeatureDetailsViewController : UITableViewController <UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AGSFeatureLayerEditingDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
 	
 
-    WaterReporterFeatureLayer *_featureLayer;
-	AGSGraphic *_rogueFeature;
+    AGSFeatureLayer *_featureLayer;
 	AGSGraphic *_feature;
 	AGSGeometry *_featureGeometry;
     AGSPoint *_userLocation;
@@ -53,11 +52,10 @@
 @property (nonatomic) double viUserLocationLatitude;
 
 @property (nonatomic, retain) AGSGraphic *feature;
-@property (nonatomic, retain) AGSGraphic *rogueFeature;
 @property (nonatomic, retain) AGSGeometry *featureGeometry;
 @property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, retain) NSObject *templatePrototype;
-@property (nonatomic, retain) WaterReporterFeatureLayer *featureLayer;
+@property (nonatomic, retain) AGSFeatureLayer *featureLayer;
 @property (nonatomic, retain) NSMutableArray *attachments;
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, retain) NSDateFormatter *dateFormat;
@@ -83,7 +81,7 @@
 @property (nonatomic, retain) NSMutableArray *keeperPickerViewFieldOptions;
 @property (nonatomic, retain) NSMutableArray *pollutionPickerViewFieldOptions;
 
--(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject*)templatePrototype;
+-(id)initWithFeatureLayer:(AGSFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject*)templatePrototype;
 -(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc;
 
 @end

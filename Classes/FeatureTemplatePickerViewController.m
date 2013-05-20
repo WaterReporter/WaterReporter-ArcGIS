@@ -67,6 +67,11 @@
         for (AGSFeatureTemplate* template in layer.templates) {
 
             if ([template.name isEqualToString:@"Pollution Report"] || [template.name isEqualToString:@"River Event Report"]) {
+                NSLog(@"name%@", template.name);
+                NSLog(@"prototype%@", template.prototype);
+                NSLog(@"featureDescription%@", template.featureDescription);
+
+                
                 FeatureTemplatePickerInfo* info = [[FeatureTemplatePickerInfo alloc] init];
                 info.featureLayer = layer;
                 info.featureTemplate = template;
@@ -74,7 +79,6 @@
 
                 //Add to array
                 [self.infos addObject:info];
-                NSLog(@"%@", template.name);
             }
         }
     //Otherwise, if layer contains feature types
@@ -287,7 +291,7 @@
         FeatureTemplatePickerInfo* info = [self.infos objectAtIndex:indexPath.row];
         [self.delegate featureTemplatePickerViewController:self didSelectFeatureTemplate:info.featureTemplate forFeatureLayer:info.featureLayer];
         
-        NSLog(@"Template selected");
+        NSLog(@"Template selected:%@", info.featureTemplate);
     }
     
     //Unselect the cell

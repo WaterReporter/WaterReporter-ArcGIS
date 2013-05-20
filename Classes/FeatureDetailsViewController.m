@@ -49,7 +49,6 @@
 @synthesize viUserLocationLatitude = _viUserLocationLatitude;
 
 @synthesize feature = _feature;
-@synthesize rogueFeature = _rogueFeature;
 @synthesize featureGeometry = _featureGeometry;
 @synthesize userLocation = _userLocation;
 @synthesize templatePrototype = _templatePrototype;
@@ -255,7 +254,7 @@
 
 #pragma mark init method
 
--(id)initWithFeatureLayer:(WaterReporterFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject *)templatePrototype{
+-(id)initWithFeatureLayer:(AGSFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject *)templatePrototype{
 	
     
     /**
@@ -263,24 +262,19 @@
      */
     NSLog(@"FeatureDetailsViewController:initWithFeatureLayer");
 	
-    NSLog(@"self.feature from the FDVC: %@", feature);
-
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
         
+        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:feature:%@", feature);
+        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureLayer:%@", featureLayer);
         NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureGeometry:%@", featureGeometry);
+        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:template:%@", templatePrototype);
         
 		self.featureLayer = featureLayer;
 		self.featureLayer.editingDelegate = self;
 		self.featureGeometry = featureGeometry;
-        self.feature = feature;
+        self.feature = (AGSGraphic *)templatePrototype;
+        //self.feature = feature;
 		self.operations = [NSMutableArray array];
-        
-        JSONTempalte = [self.templatePrototype encodeJSON];
-
-        AGSFeatureTemplate *template = [self templateFor];
-        
-        //create the feature here
-        self.feature = [self.featureLayer featureWithTemplate:template];
 
 		// if the attributes are nil, it is a new feature, set flat
 		if (!feature){
@@ -336,8 +330,13 @@
 	//self.navigationItem.rightBarButtonItem.enabled = NO;
         
     NSLog(@"Save that feature %@", self.feature);
-    NSLog(@"Save that rogueFeature %@", self.rogueFeature);
     NSLog(@"Save that featureLayer %@", self.featureLayer);
+    
+    [self.operations addObject:[self.featureLayer addFeatures:[NSArray arrayWithObject:self.feature]]];
+    NSLog(@"SAVING self.featureGeometry %@", self.featureGeometry);
+    self.feature.geometry = self.featureGeometry;
+    NSLog(@"SAVING self.featureLayer %@", self.featureLayer);
+    NSLog(@"SAVING self.feature %@", self.feature);
 //
 //    if (self.featureLayer.bOnline)
 //    {
@@ -363,10 +362,10 @@
 	[self.navigationController popViewControllerAnimated:YES];
 	
     NSString *messageString = @"You have successfully added a report.";
-    if (self.featureLayer.bOnline)
-    {
-        messageString = [messageString stringByAppendingString:[NSString stringWithFormat:@" Confirmation number: %i", _objectId]];
-    }
+//    if (self.featureLayer.bOnline)
+//    {
+//        messageString = [messageString stringByAppendingString:[NSString stringWithFormat:@" Confirmation number: %i", _objectId]];
+//    }
 
 	// show an alert
 	UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"Report Added"
@@ -407,6 +406,8 @@
     // set the recordedon value; the other default values will come from the template
     NSTimeInterval timeInterval = [self.date timeIntervalSince1970];
     [self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"date" ];
+    
+    NSLog(@"The date given the app: %f",(timeInterval * 1000));
     
     //set the callout info template to the layer's infoTemplateDelegate
     self.feature.infoTemplateDelegate = self.featureLayer.infoTemplateDelegate;
@@ -467,8 +468,8 @@
      */
     NSLog(@"FeaturesDetailsViewController: didFeatureEditsWithResults");
 	// called when feature layer is done with feature edits (in this case, done adding the feature)
-	
-	// remove operation
+		
+    // remove operation
 	[self.operations removeObject:op];
 	
 	// if can't add feature, call doneFailed
@@ -489,9 +490,11 @@
 			id file = [self.attachments objectAtIndex:i];
 			if ([file isKindOfClass:[NSURL class]]){
 				NSData *data = [NSData dataWithContentsOfURL:file];
+                NSLog(@"Attachment NSURL: %d", addResult.objectId);
 				[self.operations addObject:[self.featureLayer addAttachment:addResult.objectId data:data filename:[[file absoluteString]lastPathComponent] ]];
 			}
 			else if ([file isKindOfClass:[NSString class]]){
+                NSLog(@"Attachment NSString: %d/%d", addResult.objectId, i);
 				[self.operations addObject:[self.featureLayer addAttachment:addResult.objectId filepath:[self.attachments objectAtIndex:i]]];
 			}
 		 }
@@ -936,20 +939,21 @@
             self.dateField.textAlignment = NSTextAlignmentRight;
             cell.textLabel.text = field.alias;
             
-            NSTimeInterval theCurrentTime = [[NSDate date] timeIntervalSince1970];
-            double currentDate = theCurrentTime; // We must do this so that ArcGIS translates it appropriately
+            // set the recordedon value; the other default values will come from the template
+            NSTimeInterval timeInterval = [self.date timeIntervalSince1970];
+            [self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"date" ];
             
-            if (currentDate) {
-                NSDate *date = [NSDate dateWithTimeIntervalSince1970:currentDate];
-                self.dateField.text = [self.dateFormat stringFromDate:date];
-                [self.rogueFeature setAttributeWithDouble:currentDate forKey:@"date"];
-            }
+            NSDate *thisDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
+            self.dateField.text = [self.dateFormat stringFromDate:thisDate];
 
+            
             UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
             self.dateField.inputView = thisDatePicker;
             [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
             
             [cell.contentView addSubview:self.dateField];
+            
+            [self.dateField release];
         }
         
         /**
@@ -993,6 +997,9 @@
                 [self.feature setValue:@"event" forKey:self.eventField.text];
                 
                 [cell.contentView addSubview:self.eventField];
+                
+                [self.eventField release];
+                [self.eventPicker release];
             }
         }
         
@@ -1036,6 +1043,8 @@
                 
                 
                 [cell.contentView addSubview:self.pollutionField];
+                [self.pollutionField release];
+                [self.pollutionPicker release];
             }
         }
         
@@ -1077,6 +1086,9 @@
             self.reporterField.inputView = self.reporterPicker;
             
             [cell.contentView addSubview:self.reporterField];
+            
+            [self.reporterField release];
+            [self.reporterPicker release];
         }
 
         /**
@@ -1133,6 +1145,9 @@
             self.keeperField.inputView = self.keeperPicker;
             
             [cell.contentView addSubview:self.keeperField];
+            
+            [self.keeperField release];
+            [self.keeperPicker release];
         }
 
         /**
@@ -1155,22 +1170,23 @@
         /**
          * Location Fields
          */
-        if ([CodedValueUtility findField:@"long_push" inFeatureLayer:self.featureLayer]) {
+        if ([CodedValueUtility findField:@"long_push" inFeatureLayer:self.featureLayer] && [CodedValueUtility findField:@"lat_push" inFeatureLayer:self.featureLayer]) {
 
-            AGSGeometry *myPointReprojected = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:self.userLocation toSpatialReference:self.userLocation.spatialReference];
+            AGSGeometry *projectedPoint = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:self.userLocation toSpatialReference:self.userLocation.spatialReference];
             
-            self.rogueFeature.geometry = (AGSGeometry *)myPointReprojected;
+            self.featureGeometry = (AGSGeometry *)projectedPoint;
             
-            NSLog(@"self.feature.geometry: %@", self.rogueFeature.geometry);
-            NSLog(@"myPointReprojected: %@", myPointReprojected);
+            [self.feature setAttributeWithDouble:self.userLocation.x forKey:@"long_push"];
+            [self.feature setAttributeWithDouble:self.userLocation.y forKey:@"lat_push"];
+
+            NSLog(@"self.featureGeometry: %@", self.featureGeometry);
         }
-
+        
         /**
-         * Location Fields
+         * Images
          */
-        if ([CodedValueUtility findField:@"lat_push" inFeatureLayer:self.featureLayer]) {
-            NSLog(@"Record Latitude: %d", self.viUserLocationLatitude);
-        }
+        // http://[SERIVCES URL]/[ORGANIZATION ID]/arcgis/rest/services/[FEATURE LAYER URL]/0/[FEATURE ID]/attachments/[ATTACHMENT ID]
+        // http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0/7/attachments/2
 
     }
     
@@ -1202,10 +1218,14 @@
 - (void)datePickerValueUpdated:(id)sender {
     
     NSString *thisDateString = [self.dateFormat stringFromDate:[sender date]];
-
     self.dateField.text = thisDateString;
     
-    [self.rogueFeature setAttribute:thisDateString forKey:@"date"];
+    NSTimeInterval theSelectedTime = [[sender date] timeIntervalSince1970];
+
+    if (theSelectedTime) {
+        [self.feature setAttributeWithDouble:(theSelectedTime) forKey:@"date"];
+        NSLog(@"The date given the datePickerValueUpdated: %f", (theSelectedTime));
+    }
 
 }
 
@@ -1253,6 +1273,9 @@
 	}
 
     if (_newFeature && indexPath.section == 0){
+        
+        NSLog(@"WE NEED TO DO SOMETHING HERE!!!!");
+        
 		// if creating a new feature and they clicked on the feature type, then let them choose a
 		// feature template
 		FeatureTypeViewController *ftvc = [[[FeatureTypeViewController alloc]init]autorelease];
@@ -1579,15 +1602,18 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    
-    if (pickerView == self.eventPicker) {
-        self.eventField.text = [self.eventPickerViewFieldOptions objectAtIndex:row];
         
+    if (pickerView == self.eventPicker) {
+        [self.feature setAttributeWithString:[self.eventPickerViewFieldOptions objectAtIndex:row] forKey:@"event"];
+        self.eventField.text = [self.eventPickerViewFieldOptions objectAtIndex:row];
     } else if (pickerView == self.reporterPicker) {
+        [self.feature setAttributeWithString:[self.reporterPickerViewFieldOptions objectAtIndex:row] forKey:@"reporter"];
         self.reporterField.text = [self.reporterPickerViewFieldOptions objectAtIndex:row];
     } else if (pickerView == self.keeperPicker) {
+        [self.feature setAttributeWithString:[self.keeperPickerViewFieldOptions objectAtIndex:row] forKey:@"keeper_bounds"];
         self.keeperField.text = [self.keeperPickerViewFieldOptions objectAtIndex:row];
     } else if (pickerView == self.pollutionPicker) {
+        [self.feature setAttributeWithString:[self.pollutionPickerViewFieldOptions objectAtIndex:row] forKey:@"pollution"];
         self.pollutionField.text = [self.pollutionPickerViewFieldOptions objectAtIndex:row];
     }
     
