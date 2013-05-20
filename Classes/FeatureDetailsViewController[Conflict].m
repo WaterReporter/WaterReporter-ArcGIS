@@ -318,36 +318,34 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
-/**
- * Commit Button Pressed
- *
- * @void
- */
 -(void)commit{
+	// when the commit button is pressed
 	
     /**
      * This allows us to see what is being fired and when
      */
     NSLog(@"FeaturesDetailsViewController:commit");
     
-	/**
-     * Disable the commit button so that
-     * we aren't allowing duplicate submissions.
-     */
-	self.navigationItem.rightBarButtonItem.enabled = NO;
+	// disable the commit button
+	//self.navigationItem.rightBarButtonItem.enabled = NO;
+        
+    NSLog(@"Save that feature %@", self.feature);
+    NSLog(@"Save that featureLayer %@", self.featureLayer);
     
-    /**
-     * Make sure that we've assigned our geometry to
-     * our feature, so that we can actually display
-     * our new feature on the map.
-     */
-    self.feature.geometry = self.featureGeometry;        
-    
-    /**
-     * Begin the process of saving our new feature
-     */
     [self.operations addObject:[self.featureLayer addFeatures:[NSArray arrayWithObject:self.feature]]];
-    
+    self.feature.geometry = self.featureGeometry;
+//
+//    if (self.featureLayer.bOnline)
+//    {
+//        // kick off the add feature operation
+//        [self.operations addObject:[self.featureLayer addFeatures:[NSArray arrayWithObject:self.feature]]];
+//    }
+//    else {
+//        //add features offline
+//        [self.featureLayer addOfflineFeature:self.feature withAttachments:self.attachments];
+//        _objectId = -1; //set up dummy id
+//		[self doneSucceeded];
+//    }
 }
 
 -(void)doneSucceeded{
@@ -1178,12 +1176,10 @@
             self.emailField.textColor = DEFAULT_TEXT_COLOR;
             self.emailField.font = DEFAULT_BODY_FONT;
             self.emailField.textAlignment = NSTextAlignmentRight;
-            self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
             cell.textLabel.text = field.alias;
             
             cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"email" inFeatureLayer:self.featureLayer];
-            [self.emailField addTarget:self action:@selector(emailFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
-
+            
             [cell.contentView addSubview:self.emailField];
         }
 
@@ -1249,15 +1245,9 @@
 
 }
 
-- (void)commentFieldDidEndEditing:(UITextField *)comments {
-    
-    [self.feature setAttributeWithString:comments.text forKey:@"comments"];
-    
-}
+- (void)commentFieldDidEndEditing:(UITextField *)textField {
 
-- (void)emailFieldDidEndEditing:(UITextField *)email {
-    
-    [self.feature setAttributeWithString:email.text forKey:@"email"];
+    [self.feature setAttributeWithString:textField.text forKey:@"comments"];
     
 }
 
