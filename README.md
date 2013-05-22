@@ -6,13 +6,11 @@ Water Reporter is an iOS app that helps track pollution and recreational activit
 
 The application allows individuals to collect and share data vital to the sustainability of the Chesapeake Bay Watershed, through simple geolocation, photos, videos, and user comments.
 
-### Supporting Organizations
+### Brought to you by
 
 - [Potomac Riverkeepers](http://www.potomacriverkeeper.org/)
 - [Chesapeake Commons](http://www.chesapeake-commons.org/)
 - [Viable Industries](http://www.viable.io/)
-
-... and 18 others.
 
 ### Made possible by
 
