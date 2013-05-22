@@ -948,8 +948,10 @@
         
         if (self.featureGeometry) {
             cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAutomaticLocationSaved"]];
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         } else {
             cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonManualLocationEntry"]];
+            self.navigationItem.rightBarButtonItem.enabled = NO;
         }
         
         cell.accessoryType = UITableViewCellAccessoryNone;
