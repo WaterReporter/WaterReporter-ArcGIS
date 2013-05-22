@@ -10,10 +10,14 @@
 #import <ArcGIS/ArcGIS.h>
 #import "FeatureTemplatePickerViewController.h"
 #import "TutorialViewController.h"
-#import "WaterReporterFeatureLayer.h"
+
+@protocol FeatureGeometryDelegate;
 
 @interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate,AGSPopupsContainerDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate> {
 
+    id <FeatureGeometryDelegate> featureGeometryDelegate;
+    AGSGeometry *manualFeatureGeometry;
+    
     double _viUserLocationLongitude;
     double _viUserLocationLatitude;
     BOOL _loadingFromFeatureDetails;
@@ -30,19 +34,25 @@
     TutorialViewController* _tutorialViewController;
 }
 
+@property (nonatomic, retain) AGSGeometry *manualFeatureGeometry;
+
 @property (nonatomic) double viUserLocationLongitude;
 @property (nonatomic) double viUserLocationLatitude;
 @property (nonatomic) BOOL loadingFromFeatureDetails;
 
-@property (nonatomic, strong) IBOutlet AGSMapView *mapView;
-@property (nonatomic, strong) AGSWebMap* webmap;
+@property (nonatomic, retain) IBOutlet AGSMapView *mapView;
+@property (nonatomic, retain) AGSWebMap* webmap;
 @property (nonatomic, retain) AGSFeatureLayer *featureLayer;
 @property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) AGSSketchGraphicsLayer* sketchLayer;
 
+@property (retain) id featureGeometryDelegate;
+
 @property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
 @property (nonatomic, strong) TutorialViewController* tutorialViewController;
 
-@end
+-(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
+- (void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;
 
+@end

@@ -7,7 +7,6 @@
  */
 
 #import "WaterReporterViewController.h"
-#import "WaterReporterFeatureLayer.h"
 #import "FeatureDetailsViewController.h"
 
 /**
@@ -31,7 +30,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 @implementation WaterReporterViewController
 
 @synthesize userLocation;
-
 @synthesize loadingFromFeatureDetails = _loadingFromFeatureDetails;
 @synthesize viUserLocationLongitude = _viUserLocationLongitude;
 @synthesize viUserLocationLatitude = _viUserLocationLatitude;
@@ -43,6 +41,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 @synthesize tutorialViewController = _tutorialViewController;
 @synthesize sketchLayer = _sketchLayer;
+@synthesize manualFeatureGeometry;
+@synthesize featureGeometryDelegate;
 
 -(void)viewWillAppear:(BOOL)animated{
 }
@@ -54,6 +54,10 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      * This allows us to see what is being fired and when
      */
     NSLog(@"WaterReporterViewController: viewDidLoad");
+    
+    if (self.webmap) {
+        NSLog(@"self.webmap already loaded: %@", self.webmap.URL);
+    }
 
     /**
      * Setup the Web Map
@@ -196,8 +200,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     NSLog(@"WaterReporterViewController: mapView: shouldShowCalloutForGraphic");
     
-    //    return self.mapView.touchDelegate != self.sketchLayer;
-    return nil;
+    return self.mapView.touchDelegate != self.sketchLayer;
 }
 
 /**
@@ -268,6 +271,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     self.mapView.touchDelegate = self.sketchLayer;
     self.sketchLayer.geometry = [[AGSMutablePoint alloc] initWithX:NAN y:NAN spatialReference:_mapView.spatialReference];
     
+    /**
+     * This is the "Commit" button when you're adding a new feature to the map
+     */
+    UIBarButtonItem *commit = [[[UIBarButtonItem alloc]initWithTitle:@"Update" style:UIBarButtonItemStylePlain target:self action:@selector(commit)]autorelease];
+    self.navigationItem.rightBarButtonItem = commit;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
 }
 
@@ -284,10 +293,19 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     
 
     if([self.sketchLayer.geometry isValid] && ![self.sketchLayer.geometry isEmpty]) {
-        NSLog(@"[Sketch Layer] Updated: %@", self.sketchLayer.geometry);
-    } else {
-        NSLog(@"[Sketch Layer] Error: Something went wrong and we couldn't save your geometry;");
+        AGSGeometry *updatedSketchGeometry = (AGSEnvelope*)AGSGeometryWebMercatorToGeographic(self.sketchLayer.geometry);
+        
+        self.manualFeatureGeometry = updatedSketchGeometry;
+        NSLog(@"[Sketch Layer] Updated manualFeatureGeometry: %@", self.manualFeatureGeometry);        
     }
+}
+
+-(void)commit {
+    NSLog(@"[Saving] Updated manualFeatureGeometry: %@", self.manualFeatureGeometry);
+    
+    [self.featureGeometryDelegate sketchLayerUserEditingDidFinish:self.manualFeatureGeometry];
+
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 /**
@@ -499,7 +517,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 }
 
 /**
- * Stop updating the Location Manager and remove the delegate
+ * Stop updating the Location Manager
  */
 - (void)stopUpdatingLocation {
     
@@ -529,6 +547,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     [self.featureTemplatePickerViewController release];
     [self.tutorialViewController release];
     [self.sketchLayer release];
+    [self.manualFeatureGeometry release];
     
     [super viewDidUnload];
 }
@@ -547,6 +566,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     [self.featureTemplatePickerViewController release];
     [self.tutorialViewController release];
     [self.sketchLayer release];
+    [self.manualFeatureGeometry release];
 
     [super dealloc];
 }

@@ -10,11 +10,7 @@
 #import <ArcGIS/ArcGIS.h>
 #import "WaterReporterViewController.h"
 
-@class FeatureTypeViewController;
-@class WaterReporterFeatureLayer;
-
-@interface FeatureDetailsViewController : UITableViewController <UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AGSFeatureLayerEditingDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
-	
+@interface FeatureDetailsViewController : UITableViewController <UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AGSFeatureLayerEditingDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITableViewDelegate> {
 
     AGSFeatureLayer *_featureLayer;
 	AGSGraphic *_feature;
@@ -88,9 +84,8 @@
 @property (nonatomic, retain) NSMutableArray *keeperPickerViewFieldOptions;
 @property (nonatomic, retain) NSMutableArray *pollutionPickerViewFieldOptions;
 
-@property (nonatomic, strong) WaterReporterViewController* waterReporterViewController;
+@property (nonatomic, retain) WaterReporterViewController* waterReporterViewController;
 
 -(id)initWithFeatureLayer:(AGSFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject*)templatePrototype;
--(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc;
 
 @end

@@ -20,15 +20,13 @@
  */
 
 #import "FeatureDetailsViewController.h"
-#import "FeatureTypeViewController.h"
+#import "WaterReporterViewController.h"
 #import "ImageViewController.h"
 #import "MoviePlayerViewController.h"
-#import "WaterReporterViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <MediaPlayer/MediaPlayer.h>
 
 #import "CodedValueUtility.h"
-#import "WaterReporterFeatureLayer.h"
 
 #define DEFAULT_TEXT_COLOR [UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0]
 #define DEFAULT_LABEL_COLOR [UIColor colorWithRed:181.0/255.0 green:181.0/255.0 blue:181.0/255.0 alpha:1.0]
@@ -249,6 +247,21 @@
      *
      */
 	[self.tableView reloadData];
+    
+    /**
+     * Make sure we refresh the geometry before building
+     * out the rest of our table view, make sure we are
+     * also updating our lat/long fields for the admins.
+     */
+    if (self.featureGeometry) {
+        self.feature.geometry = self.featureGeometry;
+        
+        self.userLocation = (AGSMutablePoint *)self.featureGeometry;
+
+        [self.feature setAttributeWithDouble:self.userLocation.x forKey:@"long_push"];
+        [self.feature setAttributeWithDouble:self.userLocation.y forKey:@"lat_push"];
+
+    }
 	NSDictionary* attributes = [self.feature allAttributes];
     
     NSLog(@"Attributes: %@", attributes);
@@ -397,31 +410,6 @@
 	//[alertView show];
 }
 
--(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc
-{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController:didSelectFeatureType");
-    //get feature from FeatureTypeViewController
-    self.feature = ftvc.feature;
-    
-    //set geometry
-    self.feature.geometry = self.featureGeometry;
-    
-    // set the recordedon value; the other default values will come from the template
-    NSTimeInterval timeInterval = [self.date timeIntervalSince1970];
-    [self.feature setAttributeWithDouble:(timeInterval * 1000) forKey:@"date" ];
-    
-    NSLog(@"The date given the app: %f",(timeInterval * 1000));
-    
-    //set the callout info template to the layer's infoTemplateDelegate
-    self.feature.infoTemplateDelegate = self.featureLayer.infoTemplateDelegate;
-    
-    //redraw the tableView
-    [self.tableView reloadData];
-}
-
 #pragma mark featureLayerEditingDelegate methods
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didQueryAttachmentInfosWithResults:(NSArray *)attachmentInfos{
@@ -554,8 +542,10 @@
     NSString *reportType;
     
     if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
+        NSLog(@"Updating the River Event Report");
         reportType = @"event_report";
     } else if ([self.featureLayer.name isEqualToString:@"Pollution Report"]) {
+        NSLog(@"Updating the Pollution Report");
         reportType = @"pollution_report";
     }
     
@@ -568,18 +558,25 @@
                 
         NSString *newMediaAttachment = [NSString stringWithFormat:@"http://services.arcgis.com/I6k5a3a8EwvGOEs3/ArcGIS/rest/services/%@/FeatureServer/0/%d/attachments/%ld", reportType, self.featureObjectId, (long)attachmentResults.addResult.objectId];
 
-        [self.allMediaAttachments addObject:newMediaAttachment];
+        NSString *imageFieldName = [NSString stringWithFormat:@"image%d", (self.operations.count+1)];
+        
+        [self.feature setAttributeWithString:newMediaAttachment forKey:imageFieldName];
+        
+        NSLog(@"[Field: %@] %@", imageFieldName, newMediaAttachment);
+
+        //[self.allMediaAttachments addObject:newMediaAttachment]; // Renable once we can save all images in one field
     }
 
 	// as we add attachments, we are removing them from the array, so that we know when we are done adding all the attachments
 	if (self.operations.count == 0){
 		// if we get to 0, we are done
         
-        NSString *mediaAttachmentList = [self.allMediaAttachments componentsJoinedByString:@","];
-        [self.feature setAttributeWithString:mediaAttachmentList forKey:@"image1"];
+        //NSString *mediaAttachmentList = [self.allMediaAttachments componentsJoinedByString:@","];  // Renable once we can save all images in one field
+        
+        //[self.feature setAttributeWithString:mediaAttachmentList forKey:@"image1"];  // Renable once we can save all images in one field
         [self.featureLayer updateFeatures:[NSArray arrayWithObject:self.feature]];
         
-        NSLog(@"LIST OF ATTACHMENTS: %@", mediaAttachmentList);
+        //NSLog(@"LIST OF ATTACHMENTS: %@", mediaAttachmentList);  // Renable once we can save all images in one field
 
 		[self doneSucceeded];
 	}
@@ -891,7 +888,7 @@
 		// and view or remove pictures
 		if (_newFeature){
 			if (indexPath.row == self.attachments.count){
-                cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAddPhotoVideo"]];
+                cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAddYourPhotoVideo"]];
 
 				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -949,7 +946,12 @@
             
         }
         
-        cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonUpdateLocation"]];
+        if (self.featureGeometry) {
+            cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAutomaticLocationSaved"]];
+        } else {
+            cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonManualLocationEntry"]];
+        }
+        
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.backgroundColor =  [UIColor clearColor];
         
@@ -1274,7 +1276,8 @@
     NSTimeInterval theSelectedTime = [[sender date] timeIntervalSince1970];
 
     if (theSelectedTime) {
-        [self.feature setAttributeWithDouble:(theSelectedTime) forKey:@"date"];
+        [self.feature setAttributeWithDouble:(theSelectedTime * 1000) forKey:@"date" ];
+
         NSLog(@"The date given the datePickerValueUpdated: %f", (theSelectedTime));
     }
 
@@ -1338,15 +1341,7 @@
     if (_newFeature && indexPath.section == 0){
         
         NSLog(@"WE NEED TO DO SOMETHING HERE!!!!");
-        
-		// if creating a new feature and they clicked on the feature type, then let them choose a
-		// feature template
-		FeatureTypeViewController *ftvc = [[[FeatureTypeViewController alloc]init]autorelease];
-		ftvc.featureLayer = self.featureLayer;
-		ftvc.feature = self.feature;
-        ftvc.completedDelegate = self;
-		
-		[self.navigationController pushViewController:ftvc animated:YES];
+ 
 	}
 	
 	else if (indexPath.section == 2){
@@ -1453,6 +1448,7 @@
         self.waterReporterViewController =  [[[WaterReporterViewController alloc] initWithNibName:@"WaterReporterViewController" bundle:nil] autorelease];
 
         self.waterReporterViewController.loadingFromFeatureDetails = YES;
+        self.waterReporterViewController.featureGeometryDelegate = self;
         [self.navigationController pushViewController:self.waterReporterViewController animated:YES];
     }
 }
@@ -1587,6 +1583,19 @@
         self.pollutionField.text = [self.pollutionPickerViewFieldOptions objectAtIndex:row];
     }
     
+}
+
+
+- (void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry {
+ 
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeaturesDetailsViewController:sketchLayerUserEditingDidFinish");
+    
+    self.featureGeometry = userSelectedGeometry;
+
+    NSLog(@"Get. That. Geo-met-ry: %@", self.featureGeometry);
 }
 
 

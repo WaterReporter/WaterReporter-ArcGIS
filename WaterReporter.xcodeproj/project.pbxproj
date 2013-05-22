@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C14136A1325895F005771D3 /* WaterReporterFeatureLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1413691325895F005771D3 /* WaterReporterFeatureLayer.m */; };
 		1C14234613258CCA005771D3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C14234513258CCA005771D3 /* SystemConfiguration.framework */; };
 		1C6CA6101321CAB700E19E9D /* CodedValueUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C6CA60F1321CAB700E19E9D /* CodedValueUtility.m */; };
 		1D3623260D0F684500981E51 /* WaterReporterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */; };
@@ -28,7 +27,6 @@
 		947B240C124AD4EF00414CFF /* MoviePlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947B240A124AD4EF00414CFF /* MoviePlayerViewController.xib */; };
 		94922979124417AC00CB16AB /* FeatureDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94922977124417AC00CB16AB /* FeatureDetailsViewController.m */; };
 		9492297A124417AC00CB16AB /* FeatureDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */; };
-		949229FB1244248200CB16AB /* FeatureTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949229F91244248200CB16AB /* FeatureTypeViewController.m */; };
 		949229FC1244248200CB16AB /* FeatureTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 949229FA1244248200CB16AB /* FeatureTypeViewController.xib */; };
 		9702E54E144652A700A46CA5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9702E54D144652A700A46CA5 /* libz.dylib */; };
 		9702E551144652AC00A46CA5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9702E550144652AC00A46CA5 /* Security.framework */; };
@@ -41,6 +39,9 @@
 		C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */; };
 		C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */; };
 		C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */; };
+		CEF5F9D5174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */; };
+		CEF5F9D8174D5D7100AF0743 /* buttonManualLocationEntry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */; };
+		CEF5F9D9174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */; };
 		F53CC54E17380F24008315CE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F53CC54D17380F24008315CE /* MainWindow-iPad.xib */; };
 		F570C8E6172EBF950059FC19 /* backgroundDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E4172EBF950059FC19 /* backgroundDefault.png */; };
 		F570C8E7172EBF950059FC19 /* backgroundDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */; };
@@ -62,12 +63,7 @@
 		F5792746173D87E800C49B31 /* slide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273F173D87E800C49B31 /* slide_3.png */; };
 		F5792747173D87E800C49B31 /* slide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792740173D87E800C49B31 /* slide_2.png */; };
 		F5792748173D87E800C49B31 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792741173D87E800C49B31 /* default@2x.png */; };
-		F579275C173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275A173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png */; };
-		F579275D173D8F9600C49B31 /* buttonAddPhotoVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275B173D8F9600C49B31 /* buttonAddPhotoVideo.png */; };
-		F5792760173D8FE700C49B31 /* buttonUpdateLocation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275E173D8FE700C49B31 /* buttonUpdateLocation@2x.png */; };
-		F5792761173D8FE700C49B31 /* buttonUpdateLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = F579275F173D8FE700C49B31 /* buttonUpdateLocation.png */; };
 		F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792762173D98DB00C49B31 /* Default-568h@2x.png */; };
-		F5A8493F17441C2D00F930DB /* FeatureDetailsViewController.archive in Resources */ = {isa = PBXBuildFile; fileRef = F5A8493E17441C2D00F930DB /* FeatureDetailsViewController.archive */; };
 		F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* release-notes.md */; };
 		F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D91F54173BE53700E19079 /* TutorialViewController.m */; };
 		F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F55173BE53700E19079 /* TutorialViewController.xib */; };
@@ -77,8 +73,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1C1413681325895F005771D3 /* WaterReporterFeatureLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporterFeatureLayer.h; sourceTree = "<group>"; };
-		1C1413691325895F005771D3 /* WaterReporterFeatureLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterReporterFeatureLayer.m; sourceTree = "<group>"; };
 		1C14234513258CCA005771D3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1C6CA60E1321CAB700E19E9D /* CodedValueUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodedValueUtility.h; sourceTree = "<group>"; };
 		1C6CA60F1321CAB700E19E9D /* CodedValueUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodedValueUtility.m; sourceTree = "<group>"; };
@@ -108,8 +102,6 @@
 		94922976124417AC00CB16AB /* FeatureDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureDetailsViewController.h; sourceTree = "<group>"; };
 		94922977124417AC00CB16AB /* FeatureDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureDetailsViewController.m; sourceTree = "<group>"; };
 		94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureDetailsViewController.xib; path = Classes/FeatureDetailsViewController.xib; sourceTree = "<group>"; };
-		949229F81244248200CB16AB /* FeatureTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureTypeViewController.h; sourceTree = "<group>"; };
-		949229F91244248200CB16AB /* FeatureTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureTypeViewController.m; sourceTree = "<group>"; };
 		949229FA1244248200CB16AB /* FeatureTypeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureTypeViewController.xib; path = Classes/FeatureTypeViewController.xib; sourceTree = "<group>"; };
 		9702E54D144652A700A46CA5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		9702E550144652AC00A46CA5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -124,6 +116,9 @@
 		C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureTemplatePickerViewController.h; sourceTree = "<group>"; };
 		C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeatureTemplatePickerViewController.m; sourceTree = "<group>"; };
 		C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureTemplatePickerViewController.xib; path = Classes/FeatureTemplatePickerViewController.xib; sourceTree = "<group>"; };
+		CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAddYourPhotoVideo@2x.png"; sourceTree = "<group>"; };
+		CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonManualLocationEntry@2x.png"; sourceTree = "<group>"; };
+		CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAutomaticLocationSaved@2x.png"; sourceTree = "<group>"; };
 		F53CC54D17380F24008315CE /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		F570C8E4172EBF950059FC19 /* backgroundDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundDefault.png; sourceTree = "<group>"; };
 		F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundDefault@2x.png"; sourceTree = "<group>"; };
@@ -145,12 +140,7 @@
 		F579273F173D87E800C49B31 /* slide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_3.png; sourceTree = "<group>"; };
 		F5792740173D87E800C49B31 /* slide_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_2.png; sourceTree = "<group>"; };
 		F5792741173D87E800C49B31 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
-		F579275A173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAddPhotoVideo@2x.png"; sourceTree = "<group>"; };
-		F579275B173D8F9600C49B31 /* buttonAddPhotoVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonAddPhotoVideo.png; sourceTree = "<group>"; };
-		F579275E173D8FE700C49B31 /* buttonUpdateLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonUpdateLocation@2x.png"; sourceTree = "<group>"; };
-		F579275F173D8FE700C49B31 /* buttonUpdateLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonUpdateLocation.png; sourceTree = "<group>"; };
 		F5792762173D98DB00C49B31 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		F5A8493E17441C2D00F930DB /* FeatureDetailsViewController.archive */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FeatureDetailsViewController.archive; sourceTree = "<group>"; };
 		F5D5FAD6172FF45C007CD69B /* release-notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "release-notes.md"; sourceTree = "<group>"; };
 		F5D91F53173BE53700E19079 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialViewController.h; path = ../TutorialViewController.h; sourceTree = "<group>"; };
 		F5D91F54173BE53700E19079 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialViewController.m; path = ../TutorialViewController.m; sourceTree = "<group>"; };
@@ -298,11 +288,6 @@
 				94922977124417AC00CB16AB /* FeatureDetailsViewController.m */,
 				C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */,
 				C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */,
-				949229F81244248200CB16AB /* FeatureTypeViewController.h */,
-				949229F91244248200CB16AB /* FeatureTypeViewController.m */,
-				1C1413681325895F005771D3 /* WaterReporterFeatureLayer.h */,
-				1C1413691325895F005771D3 /* WaterReporterFeatureLayer.m */,
-				F5A8493E17441C2D00F930DB /* FeatureDetailsViewController.archive */,
 			);
 			name = features;
 			sourceTree = "<group>";
@@ -354,11 +339,10 @@
 		F5E8F8E017340363006ABF22 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */,
+				CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */,
+				CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */,
 				F5792762173D98DB00C49B31 /* Default-568h@2x.png */,
-				F579275E173D8FE700C49B31 /* buttonUpdateLocation@2x.png */,
-				F579275F173D8FE700C49B31 /* buttonUpdateLocation.png */,
-				F579275A173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png */,
-				F579275B173D8F9600C49B31 /* buttonAddPhotoVideo.png */,
 				F579273C173D87E700C49B31 /* slide_6.png */,
 				F579273D173D87E800C49B31 /* slide_4.png */,
 				F579273E173D87E800C49B31 /* slide_5.png */,
@@ -464,13 +448,11 @@
 				F5792746173D87E800C49B31 /* slide_3.png in Resources */,
 				F5792747173D87E800C49B31 /* slide_2.png in Resources */,
 				F5792748173D87E800C49B31 /* default@2x.png in Resources */,
-				F579275C173D8F9600C49B31 /* buttonAddPhotoVideo@2x.png in Resources */,
-				F579275D173D8F9600C49B31 /* buttonAddPhotoVideo.png in Resources */,
-				F5792760173D8FE700C49B31 /* buttonUpdateLocation@2x.png in Resources */,
-				F5792761173D8FE700C49B31 /* buttonUpdateLocation.png in Resources */,
 				F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */,
 				C1DBC47F173F299D0014A977 /* slide_1.png in Resources */,
-				F5A8493F17441C2D00F930DB /* FeatureDetailsViewController.archive in Resources */,
+				CEF5F9D5174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png in Resources */,
+				CEF5F9D8174D5D7100AF0743 /* buttonManualLocationEntry@2x.png in Resources */,
+				CEF5F9D9174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,11 +468,9 @@
 				1D3623260D0F684500981E51 /* WaterReporterAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* WaterReporterViewController.m in Sources */,
 				94922979124417AC00CB16AB /* FeatureDetailsViewController.m in Sources */,
-				949229FB1244248200CB16AB /* FeatureTypeViewController.m in Sources */,
 				9401AD9F124828830010FADB /* ImageViewController.m in Sources */,
 				947B240B124AD4EF00414CFF /* MoviePlayerViewController.m in Sources */,
 				1C6CA6101321CAB700E19E9D /* CodedValueUtility.m in Sources */,
-				1C14136A1325895F005771D3 /* WaterReporterFeatureLayer.m in Sources */,
 				F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
