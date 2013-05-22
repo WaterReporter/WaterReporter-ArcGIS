@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
+#import "WaterReporterViewController.h"
 
 @class FeatureTypeViewController;
 @class WaterReporterFeatureLayer;
@@ -48,6 +49,8 @@
     NSMutableArray *reporterPickerViewFieldOptions;
     NSMutableArray *keeperPickerViewFieldOptions;
     NSMutableArray *pollutionPickerViewFieldOptions;
+    
+    WaterReporterViewController* _waterReporterViewController;
 }
 
 @property (nonatomic) double viUserLocationLongitude;
@@ -84,6 +87,8 @@
 @property (nonatomic, retain) NSMutableArray *reporterPickerViewFieldOptions;
 @property (nonatomic, retain) NSMutableArray *keeperPickerViewFieldOptions;
 @property (nonatomic, retain) NSMutableArray *pollutionPickerViewFieldOptions;
+
+@property (nonatomic, strong) WaterReporterViewController* waterReporterViewController;
 
 -(id)initWithFeatureLayer:(AGSFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject*)templatePrototype;
 -(void)didSelectFeatureType:(FeatureTypeViewController *)ftvc;

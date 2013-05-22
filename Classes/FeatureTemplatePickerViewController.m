@@ -8,6 +8,7 @@
 
 #import "FeatureTemplatePickerViewController.h"
 #import "TutorialViewController.h"
+#import "WaterReporterViewController.h"
 
 #define DEFAULT_TEXT_COLOR [UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0]
 #define DEFAULT_BODY_FONT [UIFont fontWithName:@"Helvetica-Bold" size:13.0]
@@ -23,11 +24,6 @@
 
     [super viewDidLoad];
 
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureTemplatePickerViewController:viewDidLoad");
-
     UIBarButtonItem *cancel = [[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)]autorelease];
     self.navigationItem.leftBarButtonItem = cancel;
     
@@ -36,8 +32,7 @@
      */
     self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
     
-    self.navigationItem.title = @"Choose Type";
-
+    self.navigationItem.title = @"Choose Report";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -105,12 +100,6 @@
 }
 
 -(void)cancel{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController:cancel");
-    
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -284,12 +273,13 @@
  *
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+        
     //Notify the delegate that the user picked a feature template
     if ([self.delegate respondsToSelector:@selector(featureTemplatePickerViewController:didSelectFeatureTemplate:forFeatureLayer:)]){
               
         FeatureTemplatePickerInfo* info = [self.infos objectAtIndex:indexPath.row];
         [self.delegate featureTemplatePickerViewController:self didSelectFeatureTemplate:info.featureTemplate forFeatureLayer:info.featureLayer];
+        
     }
     
     //Unselect the cell
@@ -319,9 +309,20 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-	self.featureTemplatesTableView = nil;
-    self.delegate = nil;
-    self.tutorialViewController = nil;
+    
+	[self.featureTemplatesTableView release];
+    [self.tutorialViewController release];
+    [self.delegate release];
+    [self.infos release];
+}
+
+- (void)dealloc {
+    [super dealloc];
+    
+	[self.featureTemplatesTableView release];
+    [self.tutorialViewController release];
+    [self.delegate release];
+    [self.infos release];
 }
 
 
@@ -332,5 +333,13 @@
 @synthesize featureType = _featureType;
 @synthesize featureTemplate = _featureTemplate;
 @synthesize featureLayer = _featureLayer;
+
+- (void)dealloc {
+    [super dealloc];
+    
+	[self.featureType release];
+    [self.featureTemplate release];
+    [self.featureLayer release];
+}
 
 @end

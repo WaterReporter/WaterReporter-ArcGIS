@@ -32,6 +32,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 
 @synthesize userLocation;
 
+@synthesize loadingFromFeatureDetails = _loadingFromFeatureDetails;
 @synthesize viUserLocationLongitude = _viUserLocationLongitude;
 @synthesize viUserLocationLatitude = _viUserLocationLatitude;
 
@@ -41,20 +42,19 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 @synthesize locationManager = _locationManager;
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 @synthesize tutorialViewController = _tutorialViewController;
+@synthesize sketchLayer = _sketchLayer;
 
 -(void)viewWillAppear:(BOOL)animated{
 }
 
-- (void)viewDidLoad {
+-(void)viewDidLoad {
+    	
     
     /**
-     * Set the delegates so that they can do the job they are here for
+     * This allows us to see what is being fired and when
      */
-    self.mapView.touchDelegate = self;
-	self.mapView.calloutDelegate = self;
-    self.mapView.callout.delegate = self;
-	self.mapView.layerDelegate = self;
-	
+    NSLog(@"WaterReporterViewController: viewDidLoad");
+
     /**
      * Setup the Web Map
      *
@@ -71,11 +71,39 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     [self.webmap openIntoMapView:self.mapView];
     
     /**
-     * Initialize the feature template picker so that we can show it later when needed
+     * If we are loading the View Controller from the Feature Details then
+     * we shouldn't load the Feature Template Picker, the Feature Template
+     * Picker Buton, and reload the geolocation tools.
      */
-    self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
-    self.featureTemplatePickerViewController.delegate = self;
+    if (self.loadingFromFeatureDetails == NO) {
+
+        /**
+         * Set the delegates so that they can do the job they are here for
+         */
+        self.mapView.touchDelegate = self;
+        self.mapView.calloutDelegate = self;
+        self.mapView.callout.delegate = self;
+        self.mapView.layerDelegate = self;
+
+        /**
+         * Initialize the feature template picker so that we can show it later when needed
+         */
+        self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
+        self.featureTemplatePickerViewController.delegate = self;
+
+        /**
+         * Add a button to the Map View so that users can add a new
+         * feature from the template picker at any time.
+         */
+        [self presentFeatureTemplatePickerButton];
+    }
     
+    /**
+     * Locate the user via their GPS cooridnates
+     */
+    [self displayUsersGeolocation];
+    
+
     /**
      * Initialize the tutorial so that we can show it later when needed
      */
@@ -105,27 +133,16 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
     
-    /**
-     * Add a button to the Map View so that users can add a new
-     * feature from the template picker at any time.
-     */
-    [self presentFeatureTemplatePickerButton];
-
-    /**
-     * Locate the user via their GPS cooridnates
-     */
-    [self displayUsersGeolocation];
-    
     [super viewDidLoad];
 }
  
 - (void) webMap:(AGSWebMap *)webMap didLoadLayer:(AGSLayer *)layer {
-    
+
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"WaterReporterViewController: webMap:didLoadLayer");
-    
+    NSLog(@"WaterReporterViewController: webMap: didLoadLayer");
+
     //The last feature layer we encounter we will use for editing features
     //If the web map contains more than one feature layer, the sample may need to be modified to handle that
     if([layer isKindOfClass:[AGSFeatureLayer class]]){
@@ -150,10 +167,17 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 - (void) didOpenWebMap:(AGSWebMap *)webMap intoMapView:(AGSMapView *)mapView {
     
     /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController: webMap: intoMapView");
+
+    /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {        
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"] && self.loadingFromFeatureDetails == NO) {
         [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
+    } else {
+        [self displaySketchLayer];
     }
 }
 
@@ -165,28 +189,14 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     [self.webmap continueOpenAndSkipCurrentLayer];
 }
 
-
-- (void)respondToGeomChanged: (NSNotification*) notification {
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-}
-
 - (BOOL)mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic {
     
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"WaterReporterViewController:mapView:shouldShowCalloutForGraphic [We aren't in editing mode, so therefore this should be a read only Feature Detail window]");
+    NSLog(@"WaterReporterViewController: mapView: shouldShowCalloutForGraphic");
     
+    //    return self.mapView.touchDelegate != self.sketchLayer;
     return nil;
 }
 
@@ -206,14 +216,14 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"didClickAccessoryButtonForCallout");
-
+    NSLog(@"WaterReporterViewController: didClickAccessoryButtonForCallout");
+    
     AGSGraphic* graphic = (AGSGraphic*) callout.representedObject;
 
 	/**
      * Prepares the selected features details for display
      */
-    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc] initWithFeatureLayer:self.featureLayer feature:graphic featureGeometry:graphic.geometry] autorelease];
+    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc] initWithFeatureLayer:self.featureLayer feature:graphic featureGeometry:graphic.geometry templatePrototype:nil] autorelease];
 
     detailViewController.viUserLocationLongitude = self.viUserLocationLongitude;
     detailViewController.viUserLocationLatitude = self.viUserLocationLatitude;
@@ -237,11 +247,55 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 }
 
 /**
+ * Display sketch layer for the user to manually
+ * update their report geolocation.
+ */
+-(void)displaySketchLayer {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController: displaySketchLayer");
+    
+    /**
+     * Load sketch layer capabilities to the map, make sure we start
+     * with the geometry detected by the user, and then ensure that
+     * we map the sketchLayer the touchDelegate which allows users
+     * to tap the map to update their location.
+     */
+    self.sketchLayer = [[AGSSketchGraphicsLayer alloc] init];
+    [self.mapView addMapLayer:self.sketchLayer withName:@"Sketch Layer"];
+    self.mapView.touchDelegate = self.sketchLayer;
+    self.sketchLayer.geometry = [[AGSMutablePoint alloc] initWithX:NAN y:NAN spatialReference:_mapView.spatialReference];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
+}
+
+/**
+ * Notifies the system of when the geometry has been
+ * updated via the sketch layer.
+ */
+- (void)respondToGeomChanged: (NSNotification*) notification {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController: respondToGeomChanged");
+    
+
+    if([self.sketchLayer.geometry isValid] && ![self.sketchLayer.geometry isEmpty]) {
+        NSLog(@"[Sketch Layer] Updated: %@", self.sketchLayer.geometry);
+    } else {
+        NSLog(@"[Sketch Layer] Error: Something went wrong and we couldn't save your geometry;");
+    }
+}
+
+/**
  * Display users geolocation on map
  *
  */
 -(void)displayUsersGeolocation {
-    
+
     /**
      * This allows us to see what is being fired and when
      */
@@ -400,20 +454,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         return;
     }
     
-    
-    /**
-     * Add the existing GPS point to the sketch layer
-     */
-    //[self.sketchLayer insertVertex:[self.mapView.locationDisplay mapLocation] inPart:0 atIndex:-1];
-    
-    
     /**
      * Create an AGSLocation instance so that we can
      * fetch the X & Y coordinates and update the
      * variables for our feature layer form.
      */
     AGSLocation* agsLoc = self.mapView.locationDisplay.location;
-    
     
     /**
      * Check to see if the Longitude or Latitude has changed
@@ -422,7 +468,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     if (self.viUserLocationLongitude != agsLoc.point.x && self.viUserLocationLatitude != agsLoc.point.y) {
         
-        self.userLocation = (AGSPoint *)agsLoc.point;
+        self.userLocation = (AGSMutablePoint *)agsLoc.point;
         
         self.viUserLocationLongitude = agsLoc.point.x;
         self.viUserLocationLatitude = agsLoc.point.y;
@@ -463,7 +509,28 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     NSLog(@"WaterReporterViewController:stopUpdatingLocation");
      
     [self.locationManager stopUpdatingLocation];
-    [self.locationManager.delegate release];
+    [self.locationManager release];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidUnload {
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController:viewDidUnload");
+    
+    [self.mapView release];
+    [self.webmap release];
+    [self.featureLayer release];
+    [self.locationManager release];
+    [self.featureTemplatePickerViewController release];
+    [self.tutorialViewController release];
+    [self.sketchLayer release];
+    
+    [super viewDidUnload];
 }
 
 - (void)dealloc {
@@ -479,6 +546,7 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     [self.locationManager release];
     [self.featureTemplatePickerViewController release];
     [self.tutorialViewController release];
+    [self.sketchLayer release];
 
     [super dealloc];
 }

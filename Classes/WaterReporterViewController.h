@@ -16,6 +16,7 @@
 
     double _viUserLocationLongitude;
     double _viUserLocationLatitude;
+    BOOL _loadingFromFeatureDetails;
 
     AGSMapView *_mapView;
     AGSWebMap* _webmap;
@@ -23,6 +24,7 @@
     AGSPoint *_userLocation;
     CLLocationManager *_locationManager;
     AGSGraphic *_newFeature;
+    AGSSketchGraphicsLayer* _sketchLayer;
 
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
     TutorialViewController* _tutorialViewController;
@@ -30,13 +32,14 @@
 
 @property (nonatomic) double viUserLocationLongitude;
 @property (nonatomic) double viUserLocationLatitude;
+@property (nonatomic) BOOL loadingFromFeatureDetails;
 
 @property (nonatomic, strong) IBOutlet AGSMapView *mapView;
 @property (nonatomic, strong) AGSWebMap* webmap;
 @property (nonatomic, retain) AGSFeatureLayer *featureLayer;
 @property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) AGSGraphic* newFeature;
+@property (nonatomic, strong) AGSSketchGraphicsLayer* sketchLayer;
 
 @property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
 @property (nonatomic, strong) TutorialViewController* tutorialViewController;

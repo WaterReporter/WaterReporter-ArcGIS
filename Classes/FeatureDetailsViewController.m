@@ -80,6 +80,8 @@
 @synthesize operations = _operations;
 @synthesize retrieveAttachmentOp = _retrieveAttachmentOp;
 
+@synthesize waterReporterViewController = _waterReporterViewController;
+
 #pragma mark - helper methods
 
 -(BOOL)filepathIsJPG:(NSString*)filepath{
@@ -196,7 +198,7 @@
     
     NSMutableArray *theseMediaAttachments = [[NSMutableArray alloc] init];
     self.allMediaAttachments = theseMediaAttachments;
-    
+
     if (_newFeature){
         /**
          * This is the "Cancel" button when you're adding a new feature to the map
@@ -268,11 +270,6 @@
     NSLog(@"FeatureDetailsViewController:initWithFeatureLayer");
 	
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
-        
-        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:feature:%@", feature);
-        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureLayer:%@", featureLayer);
-        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:featureGeometry:%@", featureGeometry);
-        NSLog(@"FeatureDetailsViewController:initWithFeatureLayer:template:%@", templatePrototype);
 
 		self.featureLayer = featureLayer;
 		self.featureLayer.editingDelegate = self;
@@ -1449,7 +1446,14 @@
          *
          */
         NSLog(@"Activate Sketch Layer");
-        
+
+        /**
+         * Initialize the feature template picker so that we can show it later when needed
+         */
+        self.waterReporterViewController =  [[[WaterReporterViewController alloc] initWithNibName:@"WaterReporterViewController" bundle:nil] autorelease];
+
+        self.waterReporterViewController.loadingFromFeatureDetails = YES;
+        [self.navigationController pushViewController:self.waterReporterViewController animated:YES];
     }
 }
 
