@@ -38,9 +38,13 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
 @synthesize webmap = _webmap;
 @synthesize featureLayer = _featureLayer;
 @synthesize locationManager = _locationManager;
+@synthesize sketchLayer = _sketchLayer;
+@synthesize addNewFeatureToMap = _addNewFeatureToMap;
+
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 @synthesize tutorialViewController = _tutorialViewController;
-@synthesize sketchLayer = _sketchLayer;
+@synthesize popupViewController = _popupViewController;
+
 @synthesize manualFeatureGeometry;
 @synthesize featureGeometryDelegate;
 
@@ -180,8 +184,12 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"] && self.loadingFromFeatureDetails == NO) {
         [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
-    } else {
+        self.addNewFeatureToMap.enabled = YES;
+    } else if (self.loadingFromFeatureDetails == YES) {
         [self displaySketchLayer];
+        self.addNewFeatureToMap.enabled = NO;
+    } else {
+        self.addNewFeatureToMap.enabled = YES;
     }
 }
 
@@ -200,7 +208,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      */
     NSLog(@"WaterReporterViewController: mapView: shouldShowCalloutForGraphic");
     
-    return self.mapView.touchDelegate != self.sketchLayer;
+//    return !self.loadingFromFeatureDetails;
+    return NO;
 }
 
 /**
@@ -222,19 +231,19 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     NSLog(@"WaterReporterViewController: didClickAccessoryButtonForCallout");
     
     AGSGraphic* graphic = (AGSGraphic*) callout.representedObject;
+    
+    NSLog(@"NOW IS THE TIME TO SHOW OUR NEW VIEW CONTROLLER WITH LAYOUT!!!");
 
-	/**
-     * Prepares the selected features details for display
+    /**
+     * Prepares the selected feature to be displayed
+     * in a popup container
      */
-    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc] initWithFeatureLayer:self.featureLayer feature:graphic featureGeometry:graphic.geometry templatePrototype:nil] autorelease];
-
-    detailViewController.viUserLocationLongitude = self.viUserLocationLongitude;
-    detailViewController.viUserLocationLatitude = self.viUserLocationLatitude;
+    self.popupViewController = [[PopupViewController alloc] initWithExistingFeature:graphic];
     
 	/**
      * Display the details for the active or clicked on feature.
      */
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    [self.navigationController pushViewController:self.popupViewController animated:YES];
 }
 
 - (NSString *)detailForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *)map{
@@ -386,15 +395,17 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      *
      */
     UIImage *addNewFeatureImage = [UIImage imageNamed:viFeatureAddButtonURL];
-    UIButton *addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeCustom];
-    addNewFeatureToMap.frame = CGRectMake(viFeatureAddButtonX, viFeatureAddButtonY, 36.0, 36.0);
+    self.addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.addNewFeatureToMap.frame = CGRectMake(viFeatureAddButtonX, viFeatureAddButtonY, 36.0, 36.0);
     
-    addNewFeatureToMap.userInteractionEnabled = YES;
-    addNewFeatureToMap.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-    [addNewFeatureToMap setImage:addNewFeatureImage forState:UIControlStateNormal];
-    [addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
+    self.addNewFeatureToMap.userInteractionEnabled = YES;
+    self.addNewFeatureToMap.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+    [self.addNewFeatureToMap setImage:addNewFeatureImage forState:UIControlStateNormal];
+    [self.addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.mapView addSubview:addNewFeatureToMap];
+    self.addNewFeatureToMap.enabled = NO;
+    
+    [self.mapView addSubview:self.addNewFeatureToMap];
 }
 
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{

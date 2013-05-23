@@ -14,11 +14,12 @@
 @synthesize pageControl = _pageControl;
 
 - (IBAction) dismissTutorialViewController {
-    [self dismissViewControllerAnimated:NO completion:nil];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (IBAction) presentFeatureTemplatePickerViewController {    
+- (IBAction) presentFeatureTemplatePickerViewController {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
 //    FeatureTemplatePickerViewController *featureTemplatePickerViewController = [[[FeatureTemplatePickerViewController alloc] init] autorelease];
 //    self.featureTemplatePickerViewController = featureTemplatePickerViewController;
 //    
@@ -40,7 +41,8 @@
 -(void) setupScrollView {
 
     //add the scrollview to the view
-    self.tutorialView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -45, self.view.frame.size.width, (self.view.frame.size.height))];
+    self.tutorialView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -45, self.view.frame.size.width, (self.view.frame.size.height - 145))];
+    self.tutorialView.contentSize = CGSizeMake(self.tutorialView.contentSize.width,self.tutorialView.frame.size.height);
     self.tutorialView.pagingEnabled = YES;
     self.tutorialView.delegate = self;
     [self.tutorialView setAlwaysBounceVertical:NO];
@@ -61,12 +63,14 @@
 
     //add the scrollview to this view
     [self.view addSubview:self.tutorialView];
-
+    
+    [self.view insertSubview:self.tutorialView belowSubview:self.pageControl];
+    
     self.pageControl = [[[UIPageControl alloc] init] autorelease];
     self.pageControl.frame = CGRectMake(((self.view.frame.size.width-100)/2),(self.view.frame.size.height-185),100,50);
     self.pageControl.numberOfPages = 6;
     self.pageControl.currentPage = 0;
-
+    
     [self.view addSubview:self.pageControl];
 }
 

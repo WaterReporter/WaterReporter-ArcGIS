@@ -39,10 +39,11 @@
 		C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */; };
 		C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */; };
 		C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */; };
+		CEE7E876174DAB3700500625 /* PopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7E874174DAB3700500625 /* PopupViewController.m */; };
+		CEE7E877174DAB3700500625 /* PopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE7E875174DAB3700500625 /* PopupViewController.xib */; };
 		CEF5F9D5174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */; };
 		CEF5F9D8174D5D7100AF0743 /* buttonManualLocationEntry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */; };
 		CEF5F9D9174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */; };
-		F53CC54E17380F24008315CE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F53CC54D17380F24008315CE /* MainWindow-iPad.xib */; };
 		F570C8E6172EBF950059FC19 /* backgroundDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E4172EBF950059FC19 /* backgroundDefault.png */; };
 		F570C8E7172EBF950059FC19 /* backgroundDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */; };
 		F570C8F7172ED0CA0059FC19 /* Museo_Slab_100.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */; };
@@ -116,10 +117,12 @@
 		C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureTemplatePickerViewController.h; sourceTree = "<group>"; };
 		C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeatureTemplatePickerViewController.m; sourceTree = "<group>"; };
 		C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureTemplatePickerViewController.xib; path = Classes/FeatureTemplatePickerViewController.xib; sourceTree = "<group>"; };
+		CEE7E873174DAB3700500625 /* PopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController.h; sourceTree = "<group>"; };
+		CEE7E874174DAB3700500625 /* PopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupViewController.m; sourceTree = "<group>"; };
+		CEE7E875174DAB3700500625 /* PopupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopupViewController.xib; path = Classes/PopupViewController.xib; sourceTree = "<group>"; };
 		CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAddYourPhotoVideo@2x.png"; sourceTree = "<group>"; };
 		CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonManualLocationEntry@2x.png"; sourceTree = "<group>"; };
 		CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAutomaticLocationSaved@2x.png"; sourceTree = "<group>"; };
-		F53CC54D17380F24008315CE /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		F570C8E4172EBF950059FC19 /* backgroundDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundDefault.png; sourceTree = "<group>"; };
 		F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundDefault@2x.png"; sourceTree = "<group>"; };
 		F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_100.otf; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 				1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* WaterReporterViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */,
+				CEE7E873174DAB3700500625 /* PopupViewController.h */,
+				CEE7E874174DAB3700500625 /* PopupViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -251,14 +256,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F53CC54C17380F23008315CE /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				F53CC54D17380F24008315CE /* MainWindow-iPad.xib */,
-			);
-			name = iPad;
-			sourceTree = "<group>";
-		};
 		F53CC54F17381489008315CE /* tutorial */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,7 +292,7 @@
 		F53CC552173815C8008315CE /* layouts */ = {
 			isa = PBXGroup;
 			children = (
-				F53CC54C17380F23008315CE /* iPad */,
+				CEE7E875174DAB3700500625 /* PopupViewController.xib */,
 				94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */,
 				C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */,
 				949229FA1244248200CB16AB /* FeatureTypeViewController.xib */,
@@ -439,7 +436,6 @@
 				F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */,
 				F5E8F8E4173403DF006ABF22 /* buttonNewFeature@2x.png in Resources */,
 				F5E8F8E617341C8E006ABF22 /* slides.md in Resources */,
-				F53CC54E17380F24008315CE /* MainWindow-iPad.xib in Resources */,
 				F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */,
 				F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */,
 				F5792743173D87E800C49B31 /* slide_6.png in Resources */,
@@ -453,6 +449,7 @@
 				CEF5F9D5174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png in Resources */,
 				CEF5F9D8174D5D7100AF0743 /* buttonManualLocationEntry@2x.png in Resources */,
 				CEF5F9D9174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png in Resources */,
+				CEE7E877174DAB3700500625 /* PopupViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +469,7 @@
 				947B240B124AD4EF00414CFF /* MoviePlayerViewController.m in Sources */,
 				1C6CA6101321CAB700E19E9D /* CodedValueUtility.m in Sources */,
 				F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */,
+				CEE7E876174DAB3700500625 /* PopupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,7 +502,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = armv7;
 			};
 			name = Debug;
@@ -533,7 +531,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = armv7;
 			};

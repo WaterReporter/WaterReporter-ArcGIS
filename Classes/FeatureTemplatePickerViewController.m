@@ -24,7 +24,7 @@
 
     [super viewDidLoad];
 
-    UIBarButtonItem *cancel = [[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)]autorelease];
+    UIBarButtonItem *cancel = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)]autorelease];
     self.navigationItem.leftBarButtonItem = cancel;
     
     /**
@@ -160,8 +160,8 @@
     buttonDisplayTutorial.userInteractionEnabled = YES;
     [buttonDisplayTutorial addTarget:self action:@selector(presentTutorialViewController) forControlEvents:UIControlEventTouchUpInside];
     [buttonDisplayTutorial setTitle:@"Forget how to use Water Reporter?" forState:UIControlStateNormal];
-    [buttonDisplayTutorial setTitleColor:[UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0] forState:UIControlStateNormal];
-    buttonDisplayTutorial.titleLabel.textColor = DEFAULT_TEXT_COLOR;
+    [buttonDisplayTutorial setTitleColor:[UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:0.5] forState:UIControlStateNormal];
+    //buttonDisplayTutorial.titleLabel.textColor = DEFAULT_TEXT_COLOR;
     buttonDisplayTutorial.titleLabel.font = DEFAULT_BODY_FONT;
     buttonDisplayTutorial.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
     //[addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];

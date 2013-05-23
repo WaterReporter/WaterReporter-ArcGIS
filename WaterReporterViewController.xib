@@ -60,7 +60,6 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIViewController" id="934780828">
 						<object class="IBUINavigationItem" key="IBUINavigationItem" id="545243984">
-							<reference key="IBUINavigationBar"/>
 							<string key="IBUITitle">Root View Controller</string>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
@@ -84,7 +83,6 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{320, 460}</string>
 						<reference key="NSSuperview" ref="636750962"/>
-						<reference key="NSWindow"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
@@ -98,9 +96,8 @@
 					<object class="IBUIImageView" id="969236643">
 						<reference key="NSNextResponder" ref="636750962"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{3, 404}, {56, 32}}</string>
+						<string key="NSFrame">{{13, 404}, {56, 32}}</string>
 						<reference key="NSSuperview" ref="636750962"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -112,7 +109,6 @@
 				</object>
 				<string key="NSFrameSize">{320, 460}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -170,6 +166,22 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="624139579"/>
 							<reference ref="969236643"/>
+							<object class="IBNSLayoutConstraint" id="225569955">
+								<reference key="firstItem" ref="969236643"/>
+								<int key="firstAttribute">5</int>
+								<int key="relation">0</int>
+								<reference key="secondItem" ref="636750962"/>
+								<int key="secondAttribute">5</int>
+								<float key="multiplier">1</float>
+								<object class="IBLayoutConstant" key="constant">
+									<double key="value">13</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="636750962"/>
+								<int key="scoringType">3</int>
+								<float key="scoringTypeFloat">9</float>
+								<int key="contentType">3</int>
+							</object>
 							<object class="IBNSLayoutConstraint" id="1001560091">
 								<reference key="firstItem" ref="636750962"/>
 								<int key="firstAttribute">4</int>
@@ -179,22 +191,6 @@
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
 									<double key="value">24</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="636750962"/>
-								<int key="scoringType">3</int>
-								<float key="scoringTypeFloat">9</float>
-								<int key="contentType">3</int>
-							</object>
-							<object class="IBNSLayoutConstraint" id="682615652">
-								<reference key="firstItem" ref="969236643"/>
-								<int key="firstAttribute">5</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="636750962"/>
-								<int key="secondAttribute">5</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">3</double>
 								</object>
 								<float key="priority">1000</float>
 								<reference key="containingView" ref="636750962"/>
@@ -369,11 +365,6 @@
 						<reference key="parent" ref="636750962"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">29</int>
-						<reference key="object" ref="682615652"/>
-						<reference key="parent" ref="636750962"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">30</int>
 						<reference key="object" ref="639219380"/>
 						<reference key="parent" ref="636750962"/>
@@ -381,6 +372,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">31</int>
 						<reference key="object" ref="1001560091"/>
+						<reference key="parent" ref="636750962"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">45</int>
+						<reference key="object" ref="225569955"/>
 						<reference key="parent" ref="636750962"/>
 					</object>
 				</object>
@@ -410,9 +406,9 @@
 					<string>25.IBPluginDependency</string>
 					<string>26.IBPluginDependency</string>
 					<string>27.IBPluginDependency</string>
-					<string>29.IBPluginDependency</string>
 					<string>30.IBPluginDependency</string>
 					<string>31.IBPluginDependency</string>
+					<string>45.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -427,8 +423,8 @@
 						<reference ref="306208504"/>
 						<reference ref="35510786"/>
 						<reference ref="639219380"/>
-						<reference ref="682615652"/>
 						<reference ref="1001560091"/>
+						<reference ref="225569955"/>
 					</object>
 					<string>AGSMapView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -466,56 +462,9 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">31</int>
+			<int key="maxID">45</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBPartialClassDescription">
-					<string key="className">AGSMapView</string>
-					<string key="superclassName">AGSMapViewBase</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AGSMapView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AGSMapViewBase</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AGSMapViewBase.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSLayoutConstraint</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WaterReporterViewController</string>
-					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">mapView</string>
-						<string key="NS.object.0">AGSMapView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">mapView</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">mapView</string>
-							<string key="candidateClassName">AGSMapView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WaterReporterViewController.h</string>
-					</object>
-				</object>
-			</object>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">

@@ -32,7 +32,7 @@
 #define DEFAULT_LABEL_COLOR [UIColor colorWithRed:181.0/255.0 green:181.0/255.0 blue:181.0/255.0 alpha:1.0]
 #define DEFAULT_BODY_FONT [UIFont fontWithName:@"Helvetica-Bold" size:13.0]
 #define DEFAULT_TITLE_FONT [UIFont fontWithName:@"MuseoSlab-500" size:16.0]
-#define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]]
+#define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault"]]
 
 @interface FeatureDetailsViewController ()
 

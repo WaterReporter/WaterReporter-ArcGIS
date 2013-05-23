@@ -10,6 +10,7 @@
 #import <ArcGIS/ArcGIS.h>
 #import "FeatureTemplatePickerViewController.h"
 #import "TutorialViewController.h"
+#import "PopupViewController.h"
 
 @protocol FeatureGeometryDelegate;
 
@@ -29,9 +30,11 @@
     CLLocationManager *_locationManager;
     AGSGraphic *_newFeature;
     AGSSketchGraphicsLayer* _sketchLayer;
+    UIButton* _addNewFeatureToMap;
 
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
     TutorialViewController* _tutorialViewController;
+    PopupViewController* _popupViewController;
 }
 
 @property (nonatomic, retain) AGSGeometry *manualFeatureGeometry;
@@ -46,11 +49,13 @@
 @property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) AGSSketchGraphicsLayer* sketchLayer;
+@property (nonatomic, strong) UIButton* addNewFeatureToMap;
 
 @property (retain) id featureGeometryDelegate;
 
 @property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
 @property (nonatomic, strong) TutorialViewController* tutorialViewController;
+@property (nonatomic, strong) PopupViewController* popupViewController;
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
 - (void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;
