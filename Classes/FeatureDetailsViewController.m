@@ -1041,6 +1041,7 @@
                 self.eventPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
                 self.eventPicker.delegate = self;
                 self.eventPicker.dataSource = self;
+                self.eventPicker.showsSelectionIndicator = YES;
                 
                 [self.eventPicker reloadAllComponents];
                 
@@ -1088,6 +1089,7 @@
                 self.pollutionPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
                 self.pollutionPicker.delegate = self;
                 self.pollutionPicker.dataSource = self;
+                self.pollutionPicker.showsSelectionIndicator = YES;
                 
                 [self.pollutionPicker reloadAllComponents];
                 
@@ -1132,6 +1134,7 @@
             self.reporterPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
             self.reporterPicker.delegate = self;
             self.reporterPicker.dataSource = self;
+            self.reporterPicker.showsSelectionIndicator = YES;
                         
             [self.reporterPicker reloadAllComponents];
             
@@ -1192,6 +1195,7 @@
 //            self.keeperPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
 //            self.keeperPicker.delegate = self;
 //            self.keeperPicker.dataSource = self;
+//            self.keeperPicker.showsSelectionIndicator = YES;
 //            
 //            [self.keeperPicker reloadAllComponents];
 //            
