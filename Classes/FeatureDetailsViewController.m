@@ -702,7 +702,7 @@
     switch (section) {
             
         case 1:
-            return (self.featureLayer.fields.count - 7);
+            return (self.featureLayer.fields.count - 8);
             
         case 2:
             if (_newFeature){
@@ -1161,52 +1161,52 @@
             [cell.contentView addSubview:self.commentField];
         }
         
-        /**
-         * Keeper Bounds Field
-         */
-        if (indexPath.row == 4 && !self.keeperField && !self.keeperField.text) {
-            field = [CodedValueUtility findField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
-            
-            self.keeperField = [self textFieldTemplate];
-            self.keeperField.textColor = DEFAULT_TEXT_COLOR;
-            self.keeperField.font = DEFAULT_BODY_FONT;
-            self.keeperField.textAlignment = NSTextAlignmentRight;
-            cell.textLabel.text = field.alias;
-            
-            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
-            
-            /**
-             * This loop is what we need to pull out the actual event options
-             * from the system. They are stored in what is called "Domains"
-             *
-             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
-             *
-             */
-            keeperPickerViewFieldOptions = [[NSMutableArray alloc] init];
-            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
-            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
-                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
-                [keeperPickerViewFieldOptions addObject:val.code];
-            }
-            
-            self.keeperPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
-            self.keeperPicker.delegate = self;
-            self.keeperPicker.dataSource = self;
-            
-            [self.keeperPicker reloadAllComponents];
-            
-            self.keeperField.inputView = self.keeperPicker;
-            
-            [cell.contentView addSubview:self.keeperField];
-            
-            [self.keeperField release];
-            [self.keeperPicker release];
-        }
-
+//        /**
+//         * Keeper Bounds Field
+//         */
+//        if (indexPath.row == 4 && !self.keeperField && !self.keeperField.text) {
+//            field = [CodedValueUtility findField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
+//            
+//            self.keeperField = [self textFieldTemplate];
+//            self.keeperField.textColor = DEFAULT_TEXT_COLOR;
+//            self.keeperField.font = DEFAULT_BODY_FONT;
+//            self.keeperField.textAlignment = NSTextAlignmentRight;
+//            cell.textLabel.text = field.alias;
+//            
+//            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
+//            
+//            /**
+//             * This loop is what we need to pull out the actual event options
+//             * from the system. They are stored in what is called "Domains"
+//             *
+//             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
+//             *
+//             */
+//            keeperPickerViewFieldOptions = [[NSMutableArray alloc] init];
+//            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
+//            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
+//                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
+//                [keeperPickerViewFieldOptions addObject:val.code];
+//            }
+//            
+//            self.keeperPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
+//            self.keeperPicker.delegate = self;
+//            self.keeperPicker.dataSource = self;
+//            
+//            [self.keeperPicker reloadAllComponents];
+//            
+//            self.keeperField.inputView = self.keeperPicker;
+//            
+//            [cell.contentView addSubview:self.keeperField];
+//            
+//            [self.keeperField release];
+//            [self.keeperPicker release];
+//        }
+//
         /**
          * Email Field
          */
-        if (indexPath.row == 5 && !self.emailField && !self.emailField.text) {
+        if (indexPath.row == 4 && !self.emailField && !self.emailField.text) {
             field = [CodedValueUtility findField:@"email" inFeatureLayer:self.featureLayer];
             
             self.emailField = [self textFieldTemplate];

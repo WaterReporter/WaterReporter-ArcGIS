@@ -20,7 +20,7 @@
  */
 #define FEATURE_TEMPLATE_AUTODISPLAY YES
 #define TUTORIAL_IS_ACTIVE YES
-#define FEATURE_SERVICE_ZOOM 150000
+#define FEATURE_SERVICE_ZOOM 3000
 
 NSInteger viFeatureAddButtonX = 264.0;
 NSInteger viFeatureAddButtonY = 404.0;
@@ -344,9 +344,9 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
      */
     if(!self.mapView.locationDisplay.dataSourceStarted) {
-        [self.mapView.locationDisplay startDataSource];
-        self.mapView.locationDisplay.zoomScale = viDefaultUserLocationZoomLevel;
+        self.mapView.locationDisplay.zoomScale = FEATURE_SERVICE_ZOOM;
         self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
+        [self.mapView.locationDisplay startDataSource];
     }
 }
 
