@@ -8,6 +8,7 @@
 
 #import "WaterReporterViewController.h"
 #import "FeatureDetailsViewController.h"
+#import "TutorialViewController.h"
 
 /**
  * Define the Web Map ID that we wish to load
@@ -21,11 +22,6 @@
 #define FEATURE_TEMPLATE_AUTODISPLAY YES
 #define TUTORIAL_IS_ACTIVE YES
 #define FEATURE_SERVICE_ZOOM 3000
-
-NSInteger viFeatureAddButtonX = 264.0;
-NSInteger viFeatureAddButtonY = 404.0;
-NSString *viFeatureAddButtonURL = @"buttonNewFeature.png";
-NSInteger viDefaultUserLocationZoomLevel = 150000;
 
 @implementation WaterReporterViewController
 
@@ -99,11 +95,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
         self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
         self.featureTemplatePickerViewController.delegate = self;
 
-        /**
-         * Add a button to the Map View so that users can add a new
-         * feature from the template picker at any time.
-         */
-        [self presentFeatureTemplatePickerButton];
     }
     
     /**
@@ -121,18 +112,8 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
      * If this is the first time the user is using the application we need
      * to show them the tutorial.
      */
-    if (TUTORIAL_IS_ACTIVE && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
-        NSLog(@"This is the first time the user is using the application.");
-        
-        //
-        // When the tutorial closes we will then need to set the BOOL to TRUE
-        // so that this check is skipped in all future application launches
-        //
-        // We set it by calling the following:
-        //
-        // [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
-        //
-        [self presentViewController:self.tutorialViewController animated:NO completion:nil];
+    if (TUTORIAL_IS_ACTIVE) {
+        [self.navigationController pushViewController:self.tutorialViewController animated:YES];
     }
     
     /**
@@ -180,12 +161,22 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     NSLog(@"WaterReporterViewController: webMap: intoMapView");
 
     /**
+     * This is the "Cancel" button when you're adding a new feature to the map
+     */
+    UIBarButtonItem *legendButton = [[[UIBarButtonItem alloc]initWithTitle:@"Legend" style:UIBarButtonItemStylePlain target:self action:@selector(legend)]autorelease];
+    self.navigationItem.leftBarButtonItem = legendButton;
+    
+    /**
+     * This is the "Commit" button when you're adding a new feature to the map
+     */
+    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
+    self.navigationItem.rightBarButtonItem = addReportButton;
+
+    
+    /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"] && self.loadingFromFeatureDetails == NO) {
-        [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
-        self.addNewFeatureToMap.enabled = YES;
-    } else if (self.loadingFromFeatureDetails == YES) {
+    if (self.loadingFromFeatureDetails == YES) {
         [self displaySketchLayer];
         self.addNewFeatureToMap.enabled = NO;
     } else {
@@ -376,36 +367,6 @@ NSInteger viDefaultUserLocationZoomLevel = 150000;
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
     [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
-}
-
--(void)presentFeatureTemplatePickerButton {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:presentFeatureTemplatePickerButton");
-    
-    /**
-     * Plus/Add Button on main map view.
-     *
-     * We want the image to display in the bottom left of the screen regardless
-     * of the users device (e.g., iPhone, iPhone 4" Retina, iPad, iPad Retina. So
-     * we need to update the X, Y, and the image being used depending on what the
-     * user is viewing the application on.
-     *
-     */
-    UIImage *addNewFeatureImage = [UIImage imageNamed:viFeatureAddButtonURL];
-    self.addNewFeatureToMap = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.addNewFeatureToMap.frame = CGRectMake(viFeatureAddButtonX, viFeatureAddButtonY, 36.0, 36.0);
-    
-    self.addNewFeatureToMap.userInteractionEnabled = YES;
-    self.addNewFeatureToMap.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-    [self.addNewFeatureToMap setImage:addNewFeatureImage forState:UIControlStateNormal];
-    [self.addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
-    
-    self.addNewFeatureToMap.enabled = NO;
-    
-    [self.mapView addSubview:self.addNewFeatureToMap];
 }
 
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{

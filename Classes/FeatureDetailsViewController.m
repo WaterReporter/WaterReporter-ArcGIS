@@ -328,6 +328,17 @@
      * This allows us to see what is being fired and when
      */	
     NSLog(@"FeaturesDetailsViewController:cancel");
+    
+    /**
+     * Clear out any values that we've already entered
+     */
+    [self.feature setAttributeToNullForKey:@"date"];
+    [self.feature setAttributeToNullForKey:@"comments"];
+    [self.feature setAttributeToNullForKey:@"email"];
+    [self.feature setAttributeToNullForKey:@"pollution"];
+    [self.feature setAttributeToNullForKey:@"event"];
+    [self.feature setAttributeToNullForKey:@"reporter"];
+    [self.feature setAttributeToNullForKey:@"keeper_bounds"];
 
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -1011,7 +1022,7 @@
         /**
          * Event Field (Only available on the "River Event" feature
          */
-        if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
+        if (![self.featureLayer.name isEqualToString:@"Pollution Report"]) {
             if (indexPath.row == 1 && !self.eventField && !self.eventField.text) {
                 NSLog(@"FEATURE LAYER NAME%@", self.featureLayer.name);
                 field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
@@ -1054,6 +1065,11 @@
                 [self.eventField release];
                 [self.eventPicker release];
             }
+            else {
+                NSLog(@"Failed to load event field");
+            }
+        } else {
+            NSLog(@"Feature Layer not recognized as River Event Report");
         }
         
         /**

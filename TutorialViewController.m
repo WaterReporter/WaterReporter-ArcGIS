@@ -7,23 +7,17 @@
 //
 
 #import "TutorialViewController.h"
+#import "WaterReporterViewController.h"
 
 @implementation TutorialViewController
 
 @synthesize tutorialView = _tutorialView;
 @synthesize pageControl = _pageControl;
+@synthesize featureTemplatePickerDelegate;
 
-- (IBAction) dismissTutorialViewController {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
-    [self dismissViewControllerAnimated:NO completion:nil];
-}
-
-- (IBAction) presentFeatureTemplatePickerViewController {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
-//    FeatureTemplatePickerViewController *featureTemplatePickerViewController = [[[FeatureTemplatePickerViewController alloc] init] autorelease];
-//    self.featureTemplatePickerViewController = featureTemplatePickerViewController;
-//    
-//    [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
+-(void)presentDelayedFeatureTemplatePicker {
+    [self.featureTemplatePickerDelegate presentFeatureTemplatePicker];
+    NSLog(@"Display the feature picker from the tutorial");
 }
 
 - (void)viewDidLoad {
@@ -34,6 +28,12 @@
      */
     NSLog(@"TutorialViewController:viewDidLoad");
 
+    
+    /**
+     * This is the "Commit" button when you're adding a new feature to the map
+     */
+    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentDelayedFeatureTemplatePicker)]autorelease];
+    self.navigationItem.rightBarButtonItem = addReportButton;
 
     [self setupScrollView];
 }

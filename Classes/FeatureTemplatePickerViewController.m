@@ -153,7 +153,6 @@
     /**
      * Review the Tutorial/How-To
      */
-    //UIImage *addNewFeatureImage = [UIImage imageNamed:viFeatureAddButtonURL];
     UIButton *buttonDisplayTutorial = [UIButton buttonWithType:UIButtonTypeCustom];
     buttonDisplayTutorial.frame = CGRectMake(0, 0, view.frame.size.width, 50);
     
@@ -161,10 +160,8 @@
     [buttonDisplayTutorial addTarget:self action:@selector(presentTutorialViewController) forControlEvents:UIControlEventTouchUpInside];
     [buttonDisplayTutorial setTitle:@"Forget how to use Water Reporter?" forState:UIControlStateNormal];
     [buttonDisplayTutorial setTitleColor:[UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:0.5] forState:UIControlStateNormal];
-    //buttonDisplayTutorial.titleLabel.textColor = DEFAULT_TEXT_COLOR;
     buttonDisplayTutorial.titleLabel.font = DEFAULT_BODY_FONT;
     buttonDisplayTutorial.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-    //[addNewFeatureToMap addTarget:self action:@selector(presentFeatureTemplatePicker) forControlEvents:UIControlEventTouchUpInside];
     
     [view addSubview:buttonDisplayTutorial];
     

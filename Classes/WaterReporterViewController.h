@@ -58,6 +58,6 @@
 @property (nonatomic, strong) PopupViewController* popupViewController;
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
-- (void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;
+-(void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;
 
 @end
