@@ -784,13 +784,13 @@
     switch (section) {
             
         case 1:
-            return @"Details"; // Feature Details
+            return @"Enter your details below"; // Feature Details
             
         case 2:
-            return @"Attachments"; // Photo/Video Attachments
+            return nil; // Photo/Video Attachments
             
         case 3:
-            return @"Location"; // Feature Details
+            return nil; // Feature Details
             
         default:
             return nil;
