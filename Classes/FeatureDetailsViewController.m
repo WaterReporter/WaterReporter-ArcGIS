@@ -784,7 +784,12 @@
     switch (section) {
             
         case 1:
-            return @"Enter your details below"; // Feature Details
+            if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
+                return @"Enter your Activity Report details below"; // Feature Details
+            } else if ([self.featureLayer.name isEqualToString:@"Pollution Report"]) {
+                return @"Enter your Pollution Report details below"; // Feature Details
+            }
+
             
         case 2:
             return nil; // Photo/Video Attachments
@@ -883,102 +888,13 @@
      * loading and displaying of image names and thumbnails.
      *
      */
-	if (indexPath.section == 2){
-				
-		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		}
-		
-        cell.imageView.image = nil;
-		cell.textLabel.text = nil;
-		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-		// for creating a new feature, we allow them to add a picture
-		// and view or remove pictures
-		if (_newFeature){
-			if (indexPath.row == self.attachments.count){
-                cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAddYourPhotoVideo"]];
-
-				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-                cell.accessoryType = UITableViewCellAccessoryNone;
-				cell.textLabel.text = nil;
-                cell.backgroundColor =  [UIColor clearColor];
-
-                cell.textLabel.backgroundColor = [UIColor clearColor];
-			}
-			else {
-                cell.contentView.backgroundColor = [UIColor clearColor];
-
-				NSString *filepath = [self.attachments objectAtIndex:indexPath.row];
-				if ([self filepathIsJPG:filepath]){
-					cell.textLabel.text = [NSString stringWithFormat:@"%@ %d",@"Picture",indexPath.row + 1];
-					cell.imageView.image = [self thumbnailForImageWithPath:[self.attachments objectAtIndex:indexPath.row] size:36];
-				}
-				else {
-					cell.textLabel.text = [NSString stringWithFormat:@"%@ %d",@"Video",indexPath.row + 1];
-				}
-
-			}
-		}
-		
-		// for viewing attributes of an existing feature, we need to show them either
-		// a "loading" message, "none" message, or list of media attachments
-		else {
-			if (self.attachmentInfos == nil){
-				cell.textLabel.text = @"Loading...";
-			}
-			else if (self.attachmentInfos.count == 0){
-				cell.textLabel.text = @"None";
-			}
-			else {
-				AGSAttachmentInfo *ai = [self.attachmentInfos objectAtIndex:indexPath.row];
-				cell.textLabel.text = ai.name;
-				cell.selectionStyle = UITableViewCellSelectionStyleNone;
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-				// if we've already retrieved the photo, show a thumbnail
-				if ([ai.contentType isEqualToString:@"image/jpeg"] && [self.attachments objectAtIndex:indexPath.row] != [NSNull null]){
-					cell.imageView.image = [self thumbnailForImageWithPath:[self.attachments objectAtIndex:indexPath.row] size:36];
-				}
-			}
-		}
-	}
-	
-    // Geolocation
-	else if (indexPath.section == 3){
+    if (indexPath.section == 1){
         
 		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		}
-        
-        if (indexPath.row == 0) {
-            
-        }
-        
-        if (self.featureGeometry) {
-            cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAutomaticLocationSaved"]];
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        } else {
-            cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonManualLocationEntry"]];
-            self.navigationItem.rightBarButtonItem.enabled = NO;
-        }
-        
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.backgroundColor =  [UIColor clearColor];
-        
-        cell.textLabel.backgroundColor = [UIColor clearColor];
-    }
 
-    // Feature Details
-	else if (indexPath.section == 1){
-        
-		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
-		}
-        
         /**
          * Iterate through all of the selected Feature Layer's
          * fields and perform the necessary pre-display actions
@@ -1008,7 +924,7 @@
             
             NSDate *thisDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
             self.dateField.text = [self.dateFormat stringFromDate:thisDate];
-
+            
             
             UIDatePicker *thisDatePicker = [[UIDatePicker alloc] initWithFrame:[cell bounds]];
             self.dateField.inputView = thisDatePicker;
@@ -1151,7 +1067,7 @@
             self.reporterPicker.delegate = self;
             self.reporterPicker.dataSource = self;
             self.reporterPicker.showsSelectionIndicator = YES;
-                        
+            
             [self.reporterPicker reloadAllComponents];
             
             self.reporterField.inputView = self.reporterPicker;
@@ -1161,7 +1077,7 @@
             [self.reporterField release];
             [self.reporterPicker release];
         }
-
+        
         /**
          * Comment Field
          */
@@ -1176,53 +1092,53 @@
             
             cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
             [self.commentField addTarget:self action:@selector(commentFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
-
+            
             [cell.contentView addSubview:self.commentField];
         }
         
-//        /**
-//         * Keeper Bounds Field
-//         */
-//        if (indexPath.row == 4 && !self.keeperField && !self.keeperField.text) {
-//            field = [CodedValueUtility findField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
-//            
-//            self.keeperField = [self textFieldTemplate];
-//            self.keeperField.textColor = DEFAULT_TEXT_COLOR;
-//            self.keeperField.font = DEFAULT_BODY_FONT;
-//            self.keeperField.textAlignment = NSTextAlignmentRight;
-//            cell.textLabel.text = field.alias;
-//            
-//            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
-//            
-//            /**
-//             * This loop is what we need to pull out the actual event options
-//             * from the system. They are stored in what is called "Domains"
-//             *
-//             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
-//             *
-//             */
-//            keeperPickerViewFieldOptions = [[NSMutableArray alloc] init];
-//            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
-//            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
-//                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
-//                [keeperPickerViewFieldOptions addObject:val.code];
-//            }
-//            
-//            self.keeperPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
-//            self.keeperPicker.delegate = self;
-//            self.keeperPicker.dataSource = self;
-//            self.keeperPicker.showsSelectionIndicator = YES;
-//            
-//            [self.keeperPicker reloadAllComponents];
-//            
-//            self.keeperField.inputView = self.keeperPicker;
-//            
-//            [cell.contentView addSubview:self.keeperField];
-//            
-//            [self.keeperField release];
-//            [self.keeperPicker release];
-//        }
-//
+        //        /**
+        //         * Keeper Bounds Field
+        //         */
+        //        if (indexPath.row == 4 && !self.keeperField && !self.keeperField.text) {
+        //            field = [CodedValueUtility findField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
+        //
+        //            self.keeperField = [self textFieldTemplate];
+        //            self.keeperField.textColor = DEFAULT_TEXT_COLOR;
+        //            self.keeperField.font = DEFAULT_BODY_FONT;
+        //            self.keeperField.textAlignment = NSTextAlignmentRight;
+        //            cell.textLabel.text = field.alias;
+        //
+        //            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
+        //
+        //            /**
+        //             * This loop is what we need to pull out the actual event options
+        //             * from the system. They are stored in what is called "Domains"
+        //             *
+        //             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
+        //             *
+        //             */
+        //            keeperPickerViewFieldOptions = [[NSMutableArray alloc] init];
+        //            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
+        //            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
+        //                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
+        //                [keeperPickerViewFieldOptions addObject:val.code];
+        //            }
+        //
+        //            self.keeperPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
+        //            self.keeperPicker.delegate = self;
+        //            self.keeperPicker.dataSource = self;
+        //            self.keeperPicker.showsSelectionIndicator = YES;
+        //
+        //            [self.keeperPicker reloadAllComponents];
+        //
+        //            self.keeperField.inputView = self.keeperPicker;
+        //
+        //            [cell.contentView addSubview:self.keeperField];
+        //
+        //            [self.keeperField release];
+        //            [self.keeperPicker release];
+        //        }
+        //
         /**
          * Email Field
          */
@@ -1238,22 +1154,22 @@
             
             cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"email" inFeatureLayer:self.featureLayer];
             [self.emailField addTarget:self action:@selector(emailFieldDidEndEditing:) forControlEvents:UIControlEventEditingChanged];
-
+            
             [cell.contentView addSubview:self.emailField];
         }
-
+        
         /**
          * Location Fields
          */
         if ([CodedValueUtility findField:@"long_push" inFeatureLayer:self.featureLayer] && [CodedValueUtility findField:@"lat_push" inFeatureLayer:self.featureLayer]) {
-
+            
             AGSGeometry *projectedPoint = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:self.userLocation toSpatialReference:self.userLocation.spatialReference];
             
             self.featureGeometry = (AGSGeometry *)projectedPoint;
             
             [self.feature setAttributeWithDouble:self.userLocation.x forKey:@"long_push"];
             [self.feature setAttributeWithDouble:self.userLocation.y forKey:@"lat_push"];
-
+            
             NSLog(@"self.featureGeometry: %@", self.featureGeometry);
         }
         
@@ -1262,7 +1178,95 @@
          */
         // http://[SERIVCES URL]/[ORGANIZATION ID]/arcgis/rest/services/[FEATURE LAYER URL]/0/[FEATURE ID]/attachments/[ATTACHMENT ID]
         // http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0/7/attachments/2
+        
 
+    } else if (indexPath.section == 2){
+				
+		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		
+        cell.imageView.image = nil;
+		cell.textLabel.text = nil;
+		cell.accessoryType = UITableViewCellAccessoryNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        /**
+         * Remove the separators between cells in the tableView
+         */
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+		// for creating a new feature, we allow them to add a picture
+		// and view or remove pictures
+		if (_newFeature){
+			if (indexPath.row == self.attachments.count){
+                cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAddYourPhotoVideo"]];
+
+				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                cell.accessoryType = UITableViewCellAccessoryNone;
+				cell.textLabel.text = nil;
+                cell.backgroundColor =  [UIColor clearColor];
+
+                cell.textLabel.backgroundColor = [UIColor clearColor];
+			}
+			else {
+                cell.contentView.backgroundColor = [UIColor clearColor];
+
+				NSString *filepath = [self.attachments objectAtIndex:indexPath.row];
+				if ([self filepathIsJPG:filepath]){
+					cell.textLabel.text = [NSString stringWithFormat:@"%@ %d",@"Picture",indexPath.row + 1];
+					cell.imageView.image = [self thumbnailForImageWithPath:[self.attachments objectAtIndex:indexPath.row] size:36];
+				}
+				else {
+					cell.textLabel.text = [NSString stringWithFormat:@"%@ %d",@"Video",indexPath.row + 1];
+				}
+
+			}
+		}
+		
+		// for viewing attributes of an existing feature, we need to show them either
+		// a "loading" message, "none" message, or list of media attachments
+		else {
+			if (self.attachmentInfos == nil){
+				cell.textLabel.text = @"Loading...";
+			}
+			else if (self.attachmentInfos.count == 0){
+				cell.textLabel.text = @"None";
+			}
+			else {
+				AGSAttachmentInfo *ai = [self.attachmentInfos objectAtIndex:indexPath.row];
+				cell.textLabel.text = ai.name;
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				// if we've already retrieved the photo, show a thumbnail
+				if ([ai.contentType isEqualToString:@"image/jpeg"] && [self.attachments objectAtIndex:indexPath.row] != [NSNull null]){
+					cell.imageView.image = [self thumbnailForImageWithPath:[self.attachments objectAtIndex:indexPath.row] size:36];
+				}
+			}
+		}
+	}
+	
+    // Geolocation
+	else if (indexPath.section == 3){
+        
+		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+		}
+        
+       if (self.featureGeometry) {
+            cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonAutomaticLocationSaved"]];
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        } else {
+            cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonManualLocationEntry"]];
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+        }
+        
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.backgroundColor =  [UIColor clearColor];
+        
+        cell.textLabel.backgroundColor = [UIColor clearColor];
     }
     
     /**
@@ -1271,12 +1275,17 @@
     UIView* backgroundView = [[UIView alloc] init];
     backgroundView.backgroundColor = BACKGROUND_LINEN_LIGHT;
     [tableView setBackgroundView:backgroundView];
-    
+        
     /**
      * Remove the separators between cells in the tableView
      */
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.separatorColor = [UIColor clearColor];
+    if (indexPath.section == 1) {
+        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        tableView.separatorColor = DEFAULT_LABEL_COLOR;        
+    } else {
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        tableView.separatorColor = [UIColor clearColor];
+    }
     
     /**
      * Set the label, image, etc for the templates
