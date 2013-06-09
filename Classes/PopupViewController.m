@@ -41,15 +41,37 @@
         
     [self.view addSubview:backgroundView];
     
+    
+	// cancel any ongoing operations
+	for (NSString *field in attributes){
+        
+        if ([attributes objectForKey:field]) {
+            NSLog(@"%@: %@", field, [attributes objectForKey:field]);            
+        }
+        
+	}
+    
     /**
      * Display the first image to the users
+     *
+     * Warning: We need to update how this is handled, because if
+     * the record has no image, it crashes the application.
      */
-    UIImage *mainImage = [UIImage imageWithContentsOfFile:[attributes objectForKey:@"image1"]];
+//    if ([[NSString *[attributes objectForKey:@"image1"]] isEqualToString:@""]) {
+//        NSLog(@"No images exist");
+//    } else {
+//        NSLog(@"Images exists");
+//    }
     
-    UIImageView *mainImageView = [[UIImageView alloc] initWithImage:mainImage];
-
-    [mainImageView setImage:mainImage];
-    [backgroundView addSubview:mainImageView];
+//
+//        UIImage *mainImage = [UIImage imageWithContentsOfFile:[attributes objectForKey:@"image1"]];
+//    UIImageView *mainImageView = [[UIImageView alloc] initWithImage:mainImage];
+//
+//    [mainImageView setImage:mainImage];
+//    [backgroundView addSubview:mainImageView];
+//    
+//    [mainImageView release];
+//    [backgroundView release];
     
     return self;
 }

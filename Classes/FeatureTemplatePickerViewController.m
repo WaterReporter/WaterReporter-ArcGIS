@@ -149,22 +149,22 @@
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
-
-    /**
-     * Review the Tutorial/How-To
-     */
-    UIButton *buttonDisplayTutorial = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonDisplayTutorial.frame = CGRectMake(0, 0, view.frame.size.width, 50);
-    
-    buttonDisplayTutorial.userInteractionEnabled = YES;
-    [buttonDisplayTutorial addTarget:self action:@selector(presentTutorialViewController) forControlEvents:UIControlEventTouchUpInside];
-    [buttonDisplayTutorial setTitle:@"Forget how to use Water Reporter?" forState:UIControlStateNormal];
-    [buttonDisplayTutorial setTitleColor:[UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:0.5] forState:UIControlStateNormal];
-    buttonDisplayTutorial.titleLabel.font = DEFAULT_BODY_FONT;
-    buttonDisplayTutorial.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-    
-    [view addSubview:buttonDisplayTutorial];
-    
+//
+//    /**
+//     * Review the Tutorial/How-To
+//     */
+//    UIButton *buttonDisplayTutorial = [UIButton buttonWithType:UIButtonTypeCustom];
+//    buttonDisplayTutorial.frame = CGRectMake(0, 0, view.frame.size.width, 50);
+//    
+//    buttonDisplayTutorial.userInteractionEnabled = YES;
+//    [buttonDisplayTutorial addTarget:self action:@selector(presentTutorialViewController) forControlEvents:UIControlEventTouchUpInside];
+//    [buttonDisplayTutorial setTitle:@"Forget how to use Water Reporter?" forState:UIControlStateNormal];
+//    [buttonDisplayTutorial setTitleColor:[UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:0.5] forState:UIControlStateNormal];
+//    buttonDisplayTutorial.titleLabel.font = DEFAULT_BODY_FONT;
+//    buttonDisplayTutorial.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+//    
+//    [view addSubview:buttonDisplayTutorial];
+//    
     return [view autorelease];
 }
      

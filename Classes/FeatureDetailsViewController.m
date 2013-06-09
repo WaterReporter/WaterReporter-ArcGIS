@@ -1267,6 +1267,8 @@
         cell.backgroundColor =  [UIColor clearColor];
         
         cell.textLabel.backgroundColor = [UIColor clearColor];
+
+        [tableView layoutIfNeeded];
     }
     
     /**
@@ -1295,7 +1297,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.detailTextLabel.textColor = DEFAULT_TEXT_COLOR;
     cell.detailTextLabel.font = DEFAULT_BODY_FONT;
-    
+        
     return cell;
 }
 

@@ -161,12 +161,6 @@
     NSLog(@"WaterReporterViewController: webMap: intoMapView");
 
     /**
-     * This is the "Cancel" button when you're adding a new feature to the map
-     */
-    UIBarButtonItem *legendButton = [[[UIBarButtonItem alloc]initWithTitle:@"Legend" style:UIBarButtonItemStylePlain target:self action:@selector(legend)]autorelease];
-    self.navigationItem.leftBarButtonItem = legendButton;
-    
-    /**
      * This is the "Commit" button when you're adding a new feature to the map
      */
     UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
@@ -199,8 +193,8 @@
      */
     NSLog(@"WaterReporterViewController: mapView: shouldShowCalloutForGraphic");
     
-//    return !self.loadingFromFeatureDetails;
-    return NO;
+    return !self.loadingFromFeatureDetails;
+    //return NO;
 }
 
 /**
