@@ -36,20 +36,20 @@
     self.feature = feature;
     
     NSDictionary *attributes = [self.feature allAttributes];
-    
-    NSLog(@"Popup Details: %@", attributes);
-        
+            
     [self.view addSubview:backgroundView];
-    
+    NSLog(@"%@", [[self.feature allAttributes] allKeys]);
     
 	// cancel any ongoing operations
-	for (NSString *field in attributes){
+//	for (NSString *field in [attributes allAttributes]){
+    
+        //NSLog(@"%@", field);
         
-        if ([attributes objectForKey:field]) {
-            NSLog(@"%@: %@", field, [attributes objectForKey:field]);            
-        }
+//        if ([attributes objectForKey:field] != [NSNull null] && ![field isEqualToString:@"OBJECTID"]) {
+//            NSLog(@"%@: %@", field, [attributes objectForKey:field]);
+//        }
         
-	}
+//	}
     
     /**
      * Display the first image to the users

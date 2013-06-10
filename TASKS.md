@@ -1,6 +1,6 @@
 ## Functionality
 
-* Popups. Implement all fields for all popups [e.g., Pollution, Activity, Recreational, Access, Watershed]
+* Popups. Implement all fields for all popups [e.g., Pollution, Activity, Recreational, Access, Watershed] {This will be the default AGSPopupViewController, because if it is not, then we give the application an unstable launch element}
 * Curated Map. The main "Map" should be a curated map, not the same map that is used to add features to the pollution and activity feature services [e.g., a2d34296ca3a4966a924ffd7bad5149a]
 * Curated Map. Should auto-zoom to about 10 or 12 when the app loads into the users current location.
 * Sketch Map. The Sketch Map should simply load a baseman into the map area and shouldn't use the curated map nor the live map.

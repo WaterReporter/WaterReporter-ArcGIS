@@ -11,10 +11,11 @@
 #import "FeatureTemplatePickerViewController.h"
 #import "TutorialViewController.h"
 #import "PopupViewController.h"
+#import "PopupHelper.h"
 
 @protocol FeatureGeometryDelegate;
 
-@interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate,AGSPopupsContainerDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate> {
+@interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate,AGSPopupsContainerDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate, AGSPopupsContainerDelegate, PoupupHelperDelegate> {
 
     id <FeatureGeometryDelegate> featureGeometryDelegate;
     AGSGeometry *manualFeatureGeometry;
@@ -35,9 +36,17 @@
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
     TutorialViewController* _tutorialViewController;
     PopupViewController* _popupViewController;
+
+    UIActivityIndicatorView *_activityIndicator;
+    PopupHelper *_popupHelper;
+    AGSPopupsContainerViewController *_popupVC;
 }
 
 @property (nonatomic, retain) AGSGeometry *manualFeatureGeometry;
+
+@property (nonatomic,strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) PopupHelper * popupHelper;
+@property (nonatomic, strong) AGSPopupsContainerViewController* popupVC;
 
 @property (nonatomic) double viUserLocationLongitude;
 @property (nonatomic) double viUserLocationLatitude;
@@ -59,5 +68,8 @@
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
 -(void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;
+
+- (void)foundPopups:(NSArray*) popups atMapPonit:(AGSPoint*)mapPoint withMoreToFollow:(BOOL)more;
+- (void)foundAdditionalPopups:(NSArray*) popups withMoreToFollow:(BOOL)more;
 
 @end
