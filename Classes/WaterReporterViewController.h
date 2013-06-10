@@ -10,12 +10,12 @@
 #import <ArcGIS/ArcGIS.h>
 #import "FeatureTemplatePickerViewController.h"
 #import "TutorialViewController.h"
-#import "PopupViewController.h"
+
 #import "PopupHelper.h"
 
 @protocol FeatureGeometryDelegate;
 
-@interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate,AGSPopupsContainerDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate, AGSPopupsContainerDelegate, PoupupHelperDelegate> {
+@interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate, AGSPopupsContainerDelegate, PoupupHelperDelegate> {
 
     id <FeatureGeometryDelegate> featureGeometryDelegate;
     AGSGeometry *manualFeatureGeometry;
@@ -26,6 +26,7 @@
 
     AGSMapView *_mapView;
     AGSWebMap* _webmap;
+    AGSWebMap* _curatedMap;
 	AGSFeatureLayer *_featureLayer;
     AGSPoint *_userLocation;
     CLLocationManager *_locationManager;
@@ -35,7 +36,6 @@
 
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
     TutorialViewController* _tutorialViewController;
-    PopupViewController* _popupViewController;
 
     UIActivityIndicatorView *_activityIndicator;
     PopupHelper *_popupHelper;
@@ -54,6 +54,7 @@
 
 @property (nonatomic, retain) IBOutlet AGSMapView *mapView;
 @property (nonatomic, retain) AGSWebMap* webmap;
+@property (nonatomic, retain) AGSWebMap* curatedMap;
 @property (nonatomic, retain) AGSFeatureLayer *featureLayer;
 @property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -64,7 +65,6 @@
 
 @property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
 @property (nonatomic, strong) TutorialViewController* tutorialViewController;
-@property (nonatomic, strong) PopupViewController* popupViewController;
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
 -(void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;

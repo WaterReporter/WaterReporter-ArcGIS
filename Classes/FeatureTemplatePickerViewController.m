@@ -30,7 +30,7 @@
     /**
      * Initialize the feature template picker so that we can show it later when needed
      */
-    self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
+    //self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
     
     self.navigationItem.title = @"Choose Report";
 }

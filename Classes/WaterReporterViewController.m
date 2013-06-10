@@ -15,6 +15,7 @@
  * Define the Web Map ID that we wish to load
  */
 #define FEATURE_SERVICE_URL @"7f587e3a53dc455f92972a15031c94f8"
+#define CURATED_MAP_URL @"a2d34296ca3a4966a924ffd7bad5149a"
 
 /**
  * Define whether the Feature Template Picker should display
@@ -22,7 +23,7 @@
  */
 #define FEATURE_TEMPLATE_AUTODISPLAY YES
 #define TUTORIAL_IS_ACTIVE YES
-#define FEATURE_SERVICE_ZOOM 3000
+#define FEATURE_SERVICE_ZOOM 150000
 
 @implementation WaterReporterViewController
 
@@ -33,6 +34,7 @@
 
 @synthesize mapView = _mapView;
 @synthesize webmap = _webmap;
+@synthesize curatedMap = _curatedMap;
 @synthesize featureLayer = _featureLayer;
 @synthesize locationManager = _locationManager;
 @synthesize sketchLayer = _sketchLayer;
@@ -40,7 +42,6 @@
 
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 @synthesize tutorialViewController = _tutorialViewController;
-@synthesize popupViewController = _popupViewController;
 
 @synthesize activityIndicator = _activityIndicator;
 @synthesize popupVC = _popupVC;
@@ -72,11 +73,14 @@
      *
      */
     self.webmap = [AGSWebMap webMapWithItemId:FEATURE_SERVICE_URL credential:nil];
+    //self.curatedMap = [AGSWebMap webMapWithItemId:CURATED_MAP_URL credential:nil];
     
     /**
      * Designate a delegate to be notified as web map is opened
      */
     self.webmap.delegate = self;
+    
+    //self.curatedMap.delegate = self;
     [self.webmap openIntoMapView:self.mapView];
     
     /**
@@ -107,12 +111,6 @@
      */
     self.popupHelper = [[PopupHelper alloc] init];
     self.popupHelper.delegate = self;
-
-    /**
-     * Locate the user via their GPS cooridnates
-     */
-    [self displayUsersGeolocation];
-    
 
     /**
      * Initialize the tutorial so that we can show it later when needed
@@ -195,6 +193,7 @@
     
     //continue anyway
     [self.webmap continueOpenAndSkipCurrentLayer];
+    //[self.curatedMap continueOpenAndSkipCurrentLayer];
 }
 
 - (BOOL)mapView:(AGSMapView *)mapView shouldShowCalloutForGraphic:(AGSGraphic *)graphic {
@@ -213,7 +212,7 @@
     //cancel any outstanding requests
     [self.popupHelper cancelOutstandingRequests];
     
-    [self.popupHelper findPopupsForMapView:mapView withGraphics:graphics atPoint:mappoint andWebMap:self.webmap withQueryableLayers:nil ];
+    [self.popupHelper findPopupsForMapView:mapView withGraphics:graphics atPoint:mappoint andWebMap:self.curatedMap withQueryableLayers:nil ];
 }
 
 /**
@@ -233,14 +232,6 @@
      * This allows us to see what is being fired and when
      */
     NSLog(@"WaterReporterViewController: didClickAccessoryButtonForCallout");
-    
-//    /**
-//     * Prepares the selected feature to be displayed
-//     * in a popup container
-//     */
-//    AGSGraphic* graphic = (AGSGraphic*) callout.representedObject;
-//    self.popupViewController = [[PopupViewController alloc] initWithExistingFeature:graphic];
-    //[self.navigationController pushViewController:self.popupViewController animated:YES];
     
 	/**
      * Display the details for the active or clicked on feature.
@@ -323,19 +314,13 @@
  * Display users geolocation on map
  *
  */
--(void)displayUsersGeolocation {
+-(void) mapViewDidLoad:(AGSMapView*)mapView {
 
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:displayUsersGeolocation");
-    
-    
     NSLog(@"Starting core location from didOpenWebMap");
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
-    
+
     /**
      * If we are not already displaying the users
      * current location on the map, then we need to
@@ -346,10 +331,11 @@
      *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
      */
     if(!self.mapView.locationDisplay.dataSourceStarted) {
+        [self.mapView.locationDisplay startDataSource];
         self.mapView.locationDisplay.zoomScale = FEATURE_SERVICE_ZOOM;
         self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
-        [self.mapView.locationDisplay startDataSource];
     }
+    
 }
 
 /**
@@ -375,7 +361,7 @@
     
     // ALL: Animate the template picker, covering vertically
     self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    
+        
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
     [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
 }
@@ -692,6 +678,7 @@ wantsToDeleteGraphicForPopup:		(AGSPopup *) 	popup {
     
     [self.mapView release];
     [self.webmap release];
+    [self.curatedMap release];
     [self.featureLayer release];
     [self.locationManager release];
     [self.featureTemplatePickerViewController release];
@@ -714,6 +701,7 @@ wantsToDeleteGraphicForPopup:		(AGSPopup *) 	popup {
     
     [self.mapView release];
     [self.webmap release];
+    [self.curatedMap release];
     [self.featureLayer release];
     [self.locationManager release];
     [self.featureTemplatePickerViewController release];

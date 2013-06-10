@@ -1652,36 +1652,38 @@
      */
     NSLog(@"FeaturesDetailsViewController: viewDidUnload");
     
-	self.featureLayer.editingDelegate = nil;
 	
-    self.feature = nil;
-	self.featureGeometry = nil;
-	self.featureLayer = nil;
-	self.attachments = nil;
-	self.date = nil;
-    self.dateField = nil;
-	self.dateFormat = nil;
-	self.timeFormat = nil;
-	self.attachmentInfos = nil;
-	self.operations = nil;
-	self.retrieveAttachmentOp = nil;
-    
-    self.dateField = nil;
-    self.eventField = nil;
-    self.reporterField = nil;
-    self.pollutionField = nil;
-    self.keeperField = nil;
-    self.emailField = nil;
-    
-    self.eventPicker = nil;
-    self.reporterPicker = nil;
-    self.pollutionPicker = nil;
-    self.keeperPicker = nil;
-    
-    self.eventPickerViewFieldOptions = nil;
-    self.reporterPickerViewFieldOptions = nil;
-    self.pollutionPickerViewFieldOptions = nil;
-    self.keeperPickerViewFieldOptions = nil;
+    self.featureLayer.editingDelegate = nil;
+	
+    [allMediaAttachments release];
+    [self.feature release];
+    [self.featureGeometry release];
+    [self.userLocation release];
+    [self.templatePrototype release];
+    [self.featureLayer release];
+    [self.attachments release];
+    [self.dateField release];
+    [self.date release];
+    [self.dateFormat release];
+    [self.timeFormat release];
+    [self.eventField release];
+    [self.reporterField release];
+    [self.commentField release];
+    [self.keeperField release];
+    [self.pollutionField release];
+    [self.emailField release];
+    [self.eventPicker release];
+    [self.reporterPicker release];
+    [self.keeperPicker release];
+    [self.pollutionPicker release];
+    [self.eventPickerViewFieldOptions release];
+    [self.reporterPickerViewFieldOptions release];
+    [self.keeperPickerViewFieldOptions release];
+    [self.pollutionPickerViewFieldOptions release];
+    [self.attachmentInfos release];
+    [self.operations release];
+    [self.retrieveAttachmentOp release];
+    [self.waterReporterViewController release];
 }
 
 - (void)dealloc {
@@ -1702,33 +1704,35 @@
 	// a dealloc'd object
 	self.featureLayer.editingDelegate = nil;
 	
-    self.feature = nil;
-	self.featureGeometry = nil;
-	self.featureLayer = nil;
-	self.attachments = nil;
-	self.date = nil;
-	self.dateFormat = nil;
-	self.timeFormat = nil;
-	self.attachmentInfos = nil;
-	self.operations = nil;
-	self.retrieveAttachmentOp = nil;
-    
-    self.dateField = nil;
-    self.eventField = nil;
-    self.reporterField = nil;
-    self.pollutionField = nil;
-    self.keeperField = nil;
-    self.emailField = nil;
-    
-    self.eventPicker = nil;
-    self.reporterPicker = nil;
-    self.pollutionPicker = nil;
-    self.keeperPicker = nil;
-    
-    self.eventPickerViewFieldOptions = nil;
-    self.reporterPickerViewFieldOptions = nil;
-    self.pollutionPickerViewFieldOptions = nil;
-    self.keeperPickerViewFieldOptions = nil;
+    [allMediaAttachments release];
+    [self.feature release];
+    [self.featureGeometry release];
+    [self.userLocation release];
+    [self.templatePrototype release];
+    [self.featureLayer release];
+    [self.attachments release];
+    [self.dateField release];
+    [self.date release];
+    [self.dateFormat release];
+    [self.timeFormat release];
+    [self.eventField release];
+    [self.reporterField release];
+    [self.commentField release];
+    [self.keeperField release];
+    [self.pollutionField release];
+    [self.emailField release];
+    [self.eventPicker release];
+    [self.reporterPicker release];
+    [self.keeperPicker release];
+    [self.pollutionPicker release];
+    [self.eventPickerViewFieldOptions release];
+    [self.reporterPickerViewFieldOptions release];
+    [self.keeperPickerViewFieldOptions release];
+    [self.pollutionPickerViewFieldOptions release];
+    [self.attachmentInfos release];
+    [self.operations release];
+    [self.retrieveAttachmentOp release];
+    [self.waterReporterViewController release];
     
     [super dealloc];
 }
