@@ -16,7 +16,6 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		2899E5220DE3E06400AC0155 /* WaterReporterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		28D7ACF80DDB3853001CB0EB /* WaterReporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */; };
 		9401AD9F124828830010FADB /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9401AD9D124828830010FADB /* ImageViewController.m */; };
 		9401ADA0124828830010FADB /* ImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9401AD9E124828830010FADB /* ImageViewController.xib */; };
 		9477D6D61243DA03004AF934 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9477D6D51243DA03004AF934 /* QuartzCore.framework */; };
@@ -41,6 +40,9 @@
 		C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */; };
 		CE21E6581765228C007A3855 /* TASKS.md in Resources */ = {isa = PBXBuildFile; fileRef = CE21E6571765228C007A3855 /* TASKS.md */; };
 		CE54F1BD17661853004C2B8F /* PopupHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE54F1BC17661853004C2B8F /* PopupHelper.m */; };
+		CEAA7939176A18B000F4F192 /* CuratedMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEAA7938176A18B000F4F192 /* CuratedMapViewController.xib */; };
+		CEAA793A176A191E00F4F192 /* CuratedMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE54F1C017661F7C004C2B8F /* CuratedMapViewController.m */; };
+		CED15AAF1768F1E900282D8E /* WaterReporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CED15AAE1768F1E900282D8E /* WaterReporterViewController.m */; };
 		CEE7E877174DAB3700500625 /* PopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE7E875174DAB3700500625 /* PopupViewController.xib */; };
 		CEF5F9D5174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */; };
 		CEF5F9D8174D5D7100AF0743 /* buttonManualLocationEntry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */; };
@@ -85,8 +87,8 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WaterReporterViewController.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		28D7ACF60DDB3853001CB0EB /* WaterReporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporterViewController.h; sourceTree = "<group>"; };
-		28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterReporterViewController.m; sourceTree = "<group>"; };
+		28D7ACF60DDB3853001CB0EB /* BackupWaterReporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackupWaterReporterViewController.h; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* BackupWaterReporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackupWaterReporterViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* WaterReporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporter_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WaterReporter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WaterReporter-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -122,6 +124,9 @@
 		CE54F1BC17661853004C2B8F /* PopupHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupHelper.m; sourceTree = "<group>"; };
 		CE54F1BF17661F7C004C2B8F /* CuratedMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CuratedMapViewController.h; sourceTree = "<group>"; };
 		CE54F1C017661F7C004C2B8F /* CuratedMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CuratedMapViewController.m; sourceTree = "<group>"; };
+		CEAA7938176A18B000F4F192 /* CuratedMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CuratedMapViewController.xib; sourceTree = "<group>"; };
+		CED15AAD1768F1E900282D8E /* WaterReporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporterViewController.h; sourceTree = "<group>"; };
+		CED15AAE1768F1E900282D8E /* WaterReporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterReporterViewController.m; sourceTree = "<group>"; };
 		CEE7E875174DAB3700500625 /* PopupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopupViewController.xib; path = Classes/PopupViewController.xib; sourceTree = "<group>"; };
 		CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAddYourPhotoVideo@2x.png"; sourceTree = "<group>"; };
 		CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonManualLocationEntry@2x.png"; sourceTree = "<group>"; };
@@ -182,6 +187,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CED15AAC1768F1BB00282D8E /* _old */,
 				CE54F1BE17661F58004C2B8F /* curated-map */,
 				CE54F1BA17661843004C2B8F /* popups */,
 				F53CC551173814A1008315CE /* features */,
@@ -189,8 +195,8 @@
 				F53CC54F17381489008315CE /* tutorial */,
 				1D3623240D0F684500981E51 /* WaterReporterAppDelegate.h */,
 				1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */,
-				28D7ACF60DDB3853001CB0EB /* WaterReporterViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* WaterReporterViewController.m */,
+				CED15AAD1768F1E900282D8E /* WaterReporterViewController.h */,
+				CED15AAE1768F1E900282D8E /* WaterReporterViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -276,6 +282,15 @@
 			name = "curated-map";
 			sourceTree = "<group>";
 		};
+		CED15AAC1768F1BB00282D8E /* _old */ = {
+			isa = PBXGroup;
+			children = (
+				28D7ACF60DDB3853001CB0EB /* BackupWaterReporterViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* BackupWaterReporterViewController.m */,
+			);
+			name = _old;
+			sourceTree = "<group>";
+		};
 		F53CC54F17381489008315CE /* tutorial */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +327,7 @@
 		F53CC552173815C8008315CE /* layouts */ = {
 			isa = PBXGroup;
 			children = (
+				CEAA7938176A18B000F4F192 /* CuratedMapViewController.xib */,
 				CEE7E875174DAB3700500625 /* PopupViewController.xib */,
 				94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */,
 				C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */,
@@ -470,6 +486,7 @@
 				CEF5F9D9174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png in Resources */,
 				CEE7E877174DAB3700500625 /* PopupViewController.xib in Resources */,
 				CE21E6581765228C007A3855 /* TASKS.md in Resources */,
+				CEAA7939176A18B000F4F192 /* CuratedMapViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,16 +497,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEAA793A176A191E00F4F192 /* CuratedMapViewController.m in Sources */,
 				C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* WaterReporterAppDelegate.m in Sources */,
-				28D7ACF80DDB3853001CB0EB /* WaterReporterViewController.m in Sources */,
 				94922979124417AC00CB16AB /* FeatureDetailsViewController.m in Sources */,
 				9401AD9F124828830010FADB /* ImageViewController.m in Sources */,
 				947B240B124AD4EF00414CFF /* MoviePlayerViewController.m in Sources */,
 				1C6CA6101321CAB700E19E9D /* CodedValueUtility.m in Sources */,
 				F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */,
 				CE54F1BD17661853004C2B8F /* PopupHelper.m in Sources */,
+				CED15AAF1768F1E900282D8E /* WaterReporterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

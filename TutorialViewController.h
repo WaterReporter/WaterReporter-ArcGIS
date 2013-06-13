@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
+#import "CuratedMapViewController.h"
 
 @class TutorialViewController;
 
@@ -20,12 +21,15 @@
     UIScrollView* _tutorialView;
     UIPageControl* _pageControl;
     
+    CuratedMapViewController *_curatedMapViewController;
+    
 }
 
 @property (retain) id featureTemplatePickerDelegate;
 
 @property (nonatomic, retain) IBOutlet UIScrollView* tutorialView;
 @property (nonatomic, retain) UIPageControl* pageControl;
+@property (nonatomic, strong) CuratedMapViewController* curatedMapViewController;
 
 -(void)presentFeatureTemplatePicker;
 

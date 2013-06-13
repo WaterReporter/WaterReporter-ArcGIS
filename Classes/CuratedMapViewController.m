@@ -11,17 +11,22 @@
 //
 
 #import "CuratedMapViewController.h"
+#import "PopupHelper.h"
 
 /**
  * Define the Web Map ID that we wish to load
  */
 #define FEATURE_SERVICE_URL @"a2d34296ca3a4966a924ffd7bad5149a"
+#define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault"]]
 
 @implementation CuratedMapViewController 
 
 @synthesize webMap = _webMap;
 @synthesize mapView = _mapView;
 @synthesize webmapId = _webmapId;
+@synthesize activityIndicator = _activityIndicator;
+@synthesize popupVC = _popupVC;
+@synthesize popupHelper = _popupHelper;
 
 // Do any additional setup after loading the view
 - (void)viewDidLoad {
@@ -40,13 +45,13 @@
      * in the FEATURE_SERVICE_URL constant at the top of this document.
      *
      */
-    self.webmap = [AGSWebMap webMapWithItemId:FEATURE_SERVICE_URL credential:nil];
+    self.webMap = [AGSWebMap webMapWithItemId:FEATURE_SERVICE_URL credential:nil];
     
     /**
      * Designate a delegate to be notified as web map is opened
      */
-    self.webmap.delegate = self;
-    [self.webmap openIntoMapView:self.mapView];
+    self.webMap.delegate = self;
+    [self.webMap openIntoMapView:self.mapView];
     
     /**
      * Set the delegates so that they can do the job they are here for
@@ -59,19 +64,18 @@
     /**
      * Prepare the Popup Helper for later use
      */
-//    self.popupHelper = [[PopupHelper alloc] init];
-//    self.popupHelper.delegate = self;
+    self.popupHelper = [[PopupHelper alloc] init];
+    self.popupHelper.delegate = self;
     
     /**
-     * Locate the user via their GPS cooridnates
+     * This is the "Commit" button when you're adding a new feature to the map
      */
-    //[self displayUsersGeolocation];
+    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentDelayedFeatureTemplatePicker)]autorelease];
+    self.navigationItem.rightBarButtonItem = addReportButton;
+
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.backBarButtonItem = nil;
     
-    /**
-     * Set our default map navigation bar background to use our
-     * charcoal pattern
-     */
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - AGSWebMapDelegagte methods
@@ -99,7 +103,187 @@
     NSLog(@"CuratedMapViewController: Failed to load layer : %@", layerInfo.title);
     
     //continue anyway
-    [self.webmap continueOpenAndSkipCurrentLayer];
+    [self.webMap continueOpenAndSkipCurrentLayer];
+}
+
+- (void)mapView:(AGSMapView *)mapView didClickAtPoint:(CGPoint)screen mapPoint:(AGSPoint *)mappoint graphics:(NSDictionary *)graphics {
+    
+    //cancel any outstanding requests
+    [self.popupHelper cancelOutstandingRequests];
+    
+    [self.popupHelper findPopupsForMapView:mapView withGraphics:graphics atPoint:mappoint andWebMap:self.webMap withQueryableLayers:nil];
+}
+
+/**
+ * Implements didClickAccessoryButtonForCallout
+ *
+ * This is the little blue button with the arrow that appears
+ * in popups to display the "Information Window" or feature
+ * details about the selected feature.
+ *
+ * This method is fired when the user clicks that arrow button.
+ *
+ */
+- (void)didClickAccessoryButtonForCallout:(AGSCallout *) callout {
+    
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController: didClickAccessoryButtonForCallout");
+    
+	/**
+     * Display the details for the active or clicked on feature.
+     */
+    [self.navigationController pushViewController:self.popupVC animated:YES];
+}
+
+- (void)foundPopups:(NSArray*) popups atMapPonit:(AGSPoint*)mapPoint withMoreToFollow:(BOOL)more {
+    
+    //Release the last popups vc
+    self.popupVC = nil;
+    
+    // If we've found one or more popups
+    if (popups.count > 0) {
+        //Create a popupsContainer view controller with the popups
+        self.popupVC = [[AGSPopupsContainerViewController alloc] initWithPopups:popups usingNavigationControllerStack:YES];
+        self.popupVC.style = AGSPopupsContainerStyleBlack;
+        self.popupVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        self.popupVC.delegate = self;
+        [self.popupVC.view setBackgroundColor:BACKGROUND_LINEN_LIGHT];
+       
+    
+        
+        // For iPad, display popup view controller in the callout
+        if ([[AGSDevice currentDevice] isIPad]) {
+            self.mapView.callout.customView = self.popupVC.view;
+            if(more){
+                // Start the activity indicator in the upper right corner of the
+                // popupsContainer view controller while we wait for the query results
+                self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+                UIBarButtonItem *blankButton = [[UIBarButtonItem alloc] initWithCustomView:(UIView*)self.activityIndicator];
+                self.popupVC.actionButton = blankButton;
+                [self.activityIndicator startAnimating];
+            }
+        }
+        else {
+            //For iphone, display summary info in the callout
+            self.mapView.callout.title = [NSString stringWithFormat:@"%d Results", popups.count];
+            self.mapView.callout.accessoryButtonHidden = NO;
+            if(more)
+                self.mapView.callout.detail = @"loading more...";
+            else
+                self.mapView.callout.detail = @"";
+        }
+        
+    }else{
+        // If we did not find any popups yet, but we expect some to follow
+        // show the activity indicator in the callout while we wait for results
+        if(more) {
+            self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+            self.mapView.callout.customView = self.activityIndicator;
+            [self.activityIndicator startAnimating];
+        }
+        else{
+            //If don't have any popups, and we don't expect any more results
+            [self.activityIndicator stopAnimating];
+            self.mapView.callout.customView = nil;
+            self.mapView.callout.accessoryButtonHidden = YES;
+            self.mapView.callout.title = @"No Results";
+            self.mapView.callout.detail = @"";
+        }
+        
+    }
+    [self.mapView.callout showCalloutAt:mapPoint pixelOffset:CGPointZero animated:YES];
+    
+    
+}
+
+- (void)foundAdditionalPopups:(NSArray*) popups withMoreToFollow:(BOOL)more{
+    
+    if(popups.count>0){
+        if (self.popupVC) {
+            [self.popupVC showAdditionalPopups:popups];
+            
+            // If these are the results of the final query stop the activityIndicator
+            if (!more) {
+                [self.activityIndicator stopAnimating];
+                
+                // If we are on iPhone display the number of results returned
+                if (![[AGSDevice currentDevice] isIPad]) {
+                    self.mapView.callout.customView = nil;
+                    NSString *results = self.popupVC.popups.count == 1 ? @"Result" : @"Results";
+                    self.mapView.callout.title = [NSString stringWithFormat:@"%d %@", self.popupVC.popups.count, results];
+                    self.mapView.callout.detail = @"";
+                }
+            }
+        } else {
+            
+            self.popupVC = [[AGSPopupsContainerViewController alloc] initWithPopups:popups];
+            self.popupVC.delegate = self;
+            self.popupVC.style = AGSPopupsContainerStyleBlack;
+            
+            // If we are on iPad set the popupsContainerViewController to be the callout's customView
+            if ([[AGSDevice currentDevice] isIPad]) {
+                self.mapView.callout.customView = self.popupVC.view;
+            }
+            
+            // If we have more popups coming, start the indicator on the popupVC
+            if (more) {
+                if ([[AGSDevice currentDevice] isIPad] ) {
+                    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+                    UIBarButtonItem *blankButton = [[UIBarButtonItem alloc] initWithCustomView:(UIView*)self.activityIndicator];
+                    self.popupVC.actionButton = blankButton;
+                    [self.activityIndicator startAnimating];
+                }
+                
+            }
+            // Otherwise if we are on iPhone display the number of results returned in the callout
+            else if (![[AGSDevice currentDevice] isIPad]) {
+                self.mapView.callout.customView = nil;
+                NSString *results = self.popupVC.popups.count == 1 ? @"Result" : @"Results";
+                self.mapView.callout.title = [NSString stringWithFormat:@"%d %@", self.popupVC.popups.count, results];
+                self.mapView.callout.detail = @"";
+            }
+        }
+    }else{
+        // If these are the results of the last query stop the activityIndicator
+        if (!more) {
+            [self.activityIndicator stopAnimating];
+            
+            // If no query returned results
+            if (!self.popupVC) {
+                self.mapView.callout.customView = nil;
+                self.mapView.callout.accessoryButtonHidden = YES;
+                self.mapView.callout.title = @"No Results";
+                self.mapView.callout.detail = @"";
+            }
+            // Otherwise if we are on iPhone display the number of results returned in the callout
+            else if (![[AGSDevice currentDevice] isIPad]) {
+                self.mapView.callout.customView = nil;
+                NSString *results = self.popupVC.popups.count == 1 ? @"Result" : @"Results";
+                self.mapView.callout.title = [NSString stringWithFormat:@"%d %@", self.popupVC.popups.count, results];
+                self.mapView.callout.detail = @"";
+            }
+        }
+        
+    }
+    
+}
+
+#pragma mark - AGSPopupsContainerDelegate methods
+- (void)popupsContainerDidFinishViewingPopups:(id<AGSPopupsContainer>)popupsContainer {
+    
+    //cancel any outstanding requests
+    [self.popupHelper cancelOutstandingRequests];
+    
+    // If we are on iPad dismiss the callout
+    if ([[AGSDevice currentDevice] isIPad])
+        self.mapView.callout.hidden = YES;
+    else
+        //dismiss the modal viewcontroller for iPhone
+        [self.popupVC dismissModalViewControllerAnimated:YES];
+    
 }
 
 // Release any retained subviews of the main view.

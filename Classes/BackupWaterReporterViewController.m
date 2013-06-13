@@ -173,7 +173,8 @@
      * This is the "Commit" button when you're adding a new feature to the map
      */
     UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
-    self.navigationItem.rightBarButtonItem = addReportButton;    
+    self.navigationItem.rightBarButtonItem = addReportButton;
+
     
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully

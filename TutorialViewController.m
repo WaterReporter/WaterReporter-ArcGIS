@@ -14,6 +14,7 @@
 @synthesize tutorialView = _tutorialView;
 @synthesize pageControl = _pageControl;
 @synthesize featureTemplatePickerDelegate;
+@synthesize curatedMapViewController;
 
 -(void)presentDelayedFeatureTemplatePicker {
     [self.featureTemplatePickerDelegate presentFeatureTemplatePicker];
@@ -27,13 +28,23 @@
      * This allows us to see what is being fired and when
      */
     NSLog(@"TutorialViewController:viewDidLoad");
-
     
+    /**
+     * Initialize the tutorial so that we can show it later when needed
+     */
+    self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
+
     /**
      * This is the "Commit" button when you're adding a new feature to the map
      */
     UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentDelayedFeatureTemplatePicker)]autorelease];
     self.navigationItem.rightBarButtonItem = addReportButton;
+
+    /**
+     * This is the "Commit" button when you're adding a new feature to the map
+     */
+    UIBarButtonItem *displayCuratedMap = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(presentCuratedMap)]autorelease];
+    self.navigationItem.leftBarButtonItem = displayCuratedMap;
 
     [self setupScrollView];
 }
@@ -81,6 +92,26 @@
     self.pageControl.currentPage = page;
 }
 
+/**
+ * Add a new feature
+ *
+ * The action for the "+" button that allows
+ * the user to select what kind of Feature
+ * they would like to add to the map
+ *
+ */
+-(void)presentCuratedMap {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"TutorialViewController:presentCuratedMap");
+    
+    
+    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+    [self.navigationController pushViewController:self.curatedMapViewController animated:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 
@@ -100,7 +131,8 @@
      */
     NSLog(@"TutorialViewController:viewDidUnload");
 
-    self.tutorialView = nil;
+    [self.tutorialView release];
+    [self.curatedMapViewController release];
 }
 
 - (void)dealloc {
@@ -110,7 +142,8 @@
      */
     NSLog(@"TutorialViewController:dealloc");
     
-    self.tutorialView = nil;
+    [self.tutorialView release];
+    [self.curatedMapViewController release];
 
     [super dealloc];
 }

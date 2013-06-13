@@ -1370,12 +1370,6 @@
 	if (_newFeature && self.operations.count > 0){
 		return;
 	}
-
-    if (_newFeature && indexPath.section == 0){
-        
-        NSLog(@"WE NEED TO DO SOMETHING HERE!!!!");
- 
-	}
 	
 	else if (indexPath.section == 2){
         		        

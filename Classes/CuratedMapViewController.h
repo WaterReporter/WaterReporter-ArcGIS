@@ -13,11 +13,29 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
+#import "PopupHelper.h"
 
-@interface CuratedMapViewController : UIViewController <AGSWebMapDelegate>
+@interface CuratedMapViewController : UIViewController <AGSWebMapDelegate, AGSMapViewTouchDelegate, AGSPopupsContainerDelegate, PoupupHelperDelegate> {
+
+    AGSMapView *_mapView;
+    AGSWebMap* _webmap;
+    NSString* webmapId;
+    
+    UIActivityIndicatorView *_activityIndicator;
+    PopupHelper *_popupHelper;
+    AGSPopupsContainerViewController *_popupVC;
+    
+}
 
 @property (nonatomic, strong) IBOutlet AGSMapView *mapView;
 @property (nonatomic, strong) AGSWebMap *webMap;
 @property (nonatomic, strong) NSString* webmapId;
+
+@property (nonatomic,strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) PopupHelper * popupHelper;
+@property (nonatomic, strong) AGSPopupsContainerViewController* popupVC;
+
+- (void)foundPopups:(NSArray*) popups atMapPonit:(AGSPoint*)mapPoint withMoreToFollow:(BOOL)more;
+- (void)foundAdditionalPopups:(NSArray*) popups withMoreToFollow:(BOOL)more;
 
 @end
