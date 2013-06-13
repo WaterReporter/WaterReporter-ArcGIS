@@ -11,12 +11,14 @@
 //
 
 #import "CuratedMapViewController.h"
+#import "FeatureTemplatePickerViewController.h"
 #import "PopupHelper.h"
 
 /**
  * Define the Web Map ID that we wish to load
  */
 #define FEATURE_SERVICE_URL @"a2d34296ca3a4966a924ffd7bad5149a"
+#define FEATURE_SERVICE_ZOOM 150000
 #define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault"]]
 
 @implementation CuratedMapViewController 
@@ -24,9 +26,15 @@
 @synthesize webMap = _webMap;
 @synthesize mapView = _mapView;
 @synthesize webmapId = _webmapId;
+
 @synthesize activityIndicator = _activityIndicator;
 @synthesize popupVC = _popupVC;
 @synthesize popupHelper = _popupHelper;
+
+@synthesize userLocation;
+@synthesize locationManager = _locationManager;
+
+@synthesize featureTemplatePickerViewController;
 
 // Do any additional setup after loading the view
 - (void)viewDidLoad {
@@ -62,6 +70,12 @@
     self.mapView.layerDelegate = self;
         
     /**
+     * Initialize the feature template picker so that we can show it later when needed
+     */
+    self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
+    self.featureTemplatePickerViewController.delegate = self;
+
+    /**
      * Prepare the Popup Helper for later use
      */
     self.popupHelper = [[PopupHelper alloc] init];
@@ -70,7 +84,7 @@
     /**
      * This is the "Commit" button when you're adding a new feature to the map
      */
-    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentDelayedFeatureTemplatePicker)]autorelease];
+    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
     self.navigationItem.rightBarButtonItem = addReportButton;
     
     [self.navigationItem setHidesBackButton:YES];
@@ -87,6 +101,34 @@
 
 }
 
+
+/**
+ * Display users geolocation on map
+ *
+ */
+-(void) mapViewDidLoad:(AGSMapView*)mapView {
+    
+    NSLog(@"Starting core location from didOpenWebMap");
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    
+    /**
+     * If we are not already displaying the users
+     * current location on the map, then we need to
+     * add an indicator to the map, showing the user
+     * where the application thinks they are currently.
+     *
+     * @see For more information on AGSLocationDisplay
+     *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
+     */
+    if(!self.mapView.locationDisplay.dataSourceStarted) {
+        [self.mapView.locationDisplay startDataSource];
+        self.mapView.locationDisplay.zoomScale = FEATURE_SERVICE_ZOOM;
+        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
+    }
+    
+}
 
 - (void) webMap:(AGSWebMap *)webMap didLoadLayer:(AGSLayer *)layer {
     
@@ -135,6 +177,34 @@
      * Display the details for the active or clicked on feature.
      */
     [self.navigationController pushViewController:self.popupVC animated:YES];
+}
+
+/**
+ * Add a new feature
+ *
+ * The action for the "+" button that allows
+ * the user to select what kind of Feature
+ * they would like to add to the map
+ *
+ */
+-(void)presentFeatureTemplatePicker {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController: presentFeatureTemplatePicker");
+    
+    
+    // iPAD ONLY: Limit the size of the form sheet
+    if([[AGSDevice currentDevice] isIPad]) {
+        self.featureTemplatePickerViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    
+    // ALL: Animate the template picker, covering vertically
+    self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+    [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
 }
 
 - (void)foundPopups:(NSArray*) popups atMapPonit:(AGSPoint*)mapPoint withMoreToFollow:(BOOL)more {
@@ -277,12 +347,12 @@
     [self.popupHelper cancelOutstandingRequests];
     
     // If we are on iPad dismiss the callout
-    if ([[AGSDevice currentDevice] isIPad])
+    if ([[AGSDevice currentDevice] isIPad]) {
         self.mapView.callout.hidden = YES;
-    else
+    } else {
         //dismiss the modal viewcontroller for iPhone
-        [self.popupVC dismissModalViewControllerAnimated:YES];
-    
+        [self.popupVC dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 // Release any retained subviews of the main view.
@@ -291,6 +361,14 @@
     [self.webMap release];
     [self.mapView release];
     [self.webmapId release];
+    
+    [self.activityIndicator release];
+    [self.popupVC release];
+    [self.popupHelper release];
+    
+    [self.userLocation release];
+    [self.locationManager release];
+    
     [super viewDidUnload];
 }
 
@@ -300,6 +378,14 @@
     [self.webMap release];
     [self.mapView release];
     [self.webmapId release];
+    
+    [self.activityIndicator release];
+    [self.popupVC release];
+    [self.popupHelper release];
+    
+    [self.userLocation release];
+    [self.locationManager release];
+
     [super dealloc];
 }
 

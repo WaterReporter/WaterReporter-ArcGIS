@@ -14,14 +14,12 @@
  * Define the Web Map ID that we wish to load
  */
 #define FEATURE_SERVICE_URL @"7f587e3a53dc455f92972a15031c94f8"
-#define CURATED_MAP_URL @"a2d34296ca3a4966a924ffd7bad5149a"
 
 /**
  * Define whether the Feature Template Picker should display
  * automatically when the 
  */
 #define FEATURE_TEMPLATE_AUTODISPLAY YES
-#define TUTORIAL_IS_ACTIVE YES
 #define FEATURE_SERVICE_ZOOM 150000
 
 @implementation WaterReporterViewController
@@ -107,19 +105,12 @@
     self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
     
     /**
-     * If this is the first time the user is using the application we need
-     * to show them the tutorial.
-     */
-    if (TUTORIAL_IS_ACTIVE) {
-        [self.navigationController pushViewController:self.tutorialViewController animated:YES];
-    }
-    
-    /**
      * Set our default map navigation bar background to use our
      * charcoal pattern
      */
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
-    
+    [self.navigationController pushViewController:self.tutorialViewController animated:YES];
+
     [super viewDidLoad];
 }
  

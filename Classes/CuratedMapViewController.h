@@ -15,27 +15,57 @@
 #import <ArcGIS/ArcGIS.h>
 #import "PopupHelper.h"
 
-@interface CuratedMapViewController : UIViewController <AGSWebMapDelegate, AGSMapViewTouchDelegate, AGSPopupsContainerDelegate, PoupupHelperDelegate> {
+@class FeatureTemplatePickerViewController;
 
+@interface CuratedMapViewController : UIViewController <AGSWebMapDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate, AGSPopupsContainerDelegate, PoupupHelperDelegate, CLLocationManagerDelegate> {
+
+    /**
+     * Map related variables
+     */
     AGSMapView *_mapView;
     AGSWebMap* _webmap;
     NSString* webmapId;
     
+    /**
+     * Popup related variables
+     */
     UIActivityIndicatorView *_activityIndicator;
     PopupHelper *_popupHelper;
     AGSPopupsContainerViewController *_popupVC;
+
+    /**
+     * Location related variables
+     */
+    AGSPoint *_userLocation;
+    CLLocationManager *_locationManager;
     
+    FeatureTemplatePickerViewController *featureTemplatePickerViewController;
+
 }
 
+/**
+ * Map related variables
+ */
 @property (nonatomic, strong) IBOutlet AGSMapView *mapView;
 @property (nonatomic, strong) AGSWebMap *webMap;
 @property (nonatomic, strong) NSString* webmapId;
 
+/**
+ * Popup related variables
+ */
 @property (nonatomic,strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) PopupHelper * popupHelper;
 @property (nonatomic, strong) AGSPopupsContainerViewController* popupVC;
 
 - (void)foundPopups:(NSArray*) popups atMapPonit:(AGSPoint*)mapPoint withMoreToFollow:(BOOL)more;
 - (void)foundAdditionalPopups:(NSArray*) popups withMoreToFollow:(BOOL)more;
+
+/**
+ * Location related variables
+ */
+@property (nonatomic, retain) AGSPoint *userLocation;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
+@property (nonatomic, strong) FeatureTemplatePickerViewController *featureTemplatePickerViewController;
 
 @end
