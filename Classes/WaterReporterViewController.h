@@ -11,11 +11,9 @@
 #import "FeatureTemplatePickerViewController.h"
 #import "TutorialViewController.h"
 
-#import "PopupHelper.h"
-
 @protocol FeatureGeometryDelegate;
 
-@interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate, AGSPopupsContainerDelegate, PoupupHelperDelegate> {
+@interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate> {
 
     id <FeatureGeometryDelegate> featureGeometryDelegate;
     AGSGeometry *manualFeatureGeometry;
@@ -37,16 +35,9 @@
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
     TutorialViewController* _tutorialViewController;
 
-    UIActivityIndicatorView *_activityIndicator;
-    PopupHelper *_popupHelper;
-    AGSPopupsContainerViewController *_popupVC;
 }
 
 @property (nonatomic, retain) AGSGeometry *manualFeatureGeometry;
-
-@property (nonatomic,strong) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) PopupHelper * popupHelper;
-@property (nonatomic, strong) AGSPopupsContainerViewController* popupVC;
 
 @property (nonatomic) double viUserLocationLongitude;
 @property (nonatomic) double viUserLocationLatitude;
@@ -68,8 +59,5 @@
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
 -(void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;
-
-- (void)foundPopups:(NSArray*) popups atMapPonit:(AGSPoint*)mapPoint withMoreToFollow:(BOOL)more;
-- (void)foundAdditionalPopups:(NSArray*) popups withMoreToFollow:(BOOL)more;
 
 @end

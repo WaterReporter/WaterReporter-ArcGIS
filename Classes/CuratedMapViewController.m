@@ -72,9 +72,8 @@
      */
     UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentDelayedFeatureTemplatePicker)]autorelease];
     self.navigationItem.rightBarButtonItem = addReportButton;
-
-    self.navigationItem.leftBarButtonItem = nil;
-    self.navigationItem.backBarButtonItem = nil;
+    
+    [self.navigationItem setHidesBackButton:YES];
     
 }
 
@@ -148,7 +147,7 @@
         //Create a popupsContainer view controller with the popups
         self.popupVC = [[AGSPopupsContainerViewController alloc] initWithPopups:popups usingNavigationControllerStack:YES];
         self.popupVC.style = AGSPopupsContainerStyleBlack;
-        self.popupVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        self.popupVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         self.popupVC.delegate = self;
         [self.popupVC.view setBackgroundColor:BACKGROUND_LINEN_LIGHT];
        

@@ -109,7 +109,7 @@
     
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    [self.navigationController pushViewController:self.curatedMapViewController animated:YES];
+    [self.navigationController pushViewController:self.curatedMapViewController animated:NO];
 }
 
 - (void)didReceiveMemoryWarning {
