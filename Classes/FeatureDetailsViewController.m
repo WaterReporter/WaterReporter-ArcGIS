@@ -481,7 +481,6 @@
 	// if can't add feature, call doneFailed
 	AGSEditResult *addResult = [editResults.addResults objectAtIndex:0];
 	if (!addResult.success){
-		NSLog(@"failed to add feature");
 		[self doneFailed];
 		return;
 	}
@@ -784,7 +783,7 @@
     switch (section) {
             
         case 1:
-            return @"Provide great detail in the fields below."; // Feature Details
+            return @"Share report details in the fields below";
         default:
             return nil;
             
@@ -886,6 +885,8 @@
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		}
 
+        cell.backgroundView = [ [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"backgroundTableViewCell"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ]autorelease];
+
         /**
          * Iterate through all of the selected Feature Layer's
          * fields and perform the necessary pre-display actions
@@ -924,6 +925,7 @@
             [cell.contentView addSubview:self.dateField];
             
             [self.dateField release];
+        
         }
         
         /**
@@ -1183,11 +1185,6 @@
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-        /**
-         * Remove the separators between cells in the tableView
-         */
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
 		// for creating a new feature, we allow them to add a picture
 		// and view or remove pictures
 		if (_newFeature){
@@ -1197,6 +1194,7 @@
 				cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 cell.accessoryType = UITableViewCellAccessoryNone;
 				cell.textLabel.text = nil;
+                cell.backgroundView = nil;
                 cell.backgroundColor =  [UIColor clearColor];
 
                 cell.textLabel.backgroundColor = [UIColor clearColor];
@@ -1255,6 +1253,7 @@
         }
         
         cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.backgroundView = nil;
         cell.backgroundColor =  [UIColor clearColor];
         
         cell.textLabel.backgroundColor = [UIColor clearColor];
@@ -1272,18 +1271,15 @@
     /**
      * Remove the separators between cells in the tableView
      */
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    if (indexPath.section == 1) {
-        tableView.separatorColor = DEFAULT_LABEL_COLOR;
-    } else {
-        tableView.separatorColor = [UIColor clearColor];
-    }
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.separatorColor = [UIColor clearColor];
     
     /**
      * Set the label, image, etc for the templates
      */
     cell.textLabel.textColor = DEFAULT_TEXT_COLOR;
     cell.textLabel.font = DEFAULT_BODY_FONT;
+    cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.detailTextLabel.textColor = DEFAULT_TEXT_COLOR;
     cell.detailTextLabel.font = DEFAULT_BODY_FONT;

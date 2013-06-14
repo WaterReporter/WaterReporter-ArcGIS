@@ -33,6 +33,7 @@
 
 @synthesize userLocation;
 @synthesize locationManager = _locationManager;
+@synthesize isSomethingEnabled;
 
 @synthesize featureTemplatePickerViewController;
 
@@ -43,6 +44,7 @@
      * This allows us to see what is being fired and when
      */
     NSLog(@"CuratedMapViewController:viewDidLoad");
+    NSLog(@"Value from TutorialViewController: %@", self.isSomethingEnabled);
     
     [super viewDidLoad];
     
@@ -205,6 +207,7 @@
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
     [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
+    
 }
 
 - (void)foundPopups:(NSArray*) popups atMapPonit:(AGSPoint*)mapPoint withMoreToFollow:(BOOL)more {

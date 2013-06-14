@@ -107,6 +107,8 @@
      */
     NSLog(@"TutorialViewController:presentCuratedMap");
     
+    self.curatedMapViewController.isSomethingEnabled = @"Grr";
+    
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
     [self.navigationController pushViewController:self.curatedMapViewController animated:NO];

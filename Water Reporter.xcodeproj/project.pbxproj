@@ -60,6 +60,7 @@
 		CEBCDF46176B9DA3003A16D0 /* appIcon-144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF40176B9DA3003A16D0 /* appIcon-144x144.png */; };
 		CEBCDF47176B9DA3003A16D0 /* appIcon-512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF41176B9DA3003A16D0 /* appIcon-512x512.png */; };
 		CEBCDF48176B9DA3003A16D0 /* appIcon-1024x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF42176B9DA3003A16D0 /* appIcon-1024x1024.png */; };
+		CEBCDF4A176BBB9B003A16D0 /* backgroundTableViewCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF49176BBB9A003A16D0 /* backgroundTableViewCell@2x.png */; };
 		CED15AAF1768F1E900282D8E /* WaterReporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CED15AAE1768F1E900282D8E /* WaterReporterViewController.m */; };
 		CEE7E877174DAB3700500625 /* PopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE7E875174DAB3700500625 /* PopupViewController.xib */; };
 		CEF5F9D5174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */; };
@@ -161,6 +162,7 @@
 		CEBCDF40176B9DA3003A16D0 /* appIcon-144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-144x144.png"; sourceTree = "<group>"; };
 		CEBCDF41176B9DA3003A16D0 /* appIcon-512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-512x512.png"; sourceTree = "<group>"; };
 		CEBCDF42176B9DA3003A16D0 /* appIcon-1024x1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-1024x1024.png"; sourceTree = "<group>"; };
+		CEBCDF49176BBB9A003A16D0 /* backgroundTableViewCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundTableViewCell@2x.png"; sourceTree = "<group>"; };
 		CED15AAD1768F1E900282D8E /* WaterReporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporterViewController.h; sourceTree = "<group>"; };
 		CED15AAE1768F1E900282D8E /* WaterReporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterReporterViewController.m; sourceTree = "<group>"; };
 		CEE7E875174DAB3700500625 /* PopupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopupViewController.xib; path = Classes/PopupViewController.xib; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 		F5E8F8E017340363006ABF22 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				CEBCDF49176BBB9A003A16D0 /* backgroundTableViewCell@2x.png */,
 				CEBCDF3D176B9DA2003A16D0 /* appIcon-57x57.png */,
 				CEBCDF3E176B9DA3003A16D0 /* appIcon-72x72.png */,
 				CEBCDF3F176B9DA3003A16D0 /* appIcon-114x114.png */,
@@ -559,6 +562,7 @@
 				CEBCDF46176B9DA3003A16D0 /* appIcon-144x144.png in Resources */,
 				CEBCDF47176B9DA3003A16D0 /* appIcon-512x512.png in Resources */,
 				CEBCDF48176B9DA3003A16D0 /* appIcon-1024x1024.png in Resources */,
+				CEBCDF4A176BBB9B003A16D0 /* backgroundTableViewCell@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

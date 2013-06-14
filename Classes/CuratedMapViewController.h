@@ -18,7 +18,7 @@
 @class FeatureTemplatePickerViewController;
 
 @interface CuratedMapViewController : UIViewController <AGSWebMapDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate, AGSPopupsContainerDelegate, PoupupHelperDelegate, CLLocationManagerDelegate> {
-
+    
     /**
      * Map related variables
      */
@@ -42,6 +42,11 @@
     FeatureTemplatePickerViewController *featureTemplatePickerViewController;
 
 }
+
+/**
+ * Pass variables along
+ */
+@property(nonatomic, strong) NSString* isSomethingEnabled;
 
 /**
  * Map related variables

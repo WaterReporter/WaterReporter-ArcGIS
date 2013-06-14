@@ -30,6 +30,9 @@
 @synthesize viUserLocationLongitude = _viUserLocationLongitude;
 @synthesize viUserLocationLatitude = _viUserLocationLatitude;
 
+@synthesize tutorialView = _tutorialView;
+@synthesize pageControl = _pageControl;
+
 @synthesize mapView = _mapView;
 @synthesize webmap = _webmap;
 @synthesize curatedMap = _curatedMap;
@@ -39,7 +42,7 @@
 @synthesize addNewFeatureToMap = _addNewFeatureToMap;
 
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
-@synthesize tutorialViewController = _tutorialViewController;
+@synthesize curatedMapViewController = _curatedMapViewController;
 
 @synthesize manualFeatureGeometry;
 @synthesize featureGeometryDelegate;
@@ -117,7 +120,7 @@
     /**
      * Initialize the tutorial so that we can show it later when needed
      */
-    self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
+    //self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
     
     /**
      * Set our default map navigation bar background to use our
@@ -125,6 +128,8 @@
      */
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
     //[self.navigationController pushViewController:self.tutorialViewController animated:YES];
+    self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
+    [self setupScrollView];
 
     [super viewDidLoad];
 }
@@ -154,6 +159,8 @@
         
         //Add templates from this layer to the Feature Template Picker
         [self.featureTemplatePickerViewController addTemplatesFromLayer:featureLayer];
+        
+        [self.mapView setHidden:YES];
     }
 }
 
@@ -169,6 +176,12 @@
      */
     UIBarButtonItem* addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStyleBordered target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
     self.navigationItem.rightBarButtonItem = addReportButton;
+
+    /**
+     * This is the "Commit" button when you're adding a new feature to the map
+     */
+    UIBarButtonItem *displayCuratedMap = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(presentCuratedMap)]autorelease];
+    self.navigationItem.leftBarButtonItem = displayCuratedMap;
 
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
@@ -443,6 +456,73 @@
     [self.locationManager release];
 }
 
+-(void) setupScrollView {
+    
+    NSLog(@"setupScrollView");
+    
+    //add the scrollview to the view
+    self.tutorialView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -45, self.view.frame.size.width, (self.view.frame.size.height - 145))];
+    self.tutorialView.contentSize = CGSizeMake(self.tutorialView.contentSize.width,self.tutorialView.frame.size.height);
+    self.tutorialView.pagingEnabled = YES;
+    self.tutorialView.delegate = self;
+    [self.tutorialView setAlwaysBounceVertical:NO];
+    
+    //setup internal views
+    NSInteger numberOfViews = 6;
+    for (int i = 0; i < numberOfViews; i++) {
+        CGFloat xOrigin = i * self.view.frame.size.width;
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(xOrigin, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        image.image = [UIImage imageNamed:[NSString stringWithFormat:@"slide_%d", i+1]];
+        image.contentMode = UIViewContentModeScaleAspectFit;
+        [self.tutorialView addSubview:image];
+    }
+    //set the scroll view content size
+    self.tutorialView.contentSize = CGSizeMake(self.view.frame.size.width * numberOfViews, self.view.frame.size.height);
+    [self.tutorialView setShowsHorizontalScrollIndicator:NO];
+    [self.tutorialView setShowsVerticalScrollIndicator:NO];
+    
+    //add the scrollview to this view
+    [self.view addSubview:self.tutorialView];
+    
+    [self.view insertSubview:self.tutorialView belowSubview:self.pageControl];
+    
+    self.pageControl = [[[UIPageControl alloc] init] autorelease];
+    self.pageControl.frame = CGRectMake(((self.view.frame.size.width-100)/2),(self.view.frame.size.height-185),100,50);
+    self.pageControl.numberOfPages = 6;
+    self.pageControl.currentPage = 0;
+    
+    [self.view addSubview:self.pageControl];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat pageWidth = self.tutorialView.frame.size.width;
+    float fractionalPage = self.tutorialView.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    self.pageControl.currentPage = page;
+}
+
+
+/**
+ * Add a new feature
+ *
+ * The action for the "+" button that allows
+ * the user to select what kind of Feature
+ * they would like to add to the map
+ *
+ */
+-(void)presentCuratedMap {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"TutorialViewController:presentCuratedMap");
+    
+    self.curatedMapViewController.isSomethingEnabled = @"Grr";
+    
+    
+    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+    [self.navigationController pushViewController:self.curatedMapViewController animated:NO];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -455,11 +535,13 @@
     
     [self.mapView release];
     [self.webmap release];
+    [self.tutorialView release];
+    [self.pageControl release];
     [self.curatedMap release];
     [self.featureLayer release];
     [self.locationManager release];
     [self.featureTemplatePickerViewController release];
-    [self.tutorialViewController release];
+    //[self.tutorialViewController release];
     [self.sketchLayer release];
     [self.manualFeatureGeometry release];
 
@@ -473,13 +555,12 @@
      */
     NSLog(@"WaterReporterViewController:dealloc");
     
-    [self.mapView release];
     [self.webmap release];
     [self.curatedMap release];
     [self.featureLayer release];
     [self.locationManager release];
     [self.featureTemplatePickerViewController release];
-    [self.tutorialViewController release];
+    //[self.tutorialViewController release];
     [self.sketchLayer release];
     [self.manualFeatureGeometry release];
 

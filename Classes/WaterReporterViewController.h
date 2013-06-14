@@ -9,15 +9,18 @@
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
 #import "FeatureTemplatePickerViewController.h"
-#import "TutorialViewController.h"
+#import "CuratedMapViewController.h"
 
 @protocol FeatureGeometryDelegate;
 
-@interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate> {
+@interface WaterReporterViewController : UIViewController <AGSAttachmentManagerDelegate, AGSLayerDelegate, AGSMapViewLayerDelegate, AGSMapViewCalloutDelegate, AGSInfoTemplateDelegate, AGSCalloutDelegate, AGSMapViewTouchDelegate, AGSFeatureLayerEditingDelegate, AGSWebMapDelegate, FeatureTemplatePickerDelegate, UIAlertViewDelegate, CLLocationManagerDelegate, UIScrollViewDelegate, UIScrollViewAccessibilityDelegate> {
 
     id <FeatureGeometryDelegate> featureGeometryDelegate;
     AGSGeometry *manualFeatureGeometry;
     
+    UIScrollView* _tutorialView;
+    UIPageControl* _pageControl;
+
     double _viUserLocationLongitude;
     double _viUserLocationLatitude;
     BOOL _loadingFromFeatureDetails;
@@ -33,7 +36,7 @@
     UIButton* _addNewFeatureToMap;
 
     FeatureTemplatePickerViewController* _featureTemplatePickerViewController;
-    TutorialViewController* _tutorialViewController;
+    CuratedMapViewController* _curatedMapViewController;
 
 }
 
@@ -42,6 +45,9 @@
 @property (nonatomic) double viUserLocationLongitude;
 @property (nonatomic) double viUserLocationLatitude;
 @property (nonatomic) BOOL loadingFromFeatureDetails;
+
+@property (nonatomic, retain) IBOutlet UIScrollView* tutorialView;
+@property (nonatomic, retain) UIPageControl* pageControl;
 
 @property (nonatomic, retain) IBOutlet AGSMapView *mapView;
 @property (nonatomic, retain) AGSWebMap* webmap;
@@ -55,7 +61,7 @@
 @property (retain) id featureGeometryDelegate;
 
 @property (nonatomic, strong) FeatureTemplatePickerViewController* featureTemplatePickerViewController;
-@property (nonatomic, strong) TutorialViewController* tutorialViewController;
+@property (nonatomic, strong) CuratedMapViewController* curatedMapViewController;
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
 -(void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;
