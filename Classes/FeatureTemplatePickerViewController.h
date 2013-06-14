@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ArcGIS/ArcGIS.h>
-#import "TutorialViewController.h"
+#import "CuratedMapViewController.h"
 
 @class FeatureTemplatePickerViewController;
 
@@ -29,10 +29,10 @@
     NSMutableArray* _infos;
 	NSMutableArray *_operations;			// all the in-progress operations spawned by this VC, we keep them so we can cancel them if we pop the VC (dealloc cancels them)
 
-    TutorialViewController *_tutorialViewController;
+    CuratedMapViewController* _curatedMapViewController;
 }
 
-@property (nonatomic, strong) TutorialViewController *tutorialViewController;
+@property (nonatomic, strong) CuratedMapViewController* curatedMapViewController;
 
 @property (nonatomic, retain) AGSGraphic *feature;
 @property (nonatomic, weak) id<FeatureTemplatePickerDelegate> delegate;

@@ -12,6 +12,7 @@
 
 #import "CuratedMapViewController.h"
 #import "FeatureTemplatePickerViewController.h"
+#import "FeatureDetailsViewController.h"
 #import "PopupHelper.h"
 
 /**
@@ -34,6 +35,7 @@
 @synthesize userLocation;
 @synthesize locationManager = _locationManager;
 @synthesize isSomethingEnabled;
+@synthesize featureLayer = _featureLayer;
 
 @synthesize featureTemplatePickerViewController;
 
@@ -72,10 +74,19 @@
     self.mapView.layerDelegate = self;
         
     /**
-     * Initialize the feature template picker so that we can show it later when needed
+     * Initialize the feature template picker so that we can show it later when needed.
+     *
+     * As soon as we do, we need to add those templates to the FeatureTemplatePicker.
+     *
      */
     self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
     self.featureTemplatePickerViewController.delegate = self;
+
+    for (AGSFeatureLayer* layer in self.isSomethingEnabled) {
+        NSLog(@"Loading layer from CuratedMap %@", layer.name);
+        [self.featureTemplatePickerViewController addTemplatesFromLayer:layer];
+    }
+    
 
     /**
      * Prepare the Popup Helper for later use
@@ -194,8 +205,7 @@
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"WaterReporterViewController: presentFeatureTemplatePicker");
-    
+    NSLog(@"CuratedMapViewController:presentFeatureTemplatePicker");
     
     // iPAD ONLY: Limit the size of the form sheet
     if([[AGSDevice currentDevice] isIPad]) {
@@ -356,6 +366,41 @@
         //dismiss the modal viewcontroller for iPhone
         [self.popupVC dismissViewControllerAnimated:YES completion:nil];
     }
+}
+
+-(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController: featureTemplatePickerViewController");
+    
+    //
+    // Set the active feature layer to the one we are going to edit
+    //
+    self.featureLayer = featureLayer;
+    
+    //create a new feature based on the template
+    _newFeature = [self.featureLayer featureWithTemplate:template];
+    
+    //Add the new feature to the feature layer's graphic collection
+    [self.featureLayer addGraphic:_newFeature];
+    
+    //First, dismiss the Feature Template Picker
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
+    AGSGeometryEngine *ge = [AGSGeometryEngine defaultGeometryEngine];
+    AGSGeometry *geometry = [ge projectGeometry:self.userLocation toSpatialReference:self.userLocation.spatialReference];
+    
+    //now create the feature details vc and display it
+    FeatureDetailsViewController *detailViewController = [[[FeatureDetailsViewController alloc]initWithFeatureLayer:self.featureLayer feature:nil featureGeometry:geometry templatePrototype:template.prototype] autorelease];
+    
+    detailViewController.userLocation = self.userLocation;
+    
+	/**
+     * Prepares the details for the new feature.
+     */
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 // Release any retained subviews of the main view.

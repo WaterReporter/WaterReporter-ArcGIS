@@ -29,6 +29,7 @@
     AGSWebMap* _webmap;
     AGSWebMap* _curatedMap;
 	AGSFeatureLayer *_featureLayer;
+	NSMutableArray *_cachedFeatureLayers;
     AGSPoint *_userLocation;
     CLLocationManager *_locationManager;
     AGSGraphic *_newFeature;
@@ -53,6 +54,7 @@
 @property (nonatomic, retain) AGSWebMap* webmap;
 @property (nonatomic, retain) AGSWebMap* curatedMap;
 @property (nonatomic, retain) AGSFeatureLayer *featureLayer;
+@property (nonatomic, retain) NSMutableArray *cachedFeatureLayers;
 @property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) AGSSketchGraphicsLayer* sketchLayer;

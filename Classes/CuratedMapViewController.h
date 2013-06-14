@@ -39,6 +39,9 @@
     AGSPoint *_userLocation;
     CLLocationManager *_locationManager;
     
+    AGSGraphic *_newFeature;
+	AGSFeatureLayer *_featureLayer;
+
     FeatureTemplatePickerViewController *featureTemplatePickerViewController;
 
 }
@@ -46,7 +49,7 @@
 /**
  * Pass variables along
  */
-@property(nonatomic, strong) NSString* isSomethingEnabled;
+@property(nonatomic, strong) NSMutableArray* isSomethingEnabled;
 
 /**
  * Map related variables
@@ -70,6 +73,8 @@
  */
 @property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
+
+@property (nonatomic, retain) AGSFeatureLayer *featureLayer;
 
 @property (nonatomic, strong) FeatureTemplatePickerViewController *featureTemplatePickerViewController;
 

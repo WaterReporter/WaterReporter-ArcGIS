@@ -9,7 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WaterReporterViewController.h"
 #import "FeatureDetailsViewController.h"
-#import "TutorialViewController.h"
 
 /**
  * Define the Web Map ID that we wish to load
@@ -37,6 +36,7 @@
 @synthesize webmap = _webmap;
 @synthesize curatedMap = _curatedMap;
 @synthesize featureLayer = _featureLayer;
+@synthesize cachedFeatureLayers = _cachedFeatureLayers;
 @synthesize locationManager = _locationManager;
 @synthesize sketchLayer = _sketchLayer;
 @synthesize addNewFeatureToMap = _addNewFeatureToMap;
@@ -62,6 +62,8 @@
         NSLog(@"self.webmap already loaded: %@", self.webmap.URL);
     }
 
+    self.cachedFeatureLayers = [NSMutableArray new];
+
     /**
      * Setup the Web Map
      *
@@ -81,29 +83,6 @@
     [self.webmap openIntoMapView:self.mapView];
     
     /**
-     * If we are loading the View Controller from the Feature Details then
-     * we shouldn't load the Feature Template Picker, the Feature Template
-     * Picker Buton, and reload the geolocation tools.
-     */
-    if (self.loadingFromFeatureDetails == NO) {
-
-        /**
-         * Set the delegates so that they can do the job they are here for
-         */
-        self.mapView.touchDelegate = self;
-        self.mapView.calloutDelegate = self;
-        self.mapView.callout.delegate = self;
-        self.mapView.layerDelegate = self;
-
-        /**
-         * Initialize the feature template picker so that we can show it later when needed
-         */
-        self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
-        self.featureTemplatePickerViewController.delegate = self;
-
-    }
-    
-    /**
      * Change the appearance of all the buttons
      * that appear within our UI
      */
@@ -118,19 +97,44 @@
     [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBackImageHighlight forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
     
     /**
-     * Initialize the tutorial so that we can show it later when needed
-     */
-    //self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
-    
-    /**
      * Set our default map navigation bar background to use our
      * charcoal pattern
      */
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
-    //[self.navigationController pushViewController:self.tutorialViewController animated:YES];
     self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
     [self setupScrollView];
 
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    image.image = [UIImage imageNamed:[NSString stringWithFormat:@"backgroundTutorial"]];
+    image.contentMode = UIViewContentModeScaleAspectFit;
+    [self.mapView addSubview:image];
+    [self.mapView bringSubviewToFront:image];
+    
+    /**
+     * If we are loading the View Controller from the Feature Details then
+     * we shouldn't load the Feature Template Picker, the Feature Template
+     * Picker Buton, and reload the geolocation tools.
+     */
+    if (self.loadingFromFeatureDetails == NO) {
+        
+        /**
+         * Set the delegates so that they can do the job they are here for
+         */
+        self.mapView.touchDelegate = self;
+        self.mapView.calloutDelegate = self;
+        self.mapView.callout.delegate = self;
+        self.mapView.layerDelegate = self;
+        
+        /**
+         * Initialize the feature template picker so that we can show it later when needed
+         */
+        self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
+        self.featureTemplatePickerViewController.delegate = self;
+        
+    } else {
+        [self.mapView sendSubviewToBack:image];
+    }
+    
     [super viewDidLoad];
 }
  
@@ -158,9 +162,9 @@
         featureLayer.editingDelegate = self;
         
         //Add templates from this layer to the Feature Template Picker
+        [self.cachedFeatureLayers addObject:featureLayer];
         [self.featureTemplatePickerViewController addTemplatesFromLayer:featureLayer];
         
-        [self.mapView setHidden:YES];
     }
 }
 
@@ -242,7 +246,9 @@
      */
     UIBarButtonItem *commit = [[[UIBarButtonItem alloc]initWithTitle:@"Update" style:UIBarButtonItemStylePlain target:self action:@selector(commit)]autorelease];
     self.navigationItem.rightBarButtonItem = commit;
-
+    
+    //[self displayGeoLocation];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
 }
 
@@ -279,12 +285,40 @@
  *
  */
 -(void) mapViewDidLoad:(AGSMapView*)mapView {
-
+    
     NSLog(@"Starting core location from didOpenWebMap");
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
+    
+    /**
+     * If we are not already displaying the users
+     * current location on the map, then we need to
+     * add an indicator to the map, showing the user
+     * where the application thinks they are currently.
+     *
+     * @see For more information on AGSLocationDisplay
+     *   http://resources.arcgis.com/en/help/runtime-ios-sdk/apiref/interface_a_g_s_location_display.html
+     */
+    if(!self.mapView.locationDisplay.dataSourceStarted) {
+        [self.mapView.locationDisplay startDataSource];
+        self.mapView.locationDisplay.zoomScale = FEATURE_SERVICE_ZOOM;
+        self.mapView.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanModeDefault;
+    }
+    
+}
 
+/**
+ * Display users geolocation on map
+ *
+ */
+-(void) displayGeoLocation {
+    
+    NSLog(@"Starting core location from didOpenWebMap");
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    
     /**
      * If we are not already displaying the users
      * current location on the map, then we need to
@@ -328,6 +362,7 @@
         
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
     [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
+
 }
 
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{
@@ -517,12 +552,12 @@
      */
     NSLog(@"TutorialViewController:presentCuratedMap");
     
-    self.curatedMapViewController.isSomethingEnabled = @"Grr";
-    
+    self.curatedMapViewController.isSomethingEnabled = self.cachedFeatureLayers;
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
     [self.navigationController pushViewController:self.curatedMapViewController animated:NO];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

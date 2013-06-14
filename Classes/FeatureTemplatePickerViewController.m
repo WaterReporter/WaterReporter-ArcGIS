@@ -16,7 +16,7 @@
 @implementation FeatureTemplatePickerViewController
 
 @synthesize featureTemplatesTableView = _featureTemplatesTableView;
-@synthesize tutorialViewController = _tutorialViewController;
+@synthesize curatedMapViewController = _curatedMapViewController;
 @synthesize delegate = _delegate;
 @synthesize infos = _infos;
 
@@ -28,9 +28,9 @@
     self.navigationItem.leftBarButtonItem = cancel;
     
     /**
-     * Initialize the feature template picker so that we can show it later when needed
+     * Initialize the curated map view so that we can show it later when needed
      */
-    //self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
+    self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
     
     self.navigationItem.title = @"Choose Report";
 }
@@ -103,6 +103,28 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
+/**
+ * Add a new feature
+ *
+ * The action for the "+" button that allows
+ * the user to select what kind of Feature
+ * they would like to add to the map
+ *
+ */
+-(void)presentCuratedMap {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"FeatureTemplatePickerViewController:presentCuratedMap");
+    
+//    self.curatedMapViewController.isSomethingEnabled = self.isSomething;
+//    
+//    
+    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+    [self.navigationController pushViewController:self.curatedMapViewController animated:YES];
+}
+
 #pragma mark -
 #pragma mark UITableViewDataSource
 
@@ -167,36 +189,7 @@
 //    
     return [view autorelease];
 }
-     
-/**
- * Add a new feature
- *
- * The action for the "+" button that allows
- * the user to select what kind of Feature
- * they would like to add to the map
- *
- */
--(void)presentTutorialViewController {
-     
-     /**
-      * This allows us to see what is being fired and when
-      */
-     NSLog(@"WaterReporterViewController: presentFeatureTemplatePicker");
-    
-     self.navigationItem.title = @"Share your report";
-    
-     // iPAD ONLY: Limit the size of the form sheet
-     if([[AGSDevice currentDevice] isIPad]) {
-         self.tutorialViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-     }
-     
-     // ALL: Animate the template picker, covering vertically
-     self.tutorialViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-     
-     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-     [self.navigationController pushViewController:self.tutorialViewController animated:YES];
-}
- 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 50;
 }
@@ -308,7 +301,7 @@
     [super viewDidUnload];
     
 	[self.featureTemplatesTableView release];
-    [self.tutorialViewController release];
+    [self.curatedMapViewController release];
     [self.delegate release];
     [self.infos release];
 }
@@ -317,7 +310,7 @@
     [super dealloc];
     
 	[self.featureTemplatesTableView release];
-    [self.tutorialViewController release];
+    [self.curatedMapViewController release];
     [self.delegate release];
     [self.infos release];
 }
