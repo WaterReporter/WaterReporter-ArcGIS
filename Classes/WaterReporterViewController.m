@@ -6,6 +6,7 @@
  *
  */
 
+#import <QuartzCore/QuartzCore.h>
 #import "WaterReporterViewController.h"
 #import "FeatureDetailsViewController.h"
 #import "TutorialViewController.h"
@@ -100,6 +101,20 @@
     }
     
     /**
+     * Change the appearance of all the buttons
+     * that appear within our UI
+     */
+    UIImage *buttonDefaultImage = [UIImage imageNamed:@"buttonDefaultBackground"];
+    UIImage *buttonDefaultImageHighlight = [UIImage imageNamed:@"buttonDefaultHighlightBackground"];
+    [[UIBarButtonItem appearance] setBackgroundImage:buttonDefaultImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackgroundImage:buttonDefaultImageHighlight forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    
+    UIImage *buttonBackImage = [UIImage imageNamed:@"buttonBackButtonBackground"];
+    UIImage *buttonBackImageHighlight = [UIImage imageNamed:@"buttonBackButtonHighlightedBackground"];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBackImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBackImageHighlight forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    
+    /**
      * Initialize the tutorial so that we can show it later when needed
      */
     self.tutorialViewController =  [[[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil] autorelease];
@@ -109,7 +124,7 @@
      * charcoal pattern
      */
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController pushViewController:self.tutorialViewController animated:YES];
+    //[self.navigationController pushViewController:self.tutorialViewController animated:YES];
 
     [super viewDidLoad];
 }
@@ -152,9 +167,9 @@
     /**
      * This is the "Commit" button when you're adding a new feature to the map
      */
-    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
-    self.navigationItem.rightBarButtonItem = addReportButton;    
-    
+    UIBarButtonItem* addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStyleBordered target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
+    self.navigationItem.rightBarButtonItem = addReportButton;
+
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */

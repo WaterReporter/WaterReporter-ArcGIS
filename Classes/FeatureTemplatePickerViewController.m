@@ -24,7 +24,7 @@
 
     [super viewDidLoad];
 
-    UIBarButtonItem *cancel = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)]autorelease];
+    UIBarButtonItem *cancel = [[[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStyleDone target:self action:@selector(cancel)]autorelease];
     self.navigationItem.leftBarButtonItem = cancel;
     
     /**

@@ -1,0 +1,675 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1C14234613258CCA005771D3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C14234513258CCA005771D3 /* SystemConfiguration.framework */; };
+		1C6CA6101321CAB700E19E9D /* CodedValueUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C6CA60F1321CAB700E19E9D /* CodedValueUtility.m */; };
+		1D3623260D0F684500981E51 /* WaterReporterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		2899E5220DE3E06400AC0155 /* WaterReporterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */; };
+		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		9401AD9F124828830010FADB /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9401AD9D124828830010FADB /* ImageViewController.m */; };
+		9401ADA0124828830010FADB /* ImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9401AD9E124828830010FADB /* ImageViewController.xib */; };
+		9477D6D61243DA03004AF934 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9477D6D51243DA03004AF934 /* QuartzCore.framework */; };
+		9477D6DC1243DA21004AF934 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9477D6DB1243DA21004AF934 /* CoreLocation.framework */; };
+		947B230B124AA3CF00414CFF /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 947B230A124AA3CF00414CFF /* MobileCoreServices.framework */; };
+		947B23ED124AD1B800414CFF /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 947B23EC124AD1B800414CFF /* MediaPlayer.framework */; };
+		947B240B124AD4EF00414CFF /* MoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947B2409124AD4EF00414CFF /* MoviePlayerViewController.m */; };
+		947B240C124AD4EF00414CFF /* MoviePlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947B240A124AD4EF00414CFF /* MoviePlayerViewController.xib */; };
+		94922979124417AC00CB16AB /* FeatureDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94922977124417AC00CB16AB /* FeatureDetailsViewController.m */; };
+		9492297A124417AC00CB16AB /* FeatureDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */; };
+		949229FC1244248200CB16AB /* FeatureTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 949229FA1244248200CB16AB /* FeatureTypeViewController.xib */; };
+		9702E54E144652A700A46CA5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9702E54D144652A700A46CA5 /* libz.dylib */; };
+		9702E551144652AC00A46CA5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9702E550144652AC00A46CA5 /* Security.framework */; };
+		975E7527167A5F1C005FB57B /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 975E7526167A5F1C005FB57B /* libc++.dylib */; };
+		975E7529167A5F28005FB57B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 975E7528167A5F28005FB57B /* OpenGLES.framework */; };
+		97E19FD813590CA600872878 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E19FD713590CA600872878 /* CoreText.framework */; };
+		C1B82895172C4D55003072BB /* FeatureTemplatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */; };
+		C1DBC47F173F299D0014A977 /* slide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C1DBC47E173F299D0014A977 /* slide_1.png */; };
+		C1E1C5B5172C3B420089361A /* ArcGIS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B4172C3B420089361A /* ArcGIS.bundle */; };
+		C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */; };
+		C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */; };
+		C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */; };
+		CE21E6581765228C007A3855 /* TASKS.md in Resources */ = {isa = PBXBuildFile; fileRef = CE21E6571765228C007A3855 /* TASKS.md */; };
+		CE54F1BD17661853004C2B8F /* PopupHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE54F1BC17661853004C2B8F /* PopupHelper.m */; };
+		CEAA7939176A18B000F4F192 /* CuratedMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEAA7938176A18B000F4F192 /* CuratedMapViewController.xib */; };
+		CEAA793A176A191E00F4F192 /* CuratedMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE54F1C017661F7C004C2B8F /* CuratedMapViewController.m */; };
+		CEBCDF1F176B740D003A16D0 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF1D176B740D003A16D0 /* button.png */; };
+		CEBCDF20176B740D003A16D0 /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF1E176B740D003A16D0 /* button@2x.png */; };
+		CEBCDF31176B7B71003A16D0 /* buttonBackButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF29176B7B70003A16D0 /* buttonBackButtonBackground.png */; };
+		CEBCDF32176B7B71003A16D0 /* buttonBackButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF2A176B7B70003A16D0 /* buttonBackButtonBackground@2x.png */; };
+		CEBCDF33176B7B71003A16D0 /* buttonBackButtonHighlightedBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF2B176B7B70003A16D0 /* buttonBackButtonHighlightedBackground.png */; };
+		CEBCDF34176B7B71003A16D0 /* buttonBackButtonHighlightedBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF2C176B7B70003A16D0 /* buttonBackButtonHighlightedBackground@2x.png */; };
+		CEBCDF35176B7B71003A16D0 /* buttonDefaultBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF2D176B7B70003A16D0 /* buttonDefaultBackground.png */; };
+		CEBCDF36176B7B71003A16D0 /* buttonDefaultBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF2E176B7B71003A16D0 /* buttonDefaultBackground@2x.png */; };
+		CEBCDF37176B7B71003A16D0 /* buttonDefaultHighlightBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF2F176B7B71003A16D0 /* buttonDefaultHighlightBackground.png */; };
+		CEBCDF38176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF30176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png */; };
+		CED15AAF1768F1E900282D8E /* WaterReporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CED15AAE1768F1E900282D8E /* WaterReporterViewController.m */; };
+		CEE7E877174DAB3700500625 /* PopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE7E875174DAB3700500625 /* PopupViewController.xib */; };
+		CEF5F9D5174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */; };
+		CEF5F9D8174D5D7100AF0743 /* buttonManualLocationEntry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */; };
+		CEF5F9D9174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */; };
+		F570C8E6172EBF950059FC19 /* backgroundDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E4172EBF950059FC19 /* backgroundDefault.png */; };
+		F570C8E7172EBF950059FC19 /* backgroundDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */; };
+		F570C8F7172ED0CA0059FC19 /* Museo_Slab_100.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */; };
+		F570C8F8172ED0CA0059FC19 /* Museo_Slab_100italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8EC172ED0CA0059FC19 /* Museo_Slab_100italic.otf */; };
+		F570C8F9172ED0CA0059FC19 /* Museo_Slab_300.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8ED172ED0CA0059FC19 /* Museo_Slab_300.otf */; };
+		F570C8FA172ED0CA0059FC19 /* Museo_Slab_300italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8EE172ED0CA0059FC19 /* Museo_Slab_300italic.otf */; };
+		F570C8FB172ED0CA0059FC19 /* Museo_Slab_500.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8EF172ED0CA0059FC19 /* Museo_Slab_500.otf */; };
+		F570C8FC172ED0CA0059FC19 /* Museo_Slab_500italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F0172ED0CA0059FC19 /* Museo_Slab_500italic.otf */; };
+		F570C8FD172ED0CA0059FC19 /* Museo_Slab_700.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F1172ED0CA0059FC19 /* Museo_Slab_700.otf */; };
+		F570C8FE172ED0CA0059FC19 /* Museo_Slab_700italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F2172ED0CA0059FC19 /* Museo_Slab_700italic.otf */; };
+		F570C8FF172ED0CA0059FC19 /* Museo_Slab_900.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F3172ED0CA0059FC19 /* Museo_Slab_900.otf */; };
+		F570C900172ED0CA0059FC19 /* Museo_Slab_900italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */; };
+		F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */; };
+		F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */; };
+		F5792743173D87E800C49B31 /* slide_6.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273C173D87E700C49B31 /* slide_6.png */; };
+		F5792744173D87E800C49B31 /* slide_4.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273D173D87E800C49B31 /* slide_4.png */; };
+		F5792745173D87E800C49B31 /* slide_5.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273E173D87E800C49B31 /* slide_5.png */; };
+		F5792746173D87E800C49B31 /* slide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = F579273F173D87E800C49B31 /* slide_3.png */; };
+		F5792747173D87E800C49B31 /* slide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792740173D87E800C49B31 /* slide_2.png */; };
+		F5792748173D87E800C49B31 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792741173D87E800C49B31 /* default@2x.png */; };
+		F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792762173D98DB00C49B31 /* Default-568h@2x.png */; };
+		F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* release-notes.md */; };
+		F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D91F54173BE53700E19079 /* TutorialViewController.m */; };
+		F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F55173BE53700E19079 /* TutorialViewController.xib */; };
+		F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */; };
+		F5E8F8E617341C8E006ABF22 /* slides.md in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E517341C8E006ABF22 /* slides.md */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1C14234513258CCA005771D3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1C6CA60E1321CAB700E19E9D /* CodedValueUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodedValueUtility.h; sourceTree = "<group>"; };
+		1C6CA60F1321CAB700E19E9D /* CodedValueUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodedValueUtility.m; sourceTree = "<group>"; };
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* WaterReporterAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporterAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterReporterAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* Water Reporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Water Reporter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WaterReporterViewController.xib; sourceTree = "<group>"; };
+		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28D7ACF60DDB3853001CB0EB /* BackupWaterReporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackupWaterReporterViewController.h; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* BackupWaterReporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackupWaterReporterViewController.m; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Water Reporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Water Reporter_Prefix.pch"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Water Reporter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Water Reporter-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		9401AD9C124828830010FADB /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
+		9401AD9D124828830010FADB /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
+		9401AD9E124828830010FADB /* ImageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ImageViewController.xib; path = Classes/ImageViewController.xib; sourceTree = "<group>"; };
+		9477D6D51243DA03004AF934 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9477D6DB1243DA21004AF934 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		947B230A124AA3CF00414CFF /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		947B23EC124AD1B800414CFF /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		947B2408124AD4EF00414CFF /* MoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviePlayerViewController.h; sourceTree = "<group>"; };
+		947B2409124AD4EF00414CFF /* MoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoviePlayerViewController.m; sourceTree = "<group>"; };
+		947B240A124AD4EF00414CFF /* MoviePlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MoviePlayerViewController.xib; path = Classes/MoviePlayerViewController.xib; sourceTree = "<group>"; };
+		94922976124417AC00CB16AB /* FeatureDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureDetailsViewController.h; sourceTree = "<group>"; };
+		94922977124417AC00CB16AB /* FeatureDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureDetailsViewController.m; sourceTree = "<group>"; };
+		94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureDetailsViewController.xib; path = Classes/FeatureDetailsViewController.xib; sourceTree = "<group>"; };
+		949229FA1244248200CB16AB /* FeatureTypeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureTypeViewController.xib; path = Classes/FeatureTypeViewController.xib; sourceTree = "<group>"; };
+		9702E54D144652A700A46CA5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		9702E550144652AC00A46CA5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		975E7526167A5F1C005FB57B /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		975E7528167A5F28005FB57B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		979315161314426C003B935E /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
+		97E19FD713590CA600872878 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		C1DBC47E173F299D0014A977 /* slide_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_1.png; sourceTree = "<group>"; };
+		C1E1C5B4172C3B420089361A /* ArcGIS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ArcGIS.bundle; sourceTree = "<group>"; };
+		C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-charcoal-default.png"; sourceTree = "<group>"; };
+		C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-charcoal-default@2x.png"; sourceTree = "<group>"; };
+		C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureTemplatePickerViewController.h; sourceTree = "<group>"; };
+		C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeatureTemplatePickerViewController.m; sourceTree = "<group>"; };
+		C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureTemplatePickerViewController.xib; path = Classes/FeatureTemplatePickerViewController.xib; sourceTree = "<group>"; };
+		CE21E6571765228C007A3855 /* TASKS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TASKS.md; sourceTree = "<group>"; };
+		CE54F1BB17661853004C2B8F /* PopupHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupHelper.h; sourceTree = "<group>"; };
+		CE54F1BC17661853004C2B8F /* PopupHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupHelper.m; sourceTree = "<group>"; };
+		CE54F1BF17661F7C004C2B8F /* CuratedMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CuratedMapViewController.h; sourceTree = "<group>"; };
+		CE54F1C017661F7C004C2B8F /* CuratedMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CuratedMapViewController.m; sourceTree = "<group>"; };
+		CEAA7938176A18B000F4F192 /* CuratedMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CuratedMapViewController.xib; sourceTree = "<group>"; };
+		CEBCDF1D176B740D003A16D0 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
+		CEBCDF1E176B740D003A16D0 /* button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button@2x.png"; sourceTree = "<group>"; };
+		CEBCDF29176B7B70003A16D0 /* buttonBackButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonBackButtonBackground.png; sourceTree = "<group>"; };
+		CEBCDF2A176B7B70003A16D0 /* buttonBackButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonBackButtonBackground@2x.png"; sourceTree = "<group>"; };
+		CEBCDF2B176B7B70003A16D0 /* buttonBackButtonHighlightedBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonBackButtonHighlightedBackground.png; sourceTree = "<group>"; };
+		CEBCDF2C176B7B70003A16D0 /* buttonBackButtonHighlightedBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonBackButtonHighlightedBackground@2x.png"; sourceTree = "<group>"; };
+		CEBCDF2D176B7B70003A16D0 /* buttonDefaultBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonDefaultBackground.png; sourceTree = "<group>"; };
+		CEBCDF2E176B7B71003A16D0 /* buttonDefaultBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonDefaultBackground@2x.png"; sourceTree = "<group>"; };
+		CEBCDF2F176B7B71003A16D0 /* buttonDefaultHighlightBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonDefaultHighlightBackground.png; sourceTree = "<group>"; };
+		CEBCDF30176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonDefaultHighlightBackground@2x.png"; sourceTree = "<group>"; };
+		CED15AAD1768F1E900282D8E /* WaterReporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterReporterViewController.h; sourceTree = "<group>"; };
+		CED15AAE1768F1E900282D8E /* WaterReporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterReporterViewController.m; sourceTree = "<group>"; };
+		CEE7E875174DAB3700500625 /* PopupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopupViewController.xib; path = Classes/PopupViewController.xib; sourceTree = "<group>"; };
+		CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAddYourPhotoVideo@2x.png"; sourceTree = "<group>"; };
+		CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonManualLocationEntry@2x.png"; sourceTree = "<group>"; };
+		CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonAutomaticLocationSaved@2x.png"; sourceTree = "<group>"; };
+		F570C8E4172EBF950059FC19 /* backgroundDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundDefault.png; sourceTree = "<group>"; };
+		F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundDefault@2x.png"; sourceTree = "<group>"; };
+		F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_100.otf; sourceTree = "<group>"; };
+		F570C8EC172ED0CA0059FC19 /* Museo_Slab_100italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_100italic.otf; sourceTree = "<group>"; };
+		F570C8ED172ED0CA0059FC19 /* Museo_Slab_300.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_300.otf; sourceTree = "<group>"; };
+		F570C8EE172ED0CA0059FC19 /* Museo_Slab_300italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_300italic.otf; sourceTree = "<group>"; };
+		F570C8EF172ED0CA0059FC19 /* Museo_Slab_500.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_500.otf; sourceTree = "<group>"; };
+		F570C8F0172ED0CA0059FC19 /* Museo_Slab_500italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_500italic.otf; sourceTree = "<group>"; };
+		F570C8F1172ED0CA0059FC19 /* Museo_Slab_700.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_700.otf; sourceTree = "<group>"; };
+		F570C8F2172ED0CA0059FC19 /* Museo_Slab_700italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_700italic.otf; sourceTree = "<group>"; };
+		F570C8F3172ED0CA0059FC19 /* Museo_Slab_900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_900.otf; sourceTree = "<group>"; };
+		F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_900italic.otf; sourceTree = "<group>"; };
+		F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000.otf; sourceTree = "<group>"; };
+		F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Museo_Slab_1000italic.otf; sourceTree = "<group>"; };
+		F579273C173D87E700C49B31 /* slide_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_6.png; sourceTree = "<group>"; };
+		F579273D173D87E800C49B31 /* slide_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_4.png; sourceTree = "<group>"; };
+		F579273E173D87E800C49B31 /* slide_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_5.png; sourceTree = "<group>"; };
+		F579273F173D87E800C49B31 /* slide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_3.png; sourceTree = "<group>"; };
+		F5792740173D87E800C49B31 /* slide_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_2.png; sourceTree = "<group>"; };
+		F5792741173D87E800C49B31 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
+		F5792762173D98DB00C49B31 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		F5D5FAD6172FF45C007CD69B /* release-notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "release-notes.md"; sourceTree = "<group>"; };
+		F5D91F53173BE53700E19079 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialViewController.h; path = ../TutorialViewController.h; sourceTree = "<group>"; };
+		F5D91F54173BE53700E19079 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialViewController.m; path = ../TutorialViewController.m; sourceTree = "<group>"; };
+		F5D91F55173BE53700E19079 /* TutorialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
+		F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "backgroundTutorial@2x.png"; path = "Classes/backgroundTutorial@2x.png"; sourceTree = "<group>"; };
+		F5E8F8E517341C8E006ABF22 /* slides.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = slides.md; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				975E7529167A5F28005FB57B /* OpenGLES.framework in Frameworks */,
+				975E7527167A5F1C005FB57B /* libc++.dylib in Frameworks */,
+				9702E551144652AC00A46CA5 /* Security.framework in Frameworks */,
+				9702E54E144652A700A46CA5 /* libz.dylib in Frameworks */,
+				97E19FD813590CA600872878 /* CoreText.framework in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				9477D6D61243DA03004AF934 /* QuartzCore.framework in Frameworks */,
+				9477D6DC1243DA21004AF934 /* CoreLocation.framework in Frameworks */,
+				947B230B124AA3CF00414CFF /* MobileCoreServices.framework in Frameworks */,
+				947B23ED124AD1B800414CFF /* MediaPlayer.framework in Frameworks */,
+				1C14234613258CCA005771D3 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CED15AAC1768F1BB00282D8E /* _old */,
+				CE54F1BE17661F58004C2B8F /* curated-map */,
+				CE54F1BA17661843004C2B8F /* popups */,
+				F53CC551173814A1008315CE /* features */,
+				F53CC55017381491008315CE /* media */,
+				F53CC54F17381489008315CE /* tutorial */,
+				1D3623240D0F684500981E51 /* WaterReporterAppDelegate.h */,
+				1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */,
+				CED15AAD1768F1E900282D8E /* WaterReporterViewController.h */,
+				CED15AAE1768F1E900282D8E /* WaterReporterViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* Water Reporter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				C1E1C5B4172C3B420089361A /* ArcGIS.bundle */,
+				F53CC553173815FC008315CE /* _Notes */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* Water Reporter_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F53CC552173815C8008315CE /* layouts */,
+				F5E8F8E017340363006ABF22 /* images */,
+				F570C8E9172ED0600059FC19 /* fonts */,
+				8D1107310486CEB800E47090 /* Water Reporter-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				975E7526167A5F1C005FB57B /* libc++.dylib */,
+				975E7528167A5F28005FB57B /* OpenGLES.framework */,
+				9702E550144652AC00A46CA5 /* Security.framework */,
+				9702E54D144652A700A46CA5 /* libz.dylib */,
+				97E19FD713590CA600872878 /* CoreText.framework */,
+				947B23EC124AD1B800414CFF /* MediaPlayer.framework */,
+				947B230A124AA3CF00414CFF /* MobileCoreServices.framework */,
+				9477D6DB1243DA21004AF934 /* CoreLocation.framework */,
+				9477D6D51243DA03004AF934 /* QuartzCore.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+				979315161314426C003B935E /* libstdc++.6.0.9.dylib */,
+				1C14234513258CCA005771D3 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE54F1BA17661843004C2B8F /* popups */ = {
+			isa = PBXGroup;
+			children = (
+				CE54F1BB17661853004C2B8F /* PopupHelper.h */,
+				CE54F1BC17661853004C2B8F /* PopupHelper.m */,
+			);
+			name = popups;
+			sourceTree = "<group>";
+		};
+		CE54F1BE17661F58004C2B8F /* curated-map */ = {
+			isa = PBXGroup;
+			children = (
+				CE54F1BF17661F7C004C2B8F /* CuratedMapViewController.h */,
+				CE54F1C017661F7C004C2B8F /* CuratedMapViewController.m */,
+			);
+			name = "curated-map";
+			sourceTree = "<group>";
+		};
+		CED15AAC1768F1BB00282D8E /* _old */ = {
+			isa = PBXGroup;
+			children = (
+				28D7ACF60DDB3853001CB0EB /* BackupWaterReporterViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* BackupWaterReporterViewController.m */,
+			);
+			name = _old;
+			sourceTree = "<group>";
+		};
+		F53CC54F17381489008315CE /* tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				F5D91F53173BE53700E19079 /* TutorialViewController.h */,
+				F5D91F54173BE53700E19079 /* TutorialViewController.m */,
+			);
+			name = tutorial;
+			sourceTree = "<group>";
+		};
+		F53CC55017381491008315CE /* media */ = {
+			isa = PBXGroup;
+			children = (
+				9401AD9C124828830010FADB /* ImageViewController.h */,
+				9401AD9D124828830010FADB /* ImageViewController.m */,
+				947B2408124AD4EF00414CFF /* MoviePlayerViewController.h */,
+				1C6CA60F1321CAB700E19E9D /* CodedValueUtility.m */,
+				947B2409124AD4EF00414CFF /* MoviePlayerViewController.m */,
+			);
+			name = media;
+			sourceTree = "<group>";
+		};
+		F53CC551173814A1008315CE /* features */ = {
+			isa = PBXGroup;
+			children = (
+				1C6CA60E1321CAB700E19E9D /* CodedValueUtility.h */,
+				94922976124417AC00CB16AB /* FeatureDetailsViewController.h */,
+				94922977124417AC00CB16AB /* FeatureDetailsViewController.m */,
+				C1E1C5BA172C42400089361A /* FeatureTemplatePickerViewController.h */,
+				C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */,
+			);
+			name = features;
+			sourceTree = "<group>";
+		};
+		F53CC552173815C8008315CE /* layouts */ = {
+			isa = PBXGroup;
+			children = (
+				CEAA7938176A18B000F4F192 /* CuratedMapViewController.xib */,
+				CEE7E875174DAB3700500625 /* PopupViewController.xib */,
+				94922978124417AC00CB16AB /* FeatureDetailsViewController.xib */,
+				C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */,
+				949229FA1244248200CB16AB /* FeatureTypeViewController.xib */,
+				9401AD9E124828830010FADB /* ImageViewController.xib */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				947B240A124AD4EF00414CFF /* MoviePlayerViewController.xib */,
+				F5D91F55173BE53700E19079 /* TutorialViewController.xib */,
+				2899E5210DE3E06400AC0155 /* WaterReporterViewController.xib */,
+			);
+			name = layouts;
+			sourceTree = "<group>";
+		};
+		F53CC553173815FC008315CE /* _Notes */ = {
+			isa = PBXGroup;
+			children = (
+				F5E8F8E517341C8E006ABF22 /* slides.md */,
+				F5D5FAD6172FF45C007CD69B /* release-notes.md */,
+				CE21E6571765228C007A3855 /* TASKS.md */,
+			);
+			name = _Notes;
+			sourceTree = "<group>";
+		};
+		F570C8E9172ED0600059FC19 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F570C8EB172ED0CA0059FC19 /* Museo_Slab_100.otf */,
+				F570C8EC172ED0CA0059FC19 /* Museo_Slab_100italic.otf */,
+				F570C8ED172ED0CA0059FC19 /* Museo_Slab_300.otf */,
+				F570C8EE172ED0CA0059FC19 /* Museo_Slab_300italic.otf */,
+				F570C8EF172ED0CA0059FC19 /* Museo_Slab_500.otf */,
+				F570C8F0172ED0CA0059FC19 /* Museo_Slab_500italic.otf */,
+				F570C8F1172ED0CA0059FC19 /* Museo_Slab_700.otf */,
+				F570C8F2172ED0CA0059FC19 /* Museo_Slab_700italic.otf */,
+				F570C8F3172ED0CA0059FC19 /* Museo_Slab_900.otf */,
+				F570C8F4172ED0CA0059FC19 /* Museo_Slab_900italic.otf */,
+				F570C8F5172ED0CA0059FC19 /* Museo_Slab_1000.otf */,
+				F570C8F6172ED0CA0059FC19 /* Museo_Slab_1000italic.otf */,
+			);
+			name = fonts;
+			sourceTree = "<group>";
+		};
+		F5E8F8E017340363006ABF22 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				CEBCDF29176B7B70003A16D0 /* buttonBackButtonBackground.png */,
+				CEBCDF2A176B7B70003A16D0 /* buttonBackButtonBackground@2x.png */,
+				CEBCDF2B176B7B70003A16D0 /* buttonBackButtonHighlightedBackground.png */,
+				CEBCDF2C176B7B70003A16D0 /* buttonBackButtonHighlightedBackground@2x.png */,
+				CEBCDF2D176B7B70003A16D0 /* buttonDefaultBackground.png */,
+				CEBCDF2E176B7B71003A16D0 /* buttonDefaultBackground@2x.png */,
+				CEBCDF2F176B7B71003A16D0 /* buttonDefaultHighlightBackground.png */,
+				CEBCDF30176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png */,
+				CEBCDF1D176B740D003A16D0 /* button.png */,
+				CEBCDF1E176B740D003A16D0 /* button@2x.png */,
+				CEF5F9D6174D5D7100AF0743 /* buttonManualLocationEntry@2x.png */,
+				CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */,
+				CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */,
+				F5792762173D98DB00C49B31 /* Default-568h@2x.png */,
+				F579273C173D87E700C49B31 /* slide_6.png */,
+				F579273D173D87E800C49B31 /* slide_4.png */,
+				F579273E173D87E800C49B31 /* slide_5.png */,
+				F579273F173D87E800C49B31 /* slide_3.png */,
+				F5792740173D87E800C49B31 /* slide_2.png */,
+				C1DBC47E173F299D0014A977 /* slide_1.png */,
+				F5792741173D87E800C49B31 /* default@2x.png */,
+				F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */,
+				C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */,
+				C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */,
+				F570C8E4172EBF950059FC19 /* backgroundDefault.png */,
+				F570C8E5172EBF950059FC19 /* backgroundDefault@2x.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* WaterWater Reporter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "WaterWater Reporter" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WaterWater Reporter";
+			productName = FeatureLayerEditingSample;
+			productReference = 1D6058910D05DD3D006BFB54 /* Water Reporter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Water Reporter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* WaterWater Reporter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1B82895172C4D55003072BB /* FeatureTemplatePickerViewController.xib in Resources */,
+				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				2899E5220DE3E06400AC0155 /* WaterReporterViewController.xib in Resources */,
+				9492297A124417AC00CB16AB /* FeatureDetailsViewController.xib in Resources */,
+				949229FC1244248200CB16AB /* FeatureTypeViewController.xib in Resources */,
+				9401ADA0124828830010FADB /* ImageViewController.xib in Resources */,
+				947B240C124AD4EF00414CFF /* MoviePlayerViewController.xib in Resources */,
+				C1E1C5B5172C3B420089361A /* ArcGIS.bundle in Resources */,
+				C1E1C5B8172C3F880089361A /* toolbar-charcoal-default.png in Resources */,
+				C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */,
+				F570C8E6172EBF950059FC19 /* backgroundDefault.png in Resources */,
+				F570C8E7172EBF950059FC19 /* backgroundDefault@2x.png in Resources */,
+				F570C8F7172ED0CA0059FC19 /* Museo_Slab_100.otf in Resources */,
+				F570C8F8172ED0CA0059FC19 /* Museo_Slab_100italic.otf in Resources */,
+				F570C8F9172ED0CA0059FC19 /* Museo_Slab_300.otf in Resources */,
+				F570C8FA172ED0CA0059FC19 /* Museo_Slab_300italic.otf in Resources */,
+				F570C8FB172ED0CA0059FC19 /* Museo_Slab_500.otf in Resources */,
+				F570C8FC172ED0CA0059FC19 /* Museo_Slab_500italic.otf in Resources */,
+				F570C8FD172ED0CA0059FC19 /* Museo_Slab_700.otf in Resources */,
+				F570C8FE172ED0CA0059FC19 /* Museo_Slab_700italic.otf in Resources */,
+				F570C8FF172ED0CA0059FC19 /* Museo_Slab_900.otf in Resources */,
+				F570C900172ED0CA0059FC19 /* Museo_Slab_900italic.otf in Resources */,
+				F570C901172ED0CA0059FC19 /* Museo_Slab_1000.otf in Resources */,
+				F570C902172ED0CA0059FC19 /* Museo_Slab_1000italic.otf in Resources */,
+				F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */,
+				F5E8F8E617341C8E006ABF22 /* slides.md in Resources */,
+				F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */,
+				F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */,
+				F5792743173D87E800C49B31 /* slide_6.png in Resources */,
+				F5792744173D87E800C49B31 /* slide_4.png in Resources */,
+				F5792745173D87E800C49B31 /* slide_5.png in Resources */,
+				F5792746173D87E800C49B31 /* slide_3.png in Resources */,
+				F5792747173D87E800C49B31 /* slide_2.png in Resources */,
+				F5792748173D87E800C49B31 /* default@2x.png in Resources */,
+				F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */,
+				C1DBC47F173F299D0014A977 /* slide_1.png in Resources */,
+				CEF5F9D5174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png in Resources */,
+				CEF5F9D8174D5D7100AF0743 /* buttonManualLocationEntry@2x.png in Resources */,
+				CEF5F9D9174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png in Resources */,
+				CEE7E877174DAB3700500625 /* PopupViewController.xib in Resources */,
+				CE21E6581765228C007A3855 /* TASKS.md in Resources */,
+				CEAA7939176A18B000F4F192 /* CuratedMapViewController.xib in Resources */,
+				CEBCDF1F176B740D003A16D0 /* button.png in Resources */,
+				CEBCDF20176B740D003A16D0 /* button@2x.png in Resources */,
+				CEBCDF31176B7B71003A16D0 /* buttonBackButtonBackground.png in Resources */,
+				CEBCDF32176B7B71003A16D0 /* buttonBackButtonBackground@2x.png in Resources */,
+				CEBCDF33176B7B71003A16D0 /* buttonBackButtonHighlightedBackground.png in Resources */,
+				CEBCDF34176B7B71003A16D0 /* buttonBackButtonHighlightedBackground@2x.png in Resources */,
+				CEBCDF35176B7B71003A16D0 /* buttonDefaultBackground.png in Resources */,
+				CEBCDF36176B7B71003A16D0 /* buttonDefaultBackground@2x.png in Resources */,
+				CEBCDF37176B7B71003A16D0 /* buttonDefaultHighlightBackground.png in Resources */,
+				CEBCDF38176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEAA793A176A191E00F4F192 /* CuratedMapViewController.m in Sources */,
+				C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */,
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* WaterReporterAppDelegate.m in Sources */,
+				94922979124417AC00CB16AB /* FeatureDetailsViewController.m in Sources */,
+				9401AD9F124828830010FADB /* ImageViewController.m in Sources */,
+				947B240B124AD4EF00414CFF /* MoviePlayerViewController.m in Sources */,
+				1C6CA6101321CAB700E19E9D /* CodedValueUtility.m in Sources */,
+				F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */,
+				CE54F1BD17661853004C2B8F /* PopupHelper.m in Sources */,
+				CED15AAF1768F1E900282D8E /* WaterReporterViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/iOS/**";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Water Reporter_Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "Water Reporter-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+					"-framework",
+					ArcGIS,
+				);
+				PRODUCT_NAME = "Water Reporter";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = armv7;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/iOS/**";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Water Reporter_Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "Water Reporter-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+					"-framework",
+					ArcGIS,
+				);
+				PRODUCT_NAME = "Water Reporter";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = armv7;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "WaterWater Reporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Water Reporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

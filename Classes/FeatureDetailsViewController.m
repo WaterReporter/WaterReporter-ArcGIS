@@ -844,7 +844,10 @@
 }
 
 -(UITextField *)textFieldTemplate {
-    return [[UITextField alloc] initWithFrame:CGRectMake(140, 14, 150, 20)];
+    
+    UITextField *thisTextField = [[UITextField alloc] initWithFrame:CGRectMake(140, 34, 150, 20)];
+    thisTextField.backgroundColor = [UIColor redColor];
+    return thisTextField;
 }
 
 /**
@@ -876,7 +879,7 @@
      * get confused and make us sad.
      *
      */
-    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell %d_%d",indexPath.section,indexPath.row];
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell_%d_%d",indexPath.section,indexPath.row];
 	UITableViewCell *cell = nil;
     AGSField *field = nil;
     
@@ -1281,18 +1284,17 @@
     /**
      * Remove the separators between cells in the tableView
      */
+    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     if (indexPath.section == 1) {
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        tableView.separatorColor = DEFAULT_LABEL_COLOR;        
+        tableView.separatorColor = DEFAULT_LABEL_COLOR;
     } else {
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         tableView.separatorColor = [UIColor clearColor];
     }
     
     /**
      * Set the label, image, etc for the templates
      */
-    cell.textLabel.textColor = DEFAULT_LABEL_COLOR;
+    cell.textLabel.textColor = DEFAULT_TEXT_COLOR;
     cell.textLabel.font = DEFAULT_BODY_FONT;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.detailTextLabel.textColor = DEFAULT_TEXT_COLOR;
@@ -1380,8 +1382,9 @@
 				// if they click on "Add"
 				UIImagePickerController *imgPicker = [[[UIImagePickerController alloc] init]autorelease];
 				imgPicker.delegate = self;
-				if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-					imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+				if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+					//imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+					imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 					imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
 					imgPicker.allowsEditing = NO;
 					imgPicker.videoQuality = UIImagePickerControllerQualityTypeLow;

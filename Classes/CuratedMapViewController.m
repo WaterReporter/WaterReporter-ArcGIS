@@ -84,7 +84,7 @@
     /**
      * This is the "Commit" button when you're adding a new feature to the map
      */
-    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStylePlain target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
+    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStyleBordered target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
     self.navigationItem.rightBarButtonItem = addReportButton;
     
     [self.navigationItem setHidesBackButton:YES];
