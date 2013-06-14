@@ -784,19 +784,7 @@
     switch (section) {
             
         case 1:
-            if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
-                return @"Enter your Activity Report details below"; // Feature Details
-            } else if ([self.featureLayer.name isEqualToString:@"Pollution Report"]) {
-                return @"Enter your Pollution Report details below"; // Feature Details
-            }
-
-            
-        case 2:
-            return nil; // Photo/Video Attachments
-            
-        case 3:
-            return nil; // Feature Details
-            
+            return @"Provide great detail in the fields below."; // Feature Details
         default:
             return nil;
             
@@ -845,8 +833,8 @@
 
 -(UITextField *)textFieldTemplate {
     
-    UITextField *thisTextField = [[UITextField alloc] initWithFrame:CGRectMake(140, 34, 150, 20)];
-    thisTextField.backgroundColor = [UIColor redColor];
+    UITextField *thisTextField = [[UITextField alloc] initWithFrame:CGRectMake(140, 0, 150, 42)];
+    thisTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     return thisTextField;
 }
 
