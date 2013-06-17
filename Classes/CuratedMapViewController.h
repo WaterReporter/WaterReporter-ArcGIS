@@ -49,7 +49,7 @@
 /**
  * Pass variables along
  */
-@property(nonatomic, strong) NSMutableArray* isSomethingEnabled;
+@property(nonatomic, strong) NSMutableArray* cachedFeatureLayerTemplates;
 
 /**
  * Map related variables

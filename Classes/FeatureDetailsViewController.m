@@ -1460,7 +1460,8 @@
          * Initialize the feature template picker so that we can show it later when needed
          */
         self.waterReporterViewController =  [[[WaterReporterViewController alloc] initWithNibName:@"WaterReporterViewController" bundle:nil] autorelease];
-
+        self.waterReporterViewController.curatedMapActivatedFromFeatureDetail = YES;
+        
         self.waterReporterViewController.loadingFromFeatureDetails = YES;
         self.waterReporterViewController.featureGeometryDelegate = self;
         [self.navigationController pushViewController:self.waterReporterViewController animated:YES];

@@ -43,6 +43,7 @@
 
 @synthesize featureTemplatePickerViewController = _featureTemplatePickerViewController;
 @synthesize curatedMapViewController = _curatedMapViewController;
+@synthesize curatedMapActivatedFromFeatureDetail = _curatedMapActivatedFromFeatureDetail;
 
 @synthesize manualFeatureGeometry;
 @synthesize featureGeometryDelegate;
@@ -58,10 +59,6 @@
      */
     NSLog(@"WaterReporterViewController: viewDidLoad");
     
-    if (self.webmap) {
-        NSLog(@"self.webmap already loaded: %@", self.webmap.URL);
-    }
-
     self.cachedFeatureLayers = [NSMutableArray new];
 
     /**
@@ -72,44 +69,10 @@
      *
      */
     self.webmap = [AGSWebMap webMapWithItemId:FEATURE_SERVICE_URL credential:nil];
-    //self.curatedMap = [AGSWebMap webMapWithItemId:CURATED_MAP_URL credential:nil];
-    
-    /**
-     * Designate a delegate to be notified as web map is opened
-     */
     self.webmap.delegate = self;
-    
-    //self.curatedMap.delegate = self;
     [self.webmap openIntoMapView:self.mapView];
     
-    /**
-     * Change the appearance of all the buttons
-     * that appear within our UI
-     */
-    UIImage *buttonDefaultImage = [UIImage imageNamed:@"buttonDefaultBackground"];
-    UIImage *buttonDefaultImageHighlight = [UIImage imageNamed:@"buttonDefaultHighlightBackground"];
-    [[UIBarButtonItem appearance] setBackgroundImage:buttonDefaultImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearance] setBackgroundImage:buttonDefaultImageHighlight forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-    
-    UIImage *buttonBackImage = [UIImage imageNamed:@"buttonBackButtonBackground"];
-    UIImage *buttonBackImageHighlight = [UIImage imageNamed:@"buttonBackButtonHighlightedBackground"];
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBackImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBackImageHighlight forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-    
-    /**
-     * Set our default map navigation bar background to use our
-     * charcoal pattern
-     */
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default.png"] forBarMetrics:UIBarMetricsDefault];
-    self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
-    [self setupScrollView];
 
-    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    image.image = [UIImage imageNamed:[NSString stringWithFormat:@"backgroundTutorial"]];
-    image.contentMode = UIViewContentModeScaleAspectFit;
-    [self.mapView addSubview:image];
-    [self.mapView bringSubviewToFront:image];
-    
     /**
      * If we are loading the View Controller from the Feature Details then
      * we shouldn't load the Feature Template Picker, the Feature Template
@@ -131,8 +94,34 @@
         self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
         self.featureTemplatePickerViewController.delegate = self;
         
-    } else {
-        [self.mapView sendSubviewToBack:image];
+        /**
+         * Change the appearance of all the buttons
+         * that appear within our UI
+         */
+        UIImage *buttonDefaultImage = [UIImage imageNamed:@"buttonDefaultBackground"];
+        UIImage *buttonDefaultImageHighlight = [UIImage imageNamed:@"buttonDefaultHighlightBackground"];
+        [[UIBarButtonItem appearance] setBackgroundImage:buttonDefaultImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UIBarButtonItem appearance] setBackgroundImage:buttonDefaultImageHighlight forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+        
+        UIImage *buttonBackImage = [UIImage imageNamed:@"buttonBackButtonBackground"];
+        UIImage *buttonBackImageHighlight = [UIImage imageNamed:@"buttonBackButtonHighlightedBackground"];
+        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBackImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBackImageHighlight forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+        
+        /**
+         * Set our default map navigation bar background to use our
+         * charcoal pattern
+         */
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default"] forBarMetrics:UIBarMetricsDefault];
+        self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
+        [self setupScrollView];
+        
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        image.image = [UIImage imageNamed:[NSString stringWithFormat:@"backgroundTutorial"]];
+        image.contentMode = UIViewContentModeScaleAspectFit;
+        [self.mapView addSubview:image];
+        [self.mapView bringSubviewToFront:image];
+    
     }
     
     [super viewDidLoad];
@@ -182,11 +171,15 @@
     self.navigationItem.rightBarButtonItem = addReportButton;
 
     /**
-     * This is the "Commit" button when you're adding a new feature to the map
+     * This is the "Map" and displays when the user is viewing the root
+     * view controller. If the user is viewing another aspect of the view
+     * controller, then we should not change the leftBarButtonItem.
      */
-    UIBarButtonItem *displayCuratedMap = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(presentCuratedMap)]autorelease];
-    self.navigationItem.leftBarButtonItem = displayCuratedMap;
-
+    if (!self.curatedMapActivatedFromFeatureDetail) {
+        UIBarButtonItem *displayCuratedMap = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(presentCuratedMap)]autorelease];
+        self.navigationItem.leftBarButtonItem = displayCuratedMap;
+    }
+    
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */
@@ -247,7 +240,7 @@
     UIBarButtonItem *commit = [[[UIBarButtonItem alloc]initWithTitle:@"Update" style:UIBarButtonItemStylePlain target:self action:@selector(commit)]autorelease];
     self.navigationItem.rightBarButtonItem = commit;
     
-    //[self displayGeoLocation];
+    [self displayGeoLocation];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(respondToGeomChanged:) name:AGSSketchGraphicsLayerGeometryDidChangeNotification object:nil];
 }
@@ -359,10 +352,13 @@
     
     // ALL: Animate the template picker, covering vertically
     self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        
+    
+    // Make sure our Feature Template Picker understands how to handle the map button
+    self.featureTemplatePickerViewController.cachedFeatureLayerTemplates = self.cachedFeatureLayers;
+    self.featureTemplatePickerViewController.curatedMapActivated = NO;
+    
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
     [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
-
 }
 
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{
@@ -464,16 +460,30 @@
  * If the Location Manager fails, we need to stop it so that it doesn't start
  * looping through error after error.
  */
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+- (void)locationManager: (CLLocationManager *)manager didFailWithError: (NSError *)error {
+
+    [manager stopUpdatingLocation];
     
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:locationManager:didFailWithError");
-    
-    // The location "unknown" error simply means the manager is currently unable to get the location.
-    if ([error code] != kCLErrorLocationUnknown) {
-        [self stopUpdatingLocation];
+    NSLog(@"error%@",error);
+    switch([error code]) {
+        case kCLErrorNetwork: {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"please check your network connection or that you are not in airplane mode" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }
+        break;
+        case kCLErrorDenied:{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"user has denied to use current Location " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }
+        break;
+        default: {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"unknown network error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }
+        break;
     }
 }
 
@@ -552,10 +562,11 @@
      */
     NSLog(@"TutorialViewController:presentCuratedMap");
     
-    self.curatedMapViewController.isSomethingEnabled = self.cachedFeatureLayers;
+    self.curatedMapViewController.cachedFeatureLayerTemplates = self.cachedFeatureLayers;
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    [self.navigationController pushViewController:self.curatedMapViewController animated:NO];
+    self.curatedMapViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self.navigationController pushViewController:self.curatedMapViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -572,11 +583,11 @@
     [self.webmap release];
     [self.tutorialView release];
     [self.pageControl release];
-    [self.curatedMap release];
     [self.featureLayer release];
     [self.locationManager release];
     [self.featureTemplatePickerViewController release];
-    //[self.tutorialViewController release];
+    [self.curatedMap release];
+    [self.curatedMapViewController release];
     [self.sketchLayer release];
     [self.manualFeatureGeometry release];
 
@@ -591,11 +602,11 @@
     NSLog(@"WaterReporterViewController:dealloc");
     
     [self.webmap release];
-    [self.curatedMap release];
     [self.featureLayer release];
     [self.locationManager release];
     [self.featureTemplatePickerViewController release];
-    //[self.tutorialViewController release];
+    [self.curatedMap release];
+    [self.curatedMapViewController release];
     [self.sketchLayer release];
     [self.manualFeatureGeometry release];
 

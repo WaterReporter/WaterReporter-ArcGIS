@@ -28,12 +28,26 @@
 	BOOL _newFeature;						// flag that indicates whether the feature for which details are being viewed is new or existing
     NSMutableArray* _infos;
 	NSMutableArray *_operations;			// all the in-progress operations spawned by this VC, we keep them so we can cancel them if we pop the VC (dealloc cancels them)
-
+    
     CuratedMapViewController* _curatedMapViewController;
+    BOOL *_curatedMapActivated;
 }
 
+
+/**
+ * Pass variables along
+ */
+@property(nonatomic, strong) NSMutableArray* cachedFeatureLayerTemplates;
+@property (nonatomic) BOOL *curatedMapActivated;
+
+/**
+ * Curated Map Variables
+ */
 @property (nonatomic, strong) CuratedMapViewController* curatedMapViewController;
 
+/**
+ * Feature Layer Variables
+ */
 @property (nonatomic, retain) AGSGraphic *feature;
 @property (nonatomic, weak) id<FeatureTemplatePickerDelegate> delegate;
 @property (nonatomic,strong) IBOutlet UITableView* featureTemplatesTableView;

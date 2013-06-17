@@ -88,7 +88,6 @@
 		F5792748173D87E800C49B31 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792741173D87E800C49B31 /* default@2x.png */; };
 		F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792762173D98DB00C49B31 /* Default-568h@2x.png */; };
 		F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* release-notes.md */; };
-		F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D91F54173BE53700E19079 /* TutorialViewController.m */; };
 		F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F55173BE53700E19079 /* TutorialViewController.xib */; };
 		F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */; };
 		F5E8F8E617341C8E006ABF22 /* slides.md in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E517341C8E006ABF22 /* slides.md */; };
@@ -191,8 +190,6 @@
 		F5792741173D87E800C49B31 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
 		F5792762173D98DB00C49B31 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F5D5FAD6172FF45C007CD69B /* release-notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "release-notes.md"; sourceTree = "<group>"; };
-		F5D91F53173BE53700E19079 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialViewController.h; path = ../TutorialViewController.h; sourceTree = "<group>"; };
-		F5D91F54173BE53700E19079 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialViewController.m; path = ../TutorialViewController.m; sourceTree = "<group>"; };
 		F5D91F55173BE53700E19079 /* TutorialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
 		F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "backgroundTutorial@2x.png"; path = "Classes/backgroundTutorial@2x.png"; sourceTree = "<group>"; };
 		F5E8F8E517341C8E006ABF22 /* slides.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = slides.md; sourceTree = "<group>"; };
@@ -230,7 +227,6 @@
 				CE54F1BA17661843004C2B8F /* popups */,
 				F53CC551173814A1008315CE /* features */,
 				F53CC55017381491008315CE /* media */,
-				F53CC54F17381489008315CE /* tutorial */,
 				1D3623240D0F684500981E51 /* WaterReporterAppDelegate.h */,
 				1D3623250D0F684500981E51 /* WaterReporterAppDelegate.m */,
 				CED15AAD1768F1E900282D8E /* WaterReporterViewController.h */,
@@ -329,15 +325,6 @@
 				28D7ACF70DDB3853001CB0EB /* BackupWaterReporterViewController.m */,
 			);
 			name = _old;
-			sourceTree = "<group>";
-		};
-		F53CC54F17381489008315CE /* tutorial */ = {
-			isa = PBXGroup;
-			children = (
-				F5D91F53173BE53700E19079 /* TutorialViewController.h */,
-				F5D91F54173BE53700E19079 /* TutorialViewController.m */,
-			);
-			name = tutorial;
 			sourceTree = "<group>";
 		};
 		F53CC55017381491008315CE /* media */ = {
@@ -581,7 +568,6 @@
 				9401AD9F124828830010FADB /* ImageViewController.m in Sources */,
 				947B240B124AD4EF00414CFF /* MoviePlayerViewController.m in Sources */,
 				1C6CA6101321CAB700E19E9D /* CodedValueUtility.m in Sources */,
-				F5D91F56173BE53700E19079 /* TutorialViewController.m in Sources */,
 				CE54F1BD17661853004C2B8F /* PopupHelper.m in Sources */,
 				CED15AAF1768F1E900282D8E /* WaterReporterViewController.m in Sources */,
 			);

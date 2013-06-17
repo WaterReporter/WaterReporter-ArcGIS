@@ -34,7 +34,7 @@
 
 @synthesize userLocation;
 @synthesize locationManager = _locationManager;
-@synthesize isSomethingEnabled;
+@synthesize cachedFeatureLayerTemplates;
 @synthesize featureLayer = _featureLayer;
 
 @synthesize featureTemplatePickerViewController;
@@ -46,7 +46,7 @@
      * This allows us to see what is being fired and when
      */
     NSLog(@"CuratedMapViewController:viewDidLoad");
-    NSLog(@"Value from TutorialViewController: %@", self.isSomethingEnabled);
+    NSLog(@"Value from TutorialViewController: %@", self.cachedFeatureLayerTemplates);
     
     [super viewDidLoad];
     
@@ -82,7 +82,7 @@
     self.featureTemplatePickerViewController =  [[[FeatureTemplatePickerViewController alloc] initWithNibName:@"FeatureTemplatePickerViewController" bundle:nil] autorelease];
     self.featureTemplatePickerViewController.delegate = self;
 
-    for (AGSFeatureLayer* layer in self.isSomethingEnabled) {
+    for (AGSFeatureLayer* layer in self.cachedFeatureLayerTemplates) {
         NSLog(@"Loading layer from CuratedMap %@", layer.name);
         [self.featureTemplatePickerViewController addTemplatesFromLayer:layer];
     }
@@ -216,6 +216,7 @@
     self.featureTemplatePickerViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+    self.featureTemplatePickerViewController.curatedMapActivated = YES;
     [self.navigationController pushViewController:self.featureTemplatePickerViewController animated:YES];
     
 }

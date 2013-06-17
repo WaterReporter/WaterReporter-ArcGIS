@@ -24,6 +24,7 @@
     double _viUserLocationLongitude;
     double _viUserLocationLatitude;
     BOOL _loadingFromFeatureDetails;
+    BOOL *_curatedMapActivatedFromFeatureDetail;
 
     AGSMapView *_mapView;
     AGSWebMap* _webmap;
@@ -46,6 +47,7 @@
 @property (nonatomic) double viUserLocationLongitude;
 @property (nonatomic) double viUserLocationLatitude;
 @property (nonatomic) BOOL loadingFromFeatureDetails;
+@property (nonatomic) BOOL *curatedMapActivatedFromFeatureDetail;
 
 @property (nonatomic, retain) IBOutlet UIScrollView* tutorialView;
 @property (nonatomic, retain) UIPageControl* pageControl;

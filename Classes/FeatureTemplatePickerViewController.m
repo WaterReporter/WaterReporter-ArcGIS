@@ -7,7 +7,6 @@
  */
 
 #import "FeatureTemplatePickerViewController.h"
-#import "TutorialViewController.h"
 #import "WaterReporterViewController.h"
 
 #define DEFAULT_TEXT_COLOR [UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0]
@@ -15,10 +14,14 @@
 
 @implementation FeatureTemplatePickerViewController
 
-@synthesize featureTemplatesTableView = _featureTemplatesTableView;
+@synthesize cachedFeatureLayerTemplates;
+
 @synthesize curatedMapViewController = _curatedMapViewController;
+
+@synthesize featureTemplatesTableView = _featureTemplatesTableView;
 @synthesize delegate = _delegate;
 @synthesize infos = _infos;
+@synthesize curatedMapActivated = _curatedMapActivated;
 
 - (void)viewDidLoad {
 
@@ -100,29 +103,33 @@
 }
 
 -(void)cancel{
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-/**
- * Add a new feature
- *
- * The action for the "+" button that allows
- * the user to select what kind of Feature
- * they would like to add to the map
- *
- */
--(void)presentCuratedMap {
     
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"FeatureTemplatePickerViewController:presentCuratedMap");
+    NSLog(@"FeatureTemplatePickerViewController:cancel");
     
-//    self.curatedMapViewController.isSomethingEnabled = self.isSomething;
-//    
-//    
-    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    [self.navigationController pushViewController:self.curatedMapViewController animated:YES];
+    /**
+     * If we are using the Feature Template Picker that was
+     * loaded by the curated map, then all we need to do is 
+     * pop the view controller.
+     */
+    if (self.curatedMapActivated) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    /**
+     * But if we are using the Feature Template Picker that was
+     * loaded by the Tutorial/Root View Controller, then we
+     * need to load the curated map view controller.
+     */
+    else {
+        // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+        self.curatedMapViewController.cachedFeatureLayerTemplates = self.cachedFeatureLayerTemplates;
+        self.curatedMapViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self.navigationController pushViewController:self.curatedMapViewController animated:YES];
+        self.curatedMapActivated = YES;
+    }
+    
 }
 
 #pragma mark -
