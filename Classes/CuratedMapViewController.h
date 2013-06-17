@@ -36,6 +36,8 @@
     /**
      * Location related variables
      */
+    double _viUserLocationLongitude;
+    double _viUserLocationLatitude;
     AGSPoint *_userLocation;
     CLLocationManager *_locationManager;
     
@@ -73,9 +75,13 @@
  */
 @property (nonatomic, retain) AGSPoint *userLocation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic) double viUserLocationLongitude;
+@property (nonatomic) double viUserLocationLatitude;
 
 @property (nonatomic, retain) AGSFeatureLayer *featureLayer;
 
 @property (nonatomic, strong) FeatureTemplatePickerViewController *featureTemplatePickerViewController;
+
+-(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
 
 @end

@@ -34,6 +34,9 @@
 
 @synthesize userLocation;
 @synthesize locationManager = _locationManager;
+@synthesize viUserLocationLongitude = _viUserLocationLongitude;
+@synthesize viUserLocationLatitude = _viUserLocationLatitude;
+
 @synthesize cachedFeatureLayerTemplates;
 @synthesize featureLayer = _featureLayer;
 
@@ -374,7 +377,7 @@
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"WaterReporterViewController: featureTemplatePickerViewController");
+    NSLog(@"CuratedMapViewController:featureTemplatePickerViewController:didSelectFeatureTemplate");
     
     //
     // Set the active feature layer to the one we are going to edit
@@ -402,6 +405,98 @@
      * Prepares the details for the new feature.
      */
     [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+/*
+ * We want to get and store a location measurement that meets the desired accuracy. For this example, we are
+ *      going to use horizontal accuracy as the deciding factor. In other cases, you may wish to use vertical
+ *      accuracy, or both together.
+ */
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController:locationManager:didUpdateToLocation");
+    
+    /**
+     * Ensure horizontal accuracy doesn't resolve to
+     * an invalid measurement.
+     */
+    if (newLocation.horizontalAccuracy < 0) {
+        return;
+    }
+    
+    /**
+     * Create an AGSLocation instance so that we can
+     * fetch the X & Y coordinates and update the
+     * variables for our feature layer form.
+     */
+    AGSLocation* agsLoc = self.mapView.locationDisplay.location;
+    
+    /**
+     * Check to see if the Longitude or Latitude has changed
+     * since the last update. If it hasn't then don't change
+     * it repeatedly.
+     */
+    if (self.viUserLocationLongitude != agsLoc.point.x && self.viUserLocationLatitude != agsLoc.point.y) {
+        
+        self.userLocation = (AGSMutablePoint *)agsLoc.point;
+        
+        self.viUserLocationLongitude = agsLoc.point.x;
+        self.viUserLocationLatitude = agsLoc.point.y;
+        
+        NSLog(@"GEOLOCATION [x: %f; y: %f]", self.viUserLocationLongitude, self.viUserLocationLatitude);
+        
+        [self.locationManager stopUpdatingLocation];
+    }
+    
+    return;
+}
+
+/**
+ * If the Location Manager fails, we need to stop it so that it doesn't start
+ * looping through error after error.
+ */
+- (void)locationManager: (CLLocationManager *)manager didFailWithError: (NSError *)error {
+    
+    [manager stopUpdatingLocation];
+    
+    NSLog(@"error%@",error);
+    switch([error code]) {
+        case kCLErrorNetwork: {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"please check your network connection or that you are not in airplane mode" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }
+            break;
+        case kCLErrorDenied:{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"user has denied to use current Location " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }
+            break;
+        default: {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"unknown network error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }
+            break;
+    }
+}
+
+/**
+ * Stop updating the Location Manager
+ */
+- (void)stopUpdatingLocation {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController:stopUpdatingLocation");
+    
+    [self.locationManager stopUpdatingLocation];
+    [self.locationManager release];
 }
 
 // Release any retained subviews of the main view.
