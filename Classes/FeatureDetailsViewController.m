@@ -549,7 +549,7 @@
     /**
      * Get the type of report we're adding attachments to
      */
-    NSString *reportType;
+    NSString *reportType = nil;
     
     if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
         NSLog(@"Updating the River Event Report");

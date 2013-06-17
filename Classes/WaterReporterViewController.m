@@ -21,6 +21,7 @@
  */
 #define FEATURE_TEMPLATE_AUTODISPLAY YES
 #define FEATURE_SERVICE_ZOOM 150000
+#define IS_PHONEPOD5() ([UIScreen mainScreen].bounds.size.height == 568.0f && [UIScreen mainScreen].scale == 2.f && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
 @implementation WaterReporterViewController
 
@@ -117,8 +118,12 @@
         self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
         [self setupScrollView];
         
-        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-        image.image = [UIImage imageNamed:[NSString stringWithFormat:@"backgroundTutorial"]];
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, -45, self.view.frame.size.width, self.view.frame.size.height)];
+        if(IS_PHONEPOD5()) {
+            image.image = [UIImage imageNamed:[NSString stringWithFormat:@"backgroundTutorial-568h@2x.png"]];
+        } else {
+            image.image = [UIImage imageNamed:[NSString stringWithFormat:@"backgroundTutorial"]];
+        }
         image.contentMode = UIViewContentModeScaleAspectFit;
         [self.mapView addSubview:image];
         [self.mapView bringSubviewToFront:image];
