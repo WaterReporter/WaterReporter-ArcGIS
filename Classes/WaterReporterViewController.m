@@ -112,6 +112,7 @@
          * Set our default map navigation bar background to use our
          * charcoal pattern
          */
+        self.navigationItem.title = @"";
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"toolbar-charcoal-default"] forBarMetrics:UIBarMetricsDefault];
         self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
         [self setupScrollView];
@@ -506,7 +507,7 @@
     NSLog(@"setupScrollView");
     
     //add the scrollview to the view
-    self.tutorialView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -45, self.view.frame.size.width, (self.view.frame.size.height - 145))];
+    self.tutorialView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -45, self.view.frame.size.width, self.view.frame.size.height)];
     self.tutorialView.contentSize = CGSizeMake(self.tutorialView.contentSize.width,self.tutorialView.frame.size.height);
     self.tutorialView.pagingEnabled = YES;
     self.tutorialView.delegate = self;
@@ -516,7 +517,7 @@
     NSInteger numberOfViews = 6;
     for (int i = 0; i < numberOfViews; i++) {
         CGFloat xOrigin = i * self.view.frame.size.width;
-        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(xOrigin, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(xOrigin, -40, self.view.frame.size.width, self.view.frame.size.height)];
         image.image = [UIImage imageNamed:[NSString stringWithFormat:@"slide_%d", i+1]];
         image.contentMode = UIViewContentModeScaleAspectFit;
         [self.tutorialView addSubview:image];
@@ -532,7 +533,7 @@
     [self.view insertSubview:self.tutorialView belowSubview:self.pageControl];
     
     self.pageControl = [[[UIPageControl alloc] init] autorelease];
-    self.pageControl.frame = CGRectMake(((self.view.frame.size.width-100)/2),(self.view.frame.size.height-185),100,50);
+    self.pageControl.frame = CGRectMake(((self.view.frame.size.width-100)/2),(self.view.frame.size.height-100),100,50);
     self.pageControl.numberOfPages = 6;
     self.pageControl.currentPage = 0;
     

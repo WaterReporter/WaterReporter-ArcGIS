@@ -821,7 +821,7 @@
     
     switch (section) {
         case 3:
-            return @"Tap to update your location.       "; // Feature Details
+            return @"We've saved your current location.       "; // Feature Details
             
         default:
             return nil;

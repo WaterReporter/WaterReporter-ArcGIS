@@ -10,7 +10,11 @@
 #import "WaterReporterViewController.h"
 
 #define DEFAULT_TEXT_COLOR [UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:1.0]
+#define DEFAULT_LABEL_COLOR [UIColor colorWithRed:181.0/255.0 green:181.0/255.0 blue:181.0/255.0 alpha:1.0]
 #define DEFAULT_BODY_FONT [UIFont fontWithName:@"Helvetica-Bold" size:13.0]
+#define DEFAULT_TITLE_FONT [UIFont fontWithName:@"MuseoSlab-500" size:15.0]
+#define DEFAULT_LABEL_FONT [UIFont fontWithName:@"MuseoSlab-500" size:16.0]
+#define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault"]]
 
 @implementation FeatureTemplatePickerViewController
 
@@ -150,8 +154,8 @@
          * Replace the default pinstripe background with our new linen pattern
          */
         UIView* backgroundView = [[UIView alloc] init];
-        backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault.png"]];
-        [tableView setBackgroundView:backgroundView];        
+        backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault"]];
+        [tableView setBackgroundView:backgroundView];
     }
 }
 
@@ -172,33 +176,42 @@
      */
     NSLog(@"FeatureTemplatePickerViewController:tableView:titleForHeaderInSection");
 
-    return nil;
+    return @"What would you like to report?";
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+/**
+ * Implements viewForHeaderInSection:(NSInteger)section
+ *
+ * Set the properties for the Header of each section so
+ * they display consistently.
+ *
+ * @param NSInteger
+ *   The ID of the table view section
+ *
+ * @return view
+ *   The View to be render later in the table view
+ *
+ */
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+    if (sectionTitle == nil) {
+        return nil;
+    }
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
-//
-//    /**
-//     * Review the Tutorial/How-To
-//     */
-//    UIButton *buttonDisplayTutorial = [UIButton buttonWithType:UIButtonTypeCustom];
-//    buttonDisplayTutorial.frame = CGRectMake(0, 0, view.frame.size.width, 50);
-//    
-//    buttonDisplayTutorial.userInteractionEnabled = YES;
-//    [buttonDisplayTutorial addTarget:self action:@selector(presentTutorialViewController) forControlEvents:UIControlEventTouchUpInside];
-//    [buttonDisplayTutorial setTitle:@"Forget how to use Water Reporter?" forState:UIControlStateNormal];
-//    [buttonDisplayTutorial setTitleColor:[UIColor colorWithRed:46.0/255.0 green:46.0/255.0 blue:46.0/255.0 alpha:0.5] forState:UIControlStateNormal];
-//    buttonDisplayTutorial.titleLabel.font = DEFAULT_BODY_FONT;
-//    buttonDisplayTutorial.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-//    
-//    [view addSubview:buttonDisplayTutorial];
-//    
-    return [view autorelease];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 50;
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(10, 8, 280, 20);
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = DEFAULT_TEXT_COLOR;
+    label.shadowColor = [UIColor clearColor];
+    label.font = DEFAULT_LABEL_FONT;
+    label.text = sectionTitle;
+    [label sizeToFit];
+    
+    UIView *view = [[UIView alloc] init];
+    [view addSubview:label];
+    
+    return view;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -241,8 +254,9 @@
     /**
      * Set the label, image, etc for the templates
      */
-    FeatureTemplatePickerInfo* info = [self.infos objectAtIndex:indexPath.row];    
-    cell.textLabel.font = [UIFont fontWithName:@"MuseoSlab-500" size:16.0];
+    FeatureTemplatePickerInfo* info = [self.infos objectAtIndex:indexPath.row];
+    cell.textLabel.textColor = DEFAULT_TEXT_COLOR;
+    cell.textLabel.font = DEFAULT_TITLE_FONT;
     
 	cell.textLabel.text = info.featureTemplate.name;
     cell.imageView.image =[ info.featureLayer.renderer swatchForGraphic:info.featureTemplate.prototype geometryType:info.featureLayer.geometryType size:CGSizeMake(50, 50)];

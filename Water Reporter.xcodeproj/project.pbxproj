@@ -39,6 +39,12 @@
 		C1E1C5B9172C3F880089361A /* toolbar-charcoal-default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */; };
 		C1E1C5BD172C48880089361A /* FeatureTemplatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */; };
 		CE21E6581765228C007A3855 /* TASKS.md in Resources */ = {isa = PBXBuildFile; fileRef = CE21E6571765228C007A3855 /* TASKS.md */; };
+		CE52932A176F8A53000219F4 /* backgroundTutorial-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE529327176F8A53000219F4 /* backgroundTutorial-568h@2x.png */; };
+		CE52932B176F8A53000219F4 /* backgroundTutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = CE529328176F8A53000219F4 /* backgroundTutorial.png */; };
+		CE52932C176F8A53000219F4 /* backgroundTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE529329176F8A53000219F4 /* backgroundTutorial@2x.png */; };
+		CE52932D176F9332000219F4 /* appIcon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF3D176B9DA2003A16D0 /* appIcon-57x57.png */; };
+		CE52932E176F9335000219F4 /* appIcon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF3F176B9DA3003A16D0 /* appIcon-114x114.png */; };
+		CE529330176F934B000219F4 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = CE52932F176F934B000219F4 /* default.png */; };
 		CE54F1BD17661853004C2B8F /* PopupHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE54F1BC17661853004C2B8F /* PopupHelper.m */; };
 		CEAA7939176A18B000F4F192 /* CuratedMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEAA7938176A18B000F4F192 /* CuratedMapViewController.xib */; };
 		CEAA793A176A191E00F4F192 /* CuratedMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE54F1C017661F7C004C2B8F /* CuratedMapViewController.m */; };
@@ -52,11 +58,7 @@
 		CEBCDF36176B7B71003A16D0 /* buttonDefaultBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF2E176B7B71003A16D0 /* buttonDefaultBackground@2x.png */; };
 		CEBCDF37176B7B71003A16D0 /* buttonDefaultHighlightBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF2F176B7B71003A16D0 /* buttonDefaultHighlightBackground.png */; };
 		CEBCDF38176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF30176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png */; };
-		CEBCDF3A176B9D55003A16D0 /* appIcon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF39176B9D55003A16D0 /* appIcon-57x57.png */; };
-		CEBCDF3C176B9D5D003A16D0 /* appIcon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF3B176B9D5D003A16D0 /* appIcon-114x114.png */; };
-		CEBCDF43176B9DA3003A16D0 /* appIcon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF3D176B9DA2003A16D0 /* appIcon-57x57.png */; };
 		CEBCDF44176B9DA3003A16D0 /* appIcon-72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF3E176B9DA3003A16D0 /* appIcon-72x72.png */; };
-		CEBCDF45176B9DA3003A16D0 /* appIcon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF3F176B9DA3003A16D0 /* appIcon-114x114.png */; };
 		CEBCDF46176B9DA3003A16D0 /* appIcon-144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF40176B9DA3003A16D0 /* appIcon-144x144.png */; };
 		CEBCDF47176B9DA3003A16D0 /* appIcon-512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF41176B9DA3003A16D0 /* appIcon-512x512.png */; };
 		CEBCDF48176B9DA3003A16D0 /* appIcon-1024x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBCDF42176B9DA3003A16D0 /* appIcon-1024x1024.png */; };
@@ -89,7 +91,6 @@
 		F5792763173D98DB00C49B31 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5792762173D98DB00C49B31 /* Default-568h@2x.png */; };
 		F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D5FAD6172FF45C007CD69B /* release-notes.md */; };
 		F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F55173BE53700E19079 /* TutorialViewController.xib */; };
-		F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */; };
 		F5E8F8E617341C8E006ABF22 /* slides.md in Resources */ = {isa = PBXBuildFile; fileRef = F5E8F8E517341C8E006ABF22 /* slides.md */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +139,10 @@
 		C1E1C5BB172C42400089361A /* FeatureTemplatePickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeatureTemplatePickerViewController.m; sourceTree = "<group>"; };
 		C1E1C5BC172C42400089361A /* FeatureTemplatePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeatureTemplatePickerViewController.xib; path = Classes/FeatureTemplatePickerViewController.xib; sourceTree = "<group>"; };
 		CE21E6571765228C007A3855 /* TASKS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TASKS.md; sourceTree = "<group>"; };
+		CE529327176F8A53000219F4 /* backgroundTutorial-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundTutorial-568h@2x.png"; sourceTree = "<group>"; };
+		CE529328176F8A53000219F4 /* backgroundTutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundTutorial.png; sourceTree = "<group>"; };
+		CE529329176F8A53000219F4 /* backgroundTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundTutorial@2x.png"; sourceTree = "<group>"; };
+		CE52932F176F934B000219F4 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		CE54F1BB17661853004C2B8F /* PopupHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupHelper.h; sourceTree = "<group>"; };
 		CE54F1BC17661853004C2B8F /* PopupHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupHelper.m; sourceTree = "<group>"; };
 		CE54F1BF17661F7C004C2B8F /* CuratedMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CuratedMapViewController.h; sourceTree = "<group>"; };
@@ -153,8 +158,6 @@
 		CEBCDF2E176B7B71003A16D0 /* buttonDefaultBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonDefaultBackground@2x.png"; sourceTree = "<group>"; };
 		CEBCDF2F176B7B71003A16D0 /* buttonDefaultHighlightBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonDefaultHighlightBackground.png; sourceTree = "<group>"; };
 		CEBCDF30176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonDefaultHighlightBackground@2x.png"; sourceTree = "<group>"; };
-		CEBCDF39176B9D55003A16D0 /* appIcon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-57x57.png"; sourceTree = "<group>"; };
-		CEBCDF3B176B9D5D003A16D0 /* appIcon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-114x114.png"; sourceTree = "<group>"; };
 		CEBCDF3D176B9DA2003A16D0 /* appIcon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-57x57.png"; sourceTree = "<group>"; };
 		CEBCDF3E176B9DA3003A16D0 /* appIcon-72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-72x72.png"; sourceTree = "<group>"; };
 		CEBCDF3F176B9DA3003A16D0 /* appIcon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-114x114.png"; sourceTree = "<group>"; };
@@ -191,7 +194,6 @@
 		F5792762173D98DB00C49B31 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F5D5FAD6172FF45C007CD69B /* release-notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "release-notes.md"; sourceTree = "<group>"; };
 		F5D91F55173BE53700E19079 /* TutorialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
-		F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "backgroundTutorial@2x.png"; path = "Classes/backgroundTutorial@2x.png"; sourceTree = "<group>"; };
 		F5E8F8E517341C8E006ABF22 /* slides.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = slides.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -246,8 +248,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				CEBCDF3B176B9D5D003A16D0 /* appIcon-114x114.png */,
-				CEBCDF39176B9D55003A16D0 /* appIcon-57x57.png */,
 				C1E1C5B4172C3B420089361A /* ArcGIS.bundle */,
 				F53CC553173815FC008315CE /* _Notes */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -400,13 +400,16 @@
 		F5E8F8E017340363006ABF22 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				CEBCDF49176BBB9A003A16D0 /* backgroundTableViewCell@2x.png */,
 				CEBCDF3D176B9DA2003A16D0 /* appIcon-57x57.png */,
 				CEBCDF3E176B9DA3003A16D0 /* appIcon-72x72.png */,
 				CEBCDF3F176B9DA3003A16D0 /* appIcon-114x114.png */,
 				CEBCDF40176B9DA3003A16D0 /* appIcon-144x144.png */,
 				CEBCDF41176B9DA3003A16D0 /* appIcon-512x512.png */,
 				CEBCDF42176B9DA3003A16D0 /* appIcon-1024x1024.png */,
+				CE529327176F8A53000219F4 /* backgroundTutorial-568h@2x.png */,
+				CE529328176F8A53000219F4 /* backgroundTutorial.png */,
+				CE529329176F8A53000219F4 /* backgroundTutorial@2x.png */,
+				CEBCDF49176BBB9A003A16D0 /* backgroundTableViewCell@2x.png */,
 				CEBCDF29176B7B70003A16D0 /* buttonBackButtonBackground.png */,
 				CEBCDF2A176B7B70003A16D0 /* buttonBackButtonBackground@2x.png */,
 				CEBCDF2B176B7B70003A16D0 /* buttonBackButtonHighlightedBackground.png */,
@@ -421,6 +424,7 @@
 				CEF5F9D7174D5D7100AF0743 /* buttonAutomaticLocationSaved@2x.png */,
 				CEF5F9D4174D5D3500AF0743 /* buttonAddYourPhotoVideo@2x.png */,
 				F5792762173D98DB00C49B31 /* Default-568h@2x.png */,
+				CE52932F176F934B000219F4 /* default.png */,
 				F579273C173D87E700C49B31 /* slide_6.png */,
 				F579273D173D87E800C49B31 /* slide_4.png */,
 				F579273E173D87E800C49B31 /* slide_5.png */,
@@ -428,7 +432,6 @@
 				F5792740173D87E800C49B31 /* slide_2.png */,
 				C1DBC47E173F299D0014A977 /* slide_1.png */,
 				F5792741173D87E800C49B31 /* default@2x.png */,
-				F5D91F58173BEECB00E19079 /* backgroundTutorial@2x.png */,
 				C1E1C5B6172C3F880089361A /* toolbar-charcoal-default.png */,
 				C1E1C5B7172C3F880089361A /* toolbar-charcoal-default@2x.png */,
 				F570C8E4172EBF950059FC19 /* backgroundDefault.png */,
@@ -463,7 +466,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Water Reporter" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -516,7 +519,6 @@
 				F5D5FAD7172FF45C007CD69B /* release-notes.md in Resources */,
 				F5E8F8E617341C8E006ABF22 /* slides.md in Resources */,
 				F5D91F57173BE53700E19079 /* TutorialViewController.xib in Resources */,
-				F5D91F59173BEECB00E19079 /* backgroundTutorial@2x.png in Resources */,
 				F5792743173D87E800C49B31 /* slide_6.png in Resources */,
 				F5792744173D87E800C49B31 /* slide_4.png in Resources */,
 				F5792745173D87E800C49B31 /* slide_5.png in Resources */,
@@ -541,15 +543,17 @@
 				CEBCDF36176B7B71003A16D0 /* buttonDefaultBackground@2x.png in Resources */,
 				CEBCDF37176B7B71003A16D0 /* buttonDefaultHighlightBackground.png in Resources */,
 				CEBCDF38176B7B71003A16D0 /* buttonDefaultHighlightBackground@2x.png in Resources */,
-				CEBCDF3A176B9D55003A16D0 /* appIcon-57x57.png in Resources */,
-				CEBCDF3C176B9D5D003A16D0 /* appIcon-114x114.png in Resources */,
-				CEBCDF43176B9DA3003A16D0 /* appIcon-57x57.png in Resources */,
 				CEBCDF44176B9DA3003A16D0 /* appIcon-72x72.png in Resources */,
-				CEBCDF45176B9DA3003A16D0 /* appIcon-114x114.png in Resources */,
 				CEBCDF46176B9DA3003A16D0 /* appIcon-144x144.png in Resources */,
 				CEBCDF47176B9DA3003A16D0 /* appIcon-512x512.png in Resources */,
 				CEBCDF48176B9DA3003A16D0 /* appIcon-1024x1024.png in Resources */,
 				CEBCDF4A176BBB9B003A16D0 /* backgroundTableViewCell@2x.png in Resources */,
+				CE52932A176F8A53000219F4 /* backgroundTutorial-568h@2x.png in Resources */,
+				CE52932B176F8A53000219F4 /* backgroundTutorial.png in Resources */,
+				CE52932C176F8A53000219F4 /* backgroundTutorial@2x.png in Resources */,
+				CE52932D176F9332000219F4 /* appIcon-57x57.png in Resources */,
+				CE52932E176F9335000219F4 /* appIcon-114x114.png in Resources */,
+				CE529330176F934B000219F4 /* default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
