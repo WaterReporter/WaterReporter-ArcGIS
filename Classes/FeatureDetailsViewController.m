@@ -189,6 +189,9 @@
 
     [super viewDidLoad];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+    
     /**
      * This allows us to see what is being fired and when
      */
@@ -1078,9 +1081,11 @@
             field = [CodedValueUtility findField:@"comments" inFeatureLayer:self.featureLayer];
             
             self.commentField = [self textFieldTemplate];
+            [self.commentField setDelegate:self];
             self.commentField.textColor = DEFAULT_TEXT_COLOR;
             self.commentField.font = DEFAULT_BODY_FONT;
             self.commentField.textAlignment = NSTextAlignmentRight;
+            [self.commentField setReturnKeyType:UIReturnKeyDone];
             cell.textLabel.text = field.alias;
             
             cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"comments" inFeatureLayer:self.featureLayer];
@@ -1139,10 +1144,12 @@
             field = [CodedValueUtility findField:@"email" inFeatureLayer:self.featureLayer];
             
             self.emailField = [self textFieldTemplate];
+            [self.emailField setDelegate:self];
             self.emailField.textColor = DEFAULT_TEXT_COLOR;
             self.emailField.font = DEFAULT_BODY_FONT;
             self.emailField.textAlignment = NSTextAlignmentRight;
             self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
+            [self.emailField setReturnKeyType:UIReturnKeyDone];
             cell.textLabel.text = field.alias;
             
             cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"email" inFeatureLayer:self.featureLayer];
@@ -1600,6 +1607,23 @@
     
 }
 
+-(void)dismissKeyboard {
+
+    [self.eventField resignFirstResponder];
+    [self.reporterField resignFirstResponder];
+    [self.keeperField resignFirstResponder];
+    [self.pollutionField resignFirstResponder];
+    [self.dateField resignFirstResponder];
+    [self.commentField resignFirstResponder];
+    [self.emailField resignFirstResponder];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+
+    [textField resignFirstResponder];
+
+    return YES;
+}
 
 - (void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry {
  
