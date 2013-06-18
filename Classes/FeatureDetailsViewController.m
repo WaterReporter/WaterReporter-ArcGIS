@@ -74,6 +74,7 @@
 @synthesize reporterPicker;
 @synthesize keeperPicker;
 @synthesize pollutionPicker;
+@synthesize imagePicker;
 @synthesize eventPickerViewFieldOptions;
 @synthesize reporterPickerViewFieldOptions;
 @synthesize keeperPickerViewFieldOptions;
@@ -408,23 +409,10 @@
     [self.feature setAttributeToNullForKey:@"keeper_bounds"];
     
 	[alertView show];
-    [messageString release];
-    [alertView release];
 }
 
 -(void)doneFailed{
-	// called when we are done and the feature was not successfully added
-	
-	// pop the view controller
 	[self.navigationController popViewControllerAnimated:YES];
-	
-//	// show an alert
-//	UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"Error"
-//														message:@"There was an error adding the report. Please try again."
-//													   delegate:nil
-//											  cancelButtonTitle:@"Ok"
-//											  otherButtonTitles:nil]autorelease];
-	//[alertView show];
 }
 
 #pragma mark featureLayerEditingDelegate methods
@@ -927,9 +915,6 @@
             [thisDatePicker addTarget:self action:@selector(datePickerValueUpdated:) forControlEvents:UIControlEventValueChanged];
             
             [cell.contentView addSubview:self.dateField];
-            
-            [self.dateField release];
-        
         }
         
         /**
@@ -974,9 +959,6 @@
                 [self.feature setValue:@"event" forKey:self.eventField.text];
                 
                 [cell.contentView addSubview:self.eventField];
-                
-                [self.eventField release];
-                [self.eventPicker release];
             }
             else {
                 NSLog(@"Failed to load event field");
@@ -1026,8 +1008,6 @@
                 
                 
                 [cell.contentView addSubview:self.pollutionField];
-                [self.pollutionField release];
-                [self.pollutionPicker release];
             }
         }
         
@@ -1070,9 +1050,6 @@
             self.reporterField.inputView = self.reporterPicker;
             
             [cell.contentView addSubview:self.reporterField];
-            
-            [self.reporterField release];
-            [self.reporterPicker release];
         }
         
         /**
@@ -1095,49 +1072,7 @@
             [cell.contentView addSubview:self.commentField];
         }
         
-        //        /**
-        //         * Keeper Bounds Field
-        //         */
-        //        if (indexPath.row == 4 && !self.keeperField && !self.keeperField.text) {
-        //            field = [CodedValueUtility findField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
-        //
-        //            self.keeperField = [self textFieldTemplate];
-        //            self.keeperField.textColor = DEFAULT_TEXT_COLOR;
-        //            self.keeperField.font = DEFAULT_BODY_FONT;
-        //            self.keeperField.textAlignment = NSTextAlignmentRight;
-        //            cell.textLabel.text = field.alias;
-        //
-        //            cell.detailTextLabel.text = [CodedValueUtility getCodedValueFromFeature:self.feature forField:@"keeper_bounds" inFeatureLayer:self.featureLayer];
-        //
-        //            /**
-        //             * This loop is what we need to pull out the actual event options
-        //             * from the system. They are stored in what is called "Domains"
-        //             *
-        //             * @see http:services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0?f=pjson
-        //             *
-        //             */
-        //            keeperPickerViewFieldOptions = [[NSMutableArray alloc] init];
-        //            AGSCodedValueDomain *thisCodeValueDomain = (AGSCodedValueDomain*)field.domain;
-        //            for (int i=0; i<thisCodeValueDomain.codedValues.count; i++){
-        //                AGSCodedValue *val = [thisCodeValueDomain.codedValues objectAtIndex:i];
-        //                [keeperPickerViewFieldOptions addObject:val.code];
-        //            }
-        //
-        //            self.keeperPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 160, 320, 320)];
-        //            self.keeperPicker.delegate = self;
-        //            self.keeperPicker.dataSource = self;
-        //            self.keeperPicker.showsSelectionIndicator = YES;
-        //
-        //            [self.keeperPicker reloadAllComponents];
-        //
-        //            self.keeperField.inputView = self.keeperPicker;
-        //
-        //            [cell.contentView addSubview:self.keeperField];
-        //
-        //            [self.keeperField release];
-        //            [self.keeperPicker release];
-        //        }
-        //
+
         /**
          * Email Field
          */
@@ -1174,13 +1109,6 @@
             NSLog(@"self.featureGeometry: %@", self.featureGeometry);
         }
         
-        /**
-         * Images
-         */
-        // http://[SERIVCES URL]/[ORGANIZATION ID]/arcgis/rest/services/[FEATURE LAYER URL]/0/[FEATURE ID]/attachments/[ATTACHMENT ID]
-        // http://services.arcgis.com/I6k5a3a8EwvGOEs3/arcgis/rest/services/event_report/FeatureServer/0/7/attachments/2
-        
-
     } else if (indexPath.section == 2){
 				
 		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1371,21 +1299,14 @@
 			// if creating a new feature and they click on an attachment
 			
 			if (indexPath.row == self.attachments.count){
-				// if they click on "Add"
-				UIImagePickerController *imgPicker = [[[UIImagePickerController alloc] init]autorelease];
-				imgPicker.delegate = self;
-				if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-					imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-					imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
-					imgPicker.allowsEditing = NO;
-					imgPicker.videoQuality = UIImagePickerControllerQualityTypeLow;
-					imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
-				}
-				else {
-					imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-				}
+                
+				self.imagePicker = [[[UIImagePickerController alloc] init]autorelease];
+				self.imagePicker.delegate = self;
+                
+                UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"What type of attachment?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle: nil otherButtonTitles:@"Take Photo", @"Choose Existing Photo", nil];
 
-				[self presentViewController:imgPicker animated:YES completion:nil];
+                actionSheet.tag = indexPath.row;
+				[actionSheet showInView:self.view];
 			}
 			else {
 				// if they click on an existing media attachment
@@ -1482,31 +1403,58 @@
     /**
      * This allows us to see what is being fired and when
      */
-    NSLog(@"FeaturesDetailsViewController: clickedButtonAtIndex");
-	
-	if (buttonIndex == actionSheet.cancelButtonIndex){
-		// cancel
-	}
-	else if (buttonIndex == actionSheet.destructiveButtonIndex){
-		// remove media attachment
-		[self.attachments removeObjectAtIndex:actionSheet.tag];
-		[self.tableView reloadData];
-	}
-	else{
-		// view media attachment
-		// For existing features, if it is a picture, it will be a string
-		// if it is a quicktime video, it will be a URL
-		id filepath = [self.attachments objectAtIndex:actionSheet.tag];
-		if ([filepath isKindOfClass:[NSString class]]){
-			UIImage *image = [UIImage imageWithContentsOfFile:[self.attachments objectAtIndex:actionSheet.tag]];
-			ImageViewController *vc = [[[ImageViewController alloc]initWithImage:image]autorelease];
-			[self.navigationController pushViewController:vc animated:YES];
-		}
-		else if ([filepath isKindOfClass:[NSURL class]]){
-			MoviePlayerViewController *vc = [[[MoviePlayerViewController alloc]initWithURL:filepath]autorelease];
-			[self.navigationController pushViewController:vc animated:YES];
-		}
-	}
+    NSLog(@"FeaturesDetailsViewController: clickedButtonAtIndex: %@", actionSheet.title);
+    
+    if ([actionSheet.title isEqualToString: @"What would you like to do?"]) {
+        if (buttonIndex == actionSheet.cancelButtonIndex){
+            // cancel
+        }
+        else if (buttonIndex == actionSheet.destructiveButtonIndex){
+            // remove media attachment
+            [self.attachments removeObjectAtIndex:actionSheet.tag];
+            [self.tableView reloadData];
+        }
+        else{
+            // view media attachment
+            // For existing features, if it is a picture, it will be a string
+            // if it is a quicktime video, it will be a URL
+            id filepath = [self.attachments objectAtIndex:actionSheet.tag];
+            if ([filepath isKindOfClass:[NSString class]]){
+                UIImage *image = [UIImage imageWithContentsOfFile:[self.attachments objectAtIndex:actionSheet.tag]];
+                ImageViewController *vc = [[[ImageViewController alloc]initWithImage:image]autorelease];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else if ([filepath isKindOfClass:[NSURL class]]){
+                MoviePlayerViewController *vc = [[[MoviePlayerViewController alloc]initWithURL:filepath]autorelease];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
+        
+    } else if ([actionSheet.title isEqualToString: @"What type of attachment?"]) {
+
+        if (buttonIndex == 0) {
+            NSLog(@"TAKE A PHOTO");
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+                self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                self.imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePicker.sourceType];
+                self.imagePicker.allowsEditing = NO;
+                self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeLow;
+                self.imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePicker.sourceType];
+            }
+        } else if (buttonIndex == 1) {
+            NSLog(@"PHOTO :LIBRARY");
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+                self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                self.imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePicker.sourceType];
+                self.imagePicker.allowsEditing = NO;
+                self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeLow;
+                self.imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePicker.sourceType];
+            }
+        }
+        
+        [self presentViewController:self.imagePicker animated:YES completion:nil];
+    }
+    
 }
 
 #pragma mark Image Picker delegate methods
@@ -1681,6 +1629,7 @@
     [self.reporterPicker release];
     [self.keeperPicker release];
     [self.pollutionPicker release];
+    [self.imagePicker release];
     [self.eventPickerViewFieldOptions release];
     [self.reporterPickerViewFieldOptions release];
     [self.keeperPickerViewFieldOptions release];
@@ -1730,6 +1679,7 @@
     [self.reporterPicker release];
     [self.keeperPicker release];
     [self.pollutionPicker release];
+    [self.imagePicker release];
     [self.eventPickerViewFieldOptions release];
     [self.reporterPickerViewFieldOptions release];
     [self.keeperPickerViewFieldOptions release];

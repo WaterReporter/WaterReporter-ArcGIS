@@ -68,6 +68,5 @@
 @property (nonatomic, strong) CuratedMapViewController* curatedMapViewController;
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
--(void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry;
 
 @end

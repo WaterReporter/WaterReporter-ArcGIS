@@ -94,13 +94,14 @@
     /**
      * Prepare the Popup Helper for later use
      */
-    self.popupHelper = [[PopupHelper alloc] init];
+    self.popupHelper = [[[PopupHelper alloc] init] autorelease];
     self.popupHelper.delegate = self;
+    [self.popupHelper autorelease];
     
     /**
      * This is the "Commit" button when you're adding a new feature to the map
      */
-    UIBarButtonItem *addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStyleBordered target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
+    UIBarButtonItem *addReportButton = [[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStyleBordered target:self action:@selector(presentFeatureTemplatePicker)];
     self.navigationItem.rightBarButtonItem = addReportButton;
     
     [self.navigationItem setHidesBackButton:YES];
@@ -125,7 +126,7 @@
 -(void) mapViewDidLoad:(AGSMapView*)mapView {
     
     NSLog(@"Starting core location from didOpenWebMap");
-    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager = [[[CLLocationManager alloc] init] autorelease];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
     

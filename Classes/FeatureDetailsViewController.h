@@ -41,6 +41,7 @@
 	UIPickerView *reporterPicker;
     UIPickerView *keeperPicker;
     UIPickerView *pollutionPicker;
+    UIImagePickerController *imagePicker;
     NSMutableArray *eventPickerViewFieldOptions;
     NSMutableArray *reporterPickerViewFieldOptions;
     NSMutableArray *keeperPickerViewFieldOptions;
@@ -79,6 +80,7 @@
 @property (nonatomic, strong) IBOutlet UIPickerView *reporterPicker;
 @property (nonatomic, strong) IBOutlet UIPickerView *keeperPicker;
 @property (nonatomic, strong) IBOutlet UIPickerView *pollutionPicker;
+@property (nonatomic, strong) IBOutlet UIImagePickerController *imagePicker;
 @property (nonatomic, retain) NSMutableArray *eventPickerViewFieldOptions;
 @property (nonatomic, retain) NSMutableArray *reporterPickerViewFieldOptions;
 @property (nonatomic, retain) NSMutableArray *keeperPickerViewFieldOptions;

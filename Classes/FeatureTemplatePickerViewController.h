@@ -55,6 +55,7 @@
 @property (nonatomic, retain) NSMutableArray *operations;
 
 - (void) addTemplatesFromLayer:(AGSFeatureLayer*)layer;
+-(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
 
 @end
 
