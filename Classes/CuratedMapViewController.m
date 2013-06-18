@@ -513,6 +513,10 @@
     [self.userLocation release];
     [self.locationManager release];
     
+    [self.cachedFeatureLayerTemplates release];
+    [self.featureLayer release];
+    [self.featureTemplatePickerViewController release];
+
     [super viewDidUnload];
 }
 
@@ -529,6 +533,10 @@
     
     [self.userLocation release];
     [self.locationManager release];
+    
+    [self.cachedFeatureLayerTemplates release];
+    [self.featureLayer release];
+    [self.featureTemplatePickerViewController release];
 
     [super dealloc];
 }

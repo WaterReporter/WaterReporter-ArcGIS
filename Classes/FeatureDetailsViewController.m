@@ -33,6 +33,10 @@
 #define DEFAULT_BODY_FONT [UIFont fontWithName:@"Helvetica-Bold" size:13.0]
 #define DEFAULT_TITLE_FONT [UIFont fontWithName:@"MuseoSlab-500" size:16.0]
 #define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault"]]
+#define ACTIVITY_REPORT_FEATURE_LAYER @"Activity Report"
+#define POLLUTION_REPORT_FEATURE_LAYER @"Pollution Report"
+#define ACTIVITY_REPORT_FEATURE_LAYER_MACHINE_NAME @"activity_report"
+#define POLLUTION_REPORT_FEATURE_LAYER_MACHINE_NAME @"pollution_report"
 
 @interface FeatureDetailsViewController ()
 
@@ -188,9 +192,6 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    [self.view addGestureRecognizer:tap];
     
     /**
      * This allows us to see what is being fired and when
@@ -407,6 +408,8 @@
     [self.feature setAttributeToNullForKey:@"keeper_bounds"];
     
 	[alertView show];
+    [messageString release];
+    [alertView release];
 }
 
 -(void)doneFailed{
@@ -554,12 +557,10 @@
      */
     NSString *reportType = nil;
     
-    if ([self.featureLayer.name isEqualToString:@"River Event Report"]) {
-        NSLog(@"Updating the River Event Report");
-        reportType = @"event_report";
-    } else if ([self.featureLayer.name isEqualToString:@"Pollution Report"]) {
-        NSLog(@"Updating the Pollution Report");
-        reportType = @"pollution_report";
+    if ([self.featureLayer.name isEqualToString:ACTIVITY_REPORT_FEATURE_LAYER]) {
+        reportType = ACTIVITY_REPORT_FEATURE_LAYER_MACHINE_NAME;
+    } else if ([self.featureLayer.name isEqualToString:POLLUTION_REPORT_FEATURE_LAYER]) {
+        reportType = POLLUTION_REPORT_FEATURE_LAYER_MACHINE_NAME;
     }
     
     /**
@@ -934,7 +935,7 @@
         /**
          * Event Field (Only available on the "River Event" feature
          */
-        if (![self.featureLayer.name isEqualToString:@"Pollution Report"]) {
+        if (![self.featureLayer.name isEqualToString:POLLUTION_REPORT_FEATURE_LAYER]) {
             if (indexPath.row == 1 && !self.eventField && !self.eventField.text) {
                 NSLog(@"FEATURE LAYER NAME%@", self.featureLayer.name);
                 field = [CodedValueUtility findField:@"event" inFeatureLayer:self.featureLayer];
@@ -987,7 +988,7 @@
         /**
          * Event Field (Only available on the "River Event" feature
          */
-        if ([self.featureLayer.name isEqualToString:@"Pollution Report"]) {
+        if ([self.featureLayer.name isEqualToString:POLLUTION_REPORT_FEATURE_LAYER]) {
             if (indexPath.row == 1 && !self.pollutionField && !self.pollutionField.text) {
                 NSLog(@"%@", self.featureLayer.name);
                 field = [CodedValueUtility findField:@"pollution" inFeatureLayer:self.featureLayer];
@@ -1614,8 +1615,7 @@
     [self.keeperField resignFirstResponder];
     [self.pollutionField resignFirstResponder];
     [self.dateField resignFirstResponder];
-    [self.commentField resignFirstResponder];
-    [self.emailField resignFirstResponder];
+
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

@@ -15,6 +15,8 @@
 #define DEFAULT_TITLE_FONT [UIFont fontWithName:@"MuseoSlab-500" size:15.0]
 #define DEFAULT_LABEL_FONT [UIFont fontWithName:@"MuseoSlab-500" size:16.0]
 #define BACKGROUND_LINEN_LIGHT [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundDefault"]]
+#define ACTIVITY_REPORT_FEATURE_LAYER @"Activity Report"
+#define POLLUTION_REPORT_FEATURE_LAYER @"Pollution Report"
 
 @implementation FeatureTemplatePickerViewController
 
@@ -68,7 +70,7 @@
         //For each template that is available, at it to the list.
         for (AGSFeatureTemplate* template in layer.templates) {
 
-            if ([template.name isEqualToString:@"Pollution Report"] || [template.name isEqualToString:@"River Event Report"]) {
+            if ([template.name isEqualToString:POLLUTION_REPORT_FEATURE_LAYER] || [template.name isEqualToString:ACTIVITY_REPORT_FEATURE_LAYER]) {
                 NSLog(@"name%@", template.name);
                 NSLog(@"prototype%@", template.prototype);
                 NSLog(@"featureDescription%@", template.featureDescription);
@@ -90,7 +92,7 @@
             //For each template in type
             for (AGSFeatureTemplate* template in type.templates) {
                                
-                if ([template.name isEqualToString:@"Pollution Report"] || [template.name isEqualToString:@"River Event Report"]) {
+                if ([template.name isEqualToString:POLLUTION_REPORT_FEATURE_LAYER] || [template.name isEqualToString:ACTIVITY_REPORT_FEATURE_LAYER]) {
                     FeatureTemplatePickerInfo* info =
                     [[FeatureTemplatePickerInfo alloc] init];
                     info.featureLayer = layer;
@@ -321,6 +323,8 @@
 - (void)viewDidUnload {
     [super viewDidUnload];
     
+    [self.curatedMapViewController release];
+    [self.cachedFeatureLayerTemplates release];
 	[self.featureTemplatesTableView release];
     [self.curatedMapViewController release];
     [self.delegate release];
@@ -330,10 +334,13 @@
 - (void)dealloc {
     [super dealloc];
     
+    [self.curatedMapViewController release];
+    [self.cachedFeatureLayerTemplates release];
 	[self.featureTemplatesTableView release];
     [self.curatedMapViewController release];
     [self.delegate release];
     [self.infos release];
+
 }
 
 
