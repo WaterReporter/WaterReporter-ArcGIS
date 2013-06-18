@@ -1306,7 +1306,7 @@
                 UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"What type of attachment?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle: nil otherButtonTitles:@"Take Photo", @"Choose Existing Photo", nil];
 
                 actionSheet.tag = indexPath.row;
-				[actionSheet showInView:self.view];
+				[actionSheet showInView:[self.view window]];
 			}
 			else {
 				// if they click on an existing media attachment
@@ -1432,7 +1432,9 @@
         
     } else if ([actionSheet.title isEqualToString: @"What type of attachment?"]) {
 
-        if (buttonIndex == 0) {
+        if (buttonIndex == actionSheet.cancelButtonIndex){
+            // cancel
+        } else if (buttonIndex == 0) {
             NSLog(@"TAKE A PHOTO");
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
                 self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -1441,6 +1443,7 @@
                 self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeLow;
                 self.imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePicker.sourceType];
             }
+            [self presentViewController:self.imagePicker animated:YES completion:nil];
         } else if (buttonIndex == 1) {
             NSLog(@"PHOTO :LIBRARY");
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
@@ -1450,9 +1453,11 @@
                 self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeLow;
                 self.imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePicker.sourceType];
             }
+            [self presentViewController:self.imagePicker animated:YES completion:nil];
+        } else {
+            // cancel
         }
         
-        [self presentViewController:self.imagePicker animated:YES completion:nil];
     }
     
 }
