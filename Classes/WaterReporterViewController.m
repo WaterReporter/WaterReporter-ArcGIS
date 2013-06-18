@@ -118,7 +118,7 @@
         self.curatedMapViewController =  [[[CuratedMapViewController alloc] initWithNibName:@"CuratedMapViewController" bundle:nil] autorelease];
         [self setupScrollView];
         
-        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, -45, self.view.frame.size.width, self.view.frame.size.height)];
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, -44, self.view.frame.size.width, self.view.frame.size.height)];
         if(IS_PHONEPOD5()) {
             image.image = [UIImage imageNamed:[NSString stringWithFormat:@"backgroundTutorial-568h@2x.png"]];
         } else {
@@ -128,6 +128,23 @@
         [self.mapView addSubview:image];
         [self.mapView bringSubviewToFront:image];
     
+        /**
+         * This is the "Commit" button when you're adding a new feature to the map
+         */
+        UIBarButtonItem* addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStyleBordered target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
+        self.navigationItem.rightBarButtonItem = addReportButton;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        
+        /**
+         * This is the "Map" and displays when the user is viewing the root
+         * view controller. If the user is viewing another aspect of the view
+         * controller, then we should not change the leftBarButtonItem.
+         */
+        if (!self.curatedMapActivatedFromFeatureDetail) {
+            UIBarButtonItem *displayCuratedMap = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(presentCuratedMap)]autorelease];
+            self.navigationItem.leftBarButtonItem = displayCuratedMap;
+        }
+        
     }
     
     [super viewDidLoad];
@@ -173,19 +190,8 @@
     /**
      * This is the "Commit" button when you're adding a new feature to the map
      */
-    UIBarButtonItem* addReportButton = [[[UIBarButtonItem alloc]initWithTitle:@"Add Report" style:UIBarButtonItemStyleBordered target:self action:@selector(presentFeatureTemplatePicker)]autorelease];
-    self.navigationItem.rightBarButtonItem = addReportButton;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 
-    /**
-     * This is the "Map" and displays when the user is viewing the root
-     * view controller. If the user is viewing another aspect of the view
-     * controller, then we should not change the leftBarButtonItem.
-     */
-    if (!self.curatedMapActivatedFromFeatureDetail) {
-        UIBarButtonItem *displayCuratedMap = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(presentCuratedMap)]autorelease];
-        self.navigationItem.leftBarButtonItem = displayCuratedMap;
-    }
-    
     /**
      * Load the Feature template picker, now that all of the webmap information has loaded successfully
      */

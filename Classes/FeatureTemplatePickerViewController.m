@@ -208,12 +208,69 @@
     label.shadowColor = [UIColor clearColor];
     label.font = DEFAULT_LABEL_FONT;
     label.text = sectionTitle;
+    label.textAlignment = NSTextAlignmentCenter;
     [label sizeToFit];
     
     UIView *view = [[UIView alloc] init];
     [view addSubview:label];
     
     return view;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
+
+    /**
+     * Review the Tutorial/How-To
+     */
+    UIButton *buttonDisplayTutorial = [UIButton buttonWithType:UIButtonTypeCustom];
+    buttonDisplayTutorial.frame = CGRectMake(10, 0, (tableView.frame.size.width-20), 44);
+    buttonDisplayTutorial.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"buttonTutorial"]];
+
+    buttonDisplayTutorial.userInteractionEnabled = YES;
+    [buttonDisplayTutorial addTarget:self action:@selector(presentTutorialViewController) forControlEvents:UIControlEventAllEvents];
+    [buttonDisplayTutorial setTitle:@"\n\n\n" forState:UIControlStateNormal];
+    [buttonDisplayTutorial setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    buttonDisplayTutorial.titleLabel.font = DEFAULT_BODY_FONT;
+    buttonDisplayTutorial.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+
+    [view addSubview:buttonDisplayTutorial];
+    
+    return [view autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 80;
+}
+
+/**
+ * Add a new feature
+ *
+ * The action for the "+" button that allows
+ * the user to select what kind of Feature
+ * they would like to add to the map
+ *
+ */
+-(void)presentTutorialViewController {
+    
+    /**
+     * This allows us to see what is being fired and when
+     */
+    NSLog(@"WaterReporterViewController: presentFeatureTemplatePicker");
+    
+//    self.navigationItem.title = @"Share your report";
+//    
+//    // iPAD ONLY: Limit the size of the form sheet
+//    if([[AGSDevice currentDevice] isIPad]) {
+//        self.waterReporterViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+//    }
+//    
+//    // ALL: Animate the template picker, covering vertically
+//    self.waterReporterViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -297,7 +354,6 @@
     
     //Unselect the cell
     [tableView cellForRowAtIndexPath:indexPath].selected = NO;
-    
     
 }
 
