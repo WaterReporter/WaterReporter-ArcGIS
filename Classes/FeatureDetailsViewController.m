@@ -1374,9 +1374,8 @@
 				// if they click on "Add"
 				UIImagePickerController *imgPicker = [[[UIImagePickerController alloc] init]autorelease];
 				imgPicker.delegate = self;
-				if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
-					//imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-					imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+				if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+					imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
 					imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imgPicker.sourceType];
 					imgPicker.allowsEditing = NO;
 					imgPicker.videoQuality = UIImagePickerControllerQualityTypeLow;
