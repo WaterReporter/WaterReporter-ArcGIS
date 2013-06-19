@@ -94,9 +94,8 @@
     /**
      * Prepare the Popup Helper for later use
      */
-    self.popupHelper = [[[PopupHelper alloc] init] autorelease];
+    self.popupHelper = [[PopupHelper alloc] init];
     self.popupHelper.delegate = self;
-    [self.popupHelper autorelease];
     
     /**
      * This is the "Commit" button when you're adding a new feature to the map
@@ -126,7 +125,7 @@
 -(void) mapViewDidLoad:(AGSMapView*)mapView {
     
     NSLog(@"Starting core location from didOpenWebMap");
-    self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+    self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
     

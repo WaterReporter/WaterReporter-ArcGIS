@@ -82,6 +82,4 @@
 
 @property (nonatomic, strong) FeatureTemplatePickerViewController *featureTemplatePickerViewController;
 
--(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
-
 @end
