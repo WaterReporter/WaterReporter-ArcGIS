@@ -20,7 +20,7 @@
  * automatically when the 
  */
 #define FEATURE_TEMPLATE_AUTODISPLAY YES
-#define FEATURE_SERVICE_ZOOM 150000
+#define FEATURE_SERVICE_ZOOM 10000
 #define IS_PHONEPOD5() ([UIScreen mainScreen].bounds.size.height == 568.0f && [UIScreen mainScreen].scale == 2.f && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
 @implementation WaterReporterViewController
