@@ -214,8 +214,6 @@
 
 // If the query task fails log the error and release its memory
 - (void)queryTask:(AGSQueryTask *)queryTask operation:(NSOperation *)op didFailWithError:(NSError *)error {
-    
-    NSLog(@"Query failed with the following error: %@", error);
     [self.outstandingQueries removeObject:op];
     [self.queryTasks removeObject:((AGSRequestOperation*)op).securedResource];
 }
@@ -228,8 +226,6 @@
     [self.outstandingQueries removeAllObjects];
     [self.queryTasks removeAllObjects];
 }
-
-
 
 @end
 

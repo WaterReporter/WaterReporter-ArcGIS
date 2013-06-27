@@ -13,10 +13,6 @@
  *
  * [Line 159+/-] viewDidLoad: This handles the titles, the cancel, the save buttons, and the toolbar at the top of the page.
  * [Line 195+/-] viewWillAppear: This gets our attributes ready to display in the TableView. For example, if the feature exists then we're collecting the existing data from the individual fields. If it's new, we're just getting a list of empty fields for display
- *
- *
- *
- *
  */
 
 #import "FeatureDetailsViewController.h"
@@ -96,11 +92,6 @@
 }
 
 -(NSString*)saveDataToTempFile:(NSData*)data mediaType:(NSString*)mediaType{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureDetailsViewController:saveDataToTempFile");
 	
 	NSString *ext = nil;
 	if ([mediaType isEqualToString:(NSString*)kUTTypeImage]){
@@ -116,23 +107,12 @@
 }
 
 -(NSString*)saveImageToTempFile:(UIImage*)image{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureDetailsViewController:saveImageToTempFile");
 	
 	NSData *imageData = UIImageJPEGRepresentation(image, .35);
 	return [self saveDataToTempFile:imageData mediaType:(NSString*)kUTTypeImage];
 }
 
 - (UIImage *)thumbnailForImageWithPath:(NSString*)fullPathToMainImage size:(float)size {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureDetailsViewController:thumbnailForImageWithPath");
-	
 	
 	NSString *subdir = [fullPathToMainImage stringByDeletingLastPathComponent];
 	NSString *filename = [fullPathToMainImage lastPathComponent];
@@ -177,13 +157,7 @@
 	return thumbnail;
 }
 
--(NSURL*)urlFromFilePath:(NSString*)filepath{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureDetailsViewController:urlFromFilePath");
-	
+-(NSURL*)urlFromFilePath:(NSString*)filepath{	
 	return [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",filepath]];
 }
 
@@ -193,11 +167,6 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureDetailsViewController:viewDidLoad");
     
     NSMutableArray *theseMediaAttachments = [[NSMutableArray alloc] init];
     self.allMediaAttachments = theseMediaAttachments;
@@ -232,11 +201,6 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureDetailsViewController:viewWillAppear");
 	
     /**
      * Reloading the data
@@ -280,13 +244,7 @@
 #pragma mark init method
 
 -(id)initWithFeatureLayer:(AGSFeatureLayer*)featureLayer feature:(AGSGraphic *)feature featureGeometry:(AGSGeometry*)featureGeometry templatePrototype:(NSObject *)templatePrototype{
-	
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureDetailsViewController:initWithFeatureLayer");
-	
+
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
 
 		self.featureLayer = featureLayer;
@@ -330,11 +288,6 @@
 -(void)cancel{
     
     /**
-     * This allows us to see what is being fired and when
-     */	
-    NSLog(@"FeaturesDetailsViewController:cancel");
-    
-    /**
      * Clear out any values that we've already entered
      */
     [self.feature setAttributeToNullForKey:@"date"];
@@ -354,11 +307,6 @@
  * @void
  */
 -(void)commit{
-	
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController:commit");
     
 	/**
      * Disable the commit button so that
@@ -381,22 +329,12 @@
 }
 
 -(void)doneSucceeded{
-    /**
-     * This allows us to see what is being fired and when
-     */
-	// called when we are done and the feature was added successfully
-    NSLog(@"FeaturesDetailsViewController:doneSucceeded");
 
 	// pop the view controller
 	[self.navigationController popViewControllerAnimated:YES];
 	
     NSString *messageString = @"Your report has been saved. Thanks for submitting.";
-//    if (self.featureLayer.bOnline)
-//    {
-//        messageString = [messageString stringByAppendingString:[NSString stringWithFormat:@" Confirmation number: %i", _objectId]];
-//    }
 
-	// show an alert
 	UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"We got it"
 														message:messageString
 													   delegate:nil
@@ -419,14 +357,6 @@
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didQueryAttachmentInfosWithResults:(NSArray *)attachmentInfos{
 	
-	// called by the feature layer when the queryAttachmentInfos is completed
-	
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController:didQueryAttachmentInfosWithResults");
-	NSLog(@"got attachment infos...");
-	
 	// remove the operation from the array
 	[self.operations removeObject:op];
 	
@@ -444,12 +374,7 @@
 }
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation *)op didFailQueryAttachmentInfosWithError:(NSError *)error{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didFailQueryAttachmentInfosWithError");
-	// called when the featurelayer fails to query for attachments
-	
+
 	// set the attachmentInfos
 	self.attachmentInfos = [NSMutableArray array];
 	
@@ -462,12 +387,6 @@
 }
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didFeatureEditsWithResults:(AGSFeatureLayerEditResults *)editResults{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didFeatureEditsWithResults");
-
-    // called when feature layer is done with feature edits (in this case, done adding the feature)
 		
     // remove operation
 	[self.operations removeObject:op];
@@ -516,27 +435,13 @@
 
 }
 
--(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didFailFeatureEditsWithError:(NSError *)error{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didFailFeatureEditsWithError");
-	// called when the feature layer fails to perform the feature edits (in the case fails to add the feature)
-	
-	NSLog(@"error adding feature: %@", error.description);
-	
+-(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didFailFeatureEditsWithError:(NSError *)error{	
 	// remove the operation, call doneFailed
 	[self.operations removeObject:op];
 	[self doneFailed];
 }
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didAttachmentEditsWithResults:(AGSFeatureLayerAttachmentResults *)attachmentResults{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didAttachmentEditsWithResults");
-	// called when the feature layer adds the attachment
-	
 	// remove the operation
 	[self.operations removeObject:op];
 	
@@ -585,13 +490,6 @@
 }
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didFailAttachmentEditsWithError:(NSError *)error{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didFailAttachmentEditsWithError");
-	// called when the feature layer fails to add the attachment
-	
-	NSLog(@"error adding attachment");
 	
 	// remove the operation
 	[self.operations removeObject:op];
@@ -605,13 +503,6 @@
 }
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didRetrieveAttachmentWithData:(NSData *)attachmentData{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didRetrieveAttachmentWithData");
-	// called when we get back the attachment data
-	
-	NSLog(@"got attachment data");
 	
 	// remove the operation
 	[self.operations removeObject:op];
@@ -644,12 +535,6 @@
 }
 
 -(void)featureLayer:(AGSFeatureLayer *)featureLayer operation:(NSOperation*)op didFailRetrieveAttachmentWithError:(NSError *)error{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didFailRetrieveAttachmentWithError");
-	// called when the feature layer fails to retrieve the attachment data
-	NSLog(@"failed to retrieve attachment");
 	
 	// remove the operation
 	[self.operations removeObject:op];
@@ -843,11 +728,6 @@
  *
  */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController:cellForRowAtIndexPath");
 
     /**
      * Reset Cell Configuration
@@ -1274,19 +1154,11 @@
 #pragma mark Table view delegate
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: accessoryButtonTappedForRowWithIndexPath");
 	[self tableView:tableView didSelectRowAtIndexPath:indexPath];
     
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didSelectRowAtIndexPath");
 	
 	// don't allow selection if it is a new feature and we are in the process of committing
 	if (_newFeature && self.operations.count > 0){
@@ -1369,20 +1241,6 @@
 		}
 	}
     else if (indexPath.section == 3) {
-        
-        /**
-         * This allows us to see what is being fired and when
-         */
-        NSLog(@"FeaturesDetailsViewController:didSelectRowAtIndexPath:displaySketchLayer");
-        
-        /**
-         * Sketch Layer
-         *
-         * This is where the sketch layer should be activated. When the user clicks the
-         * location icon within the Feature template.
-         *
-         */
-        NSLog(@"Activate Sketch Layer");
 
         /**
          * Initialize the feature template picker so that we can show it later when needed
@@ -1400,11 +1258,6 @@
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: clickedButtonAtIndex: %@", actionSheet.title);
-    
     if ([actionSheet.title isEqualToString: @"What would you like to do?"]) {
         if (buttonIndex == actionSheet.cancelButtonIndex){
             // cancel
@@ -1465,10 +1318,6 @@
 #pragma mark Image Picker delegate methods
 									  
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didFinishPickingMediaWithInfo");
 
 	NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
 	
@@ -1497,10 +1346,6 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: imagePickerControllerDidCancel");
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1578,12 +1423,7 @@
 }
 
 - (void)sketchLayerUserEditingDidFinish:(AGSGeometry *)userSelectedGeometry {
- 
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController:sketchLayerUserEditingDidFinish");
-    
+
     self.featureGeometry = userSelectedGeometry;
 
     NSLog(@"Get. That. Geo-met-ry: %@", self.featureGeometry);
@@ -1594,10 +1434,6 @@
 #pragma mark Memory management
 
 - (void)didReceiveMemoryWarning {
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: didReceiveMemoryWarning");
     
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -1605,94 +1441,78 @@
 
 - (void)viewDidUnload {
     
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: viewDidUnload");
-    
 	
-    self.featureLayer.editingDelegate = nil;
-	
-    [allMediaAttachments release];
-    [self.feature release];
-    [self.featureGeometry release];
-    [self.userLocation release];
-    [self.templatePrototype release];
-    [self.featureLayer release];
-    [self.attachments release];
-    [self.dateField release];
-    [self.date release];
-    [self.dateFormat release];
-    [self.timeFormat release];
-    [self.eventField release];
-    [self.reporterField release];
-    [self.commentField release];
-    [self.keeperField release];
-    [self.pollutionField release];
-    [self.emailField release];
-    [self.eventPicker release];
-    [self.reporterPicker release];
-    [self.keeperPicker release];
-    [self.pollutionPicker release];
-    [self.imagePicker release];
-    [self.eventPickerViewFieldOptions release];
-    [self.reporterPickerViewFieldOptions release];
-    [self.keeperPickerViewFieldOptions release];
-    [self.pollutionPickerViewFieldOptions release];
-    [self.attachmentInfos release];
-    [self.operations release];
-    [self.retrieveAttachmentOp release];
-    [self.waterReporterViewController release];
+	self.retrieveAttachmentOp = nil;
+	self.featureLayer.editingDelegate = nil;
+    allMediaAttachments = nil;
+    self.featureGeometry = nil;
+    self.userLocation = nil;
+    self.templatePrototype = nil;
+    self.featureLayer = nil;
+    self.attachments = nil;
+    self.dateField = nil;
+    self.date = nil;
+    self.dateFormat = nil;
+    self.timeFormat = nil;
+    self.eventField = nil;
+    self.reporterField = nil;
+    self.commentField = nil;
+    self.keeperField = nil;
+    self.pollutionField = nil;
+    self.emailField = nil;
+    self.eventPicker = nil;
+    self.reporterPicker = nil;
+    self.keeperPicker = nil;
+    self.pollutionPicker = nil;
+    self.imagePicker = nil;
+    self.eventPickerViewFieldOptions = nil;
+    self.reporterPickerViewFieldOptions = nil;
+    self.keeperPickerViewFieldOptions = nil;
+    self.pollutionPickerViewFieldOptions = nil;
+    self.attachmentInfos = nil;
+    self.operations = nil;
+    self.retrieveAttachmentOp = nil;
+    self.waterReporterViewController = nil;
 }
 
 - (void)dealloc {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: dealloc");
-    
+
 	// cancel any ongoing operations
 	for (NSOperation *op in self.operations){
 		[op cancel];
 	}
 	
 	self.retrieveAttachmentOp = nil;
-	
-	// set delegate to nil so that the feature layer doesn't try to access
-	// a dealloc'd object
 	self.featureLayer.editingDelegate = nil;
-	
-    [allMediaAttachments release];
-    [self.feature release];
-    [self.featureGeometry release];
-    [self.userLocation release];
-    [self.templatePrototype release];
-    [self.featureLayer release];
-    [self.attachments release];
-    [self.dateField release];
-    [self.date release];
-    [self.dateFormat release];
-    [self.timeFormat release];
-    [self.eventField release];
-    [self.reporterField release];
-    [self.commentField release];
-    [self.keeperField release];
-    [self.pollutionField release];
-    [self.emailField release];
-    [self.eventPicker release];
-    [self.reporterPicker release];
-    [self.keeperPicker release];
-    [self.pollutionPicker release];
-    [self.imagePicker release];
-    [self.eventPickerViewFieldOptions release];
-    [self.reporterPickerViewFieldOptions release];
-    [self.keeperPickerViewFieldOptions release];
-    [self.pollutionPickerViewFieldOptions release];
-    [self.attachmentInfos release];
-    [self.operations release];
-    [self.retrieveAttachmentOp release];
-    [self.waterReporterViewController release];
+    allMediaAttachments = nil;
+    self.featureGeometry = nil;
+    self.userLocation = nil;
+    self.templatePrototype = nil;
+    self.featureLayer = nil;
+    self.attachments = nil;
+    self.dateField = nil;
+    self.date = nil;
+    self.dateFormat = nil;
+    self.timeFormat = nil;
+    self.eventField = nil;
+    self.reporterField = nil;
+    self.commentField = nil;
+    self.keeperField = nil;
+    self.pollutionField = nil;
+    self.emailField = nil;
+    self.eventPicker = nil;
+    self.reporterPicker = nil;
+    self.keeperPicker = nil;
+    self.pollutionPicker = nil;
+    self.imagePicker = nil;
+    self.eventPickerViewFieldOptions = nil;
+    self.reporterPickerViewFieldOptions = nil;
+    self.keeperPickerViewFieldOptions = nil;
+    self.pollutionPickerViewFieldOptions = nil;
+    self.attachmentInfos = nil;
+    self.operations = nil;
+    self.retrieveAttachmentOp = nil;
+    self.waterReporterViewController = nil;
     
     [super dealloc];
 }

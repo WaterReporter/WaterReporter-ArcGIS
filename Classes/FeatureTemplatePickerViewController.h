@@ -51,11 +51,11 @@
 @property (nonatomic, retain) AGSGraphic *feature;
 @property (nonatomic, weak) id<FeatureTemplatePickerDelegate> delegate;
 @property (nonatomic,strong) IBOutlet UITableView* featureTemplatesTableView;
-@property (nonatomic, strong) NSMutableArray* infos;
+@property (nonatomic, weak) NSMutableArray* infos;
 @property (nonatomic, retain) NSMutableArray *operations;
 
 - (void) addTemplatesFromLayer:(AGSFeatureLayer*)layer;
--(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
+- (void) featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer;
 
 @end
 

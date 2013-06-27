@@ -44,14 +44,6 @@
 
 // Do any additional setup after loading the view
 - (void)viewDidLoad {
-
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"CuratedMapViewController:viewDidLoad");
-    NSLog(@"Value from TutorialViewController: %@", self.cachedFeatureLayerTemplates);
-    
-    [super viewDidLoad];
     
     /**
      * Setup the Web Map
@@ -105,16 +97,11 @@
     
     [self.navigationItem setHidesBackButton:YES];
     
+    [super viewDidLoad];
 }
 
 #pragma mark - AGSWebMapDelegagte methods
 - (void) webMapDidLoad:(AGSWebMap *)webMap {
-
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"CuratedMapViewController: webMap: webMapDidLoad");
-
 }
 
 
@@ -124,7 +111,6 @@
  */
 -(void) mapViewDidLoad:(AGSMapView*)mapView {
     
-    NSLog(@"Starting core location from didOpenWebMap");
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
@@ -147,19 +133,9 @@
 }
 
 - (void) webMap:(AGSWebMap *)webMap didLoadLayer:(AGSLayer *)layer {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"CuratedMapViewController: webMap: didLoadLayer");
-    
 }
 
 - (void) webMap:(AGSWebMap *)webMap didFailToLoadLayer:(AGSWebMapLayerInfo *)layerInfo baseLayer:(BOOL)baseLayer federated:(BOOL)federated withError:(NSError *)error {
-    
-    NSLog(@"CuratedMapViewController: Failed to load layer : %@", layerInfo.title);
-    
-    //continue anyway
     [self.webMap continueOpenAndSkipCurrentLayer];
 }
 
@@ -182,13 +158,7 @@
  *
  */
 - (void)didClickAccessoryButtonForCallout:(AGSCallout *) callout {
-    
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: didClickAccessoryButtonForCallout");
-    
+
 	/**
      * Display the details for the active or clicked on feature.
      */
@@ -204,11 +174,6 @@
  *
  */
 -(void)presentFeatureTemplatePicker {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"CuratedMapViewController:presentFeatureTemplatePicker");
     
     // iPAD ONLY: Limit the size of the form sheet
     if([[AGSDevice currentDevice] isIPad]) {
@@ -373,15 +338,7 @@
 }
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"CuratedMapViewController:featureTemplatePickerViewController:didSelectFeatureTemplate");
-    
-    //
-    // Set the active feature layer to the one we are going to edit
-    //
+
     self.featureLayer = featureLayer;
     
     //create a new feature based on the template
@@ -413,12 +370,7 @@
  *      accuracy, or both together.
  */
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:locationManager:didUpdateToLocation");
-    
+
     /**
      * Ensure horizontal accuracy doesn't resolve to
      * an invalid measurement.
@@ -489,33 +441,28 @@
  * Stop updating the Location Manager
  */
 - (void)stopUpdatingLocation {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:stopUpdatingLocation");
-    
-    [self.locationManager stopUpdatingLocation];
-    [self.locationManager release];
+    [self.locationManager stopUpdatingLocation];    
+    self.locationManager = nil;
 }
 
 // Release any retained subviews of the main view.
 - (void)viewDidUnload
 {
-    [self.webMap release];
-    [self.mapView release];
-    [self.webmapId release];
+    self.webMap = nil;
+    self.mapView = nil;
+    self.webmapId = nil;
     
-    [self.activityIndicator release];
-    [self.popupVC release];
-    [self.popupHelper release];
+    self.activityIndicator = nil;
+    self.popupVC = nil;
+    self.popupHelper = nil;
+    self.popupHelper.delegate = nil;
     
-    [self.userLocation release];
-    [self.locationManager release];
+    self.userLocation = nil;
+    self.locationManager = nil;
     
-    [self.cachedFeatureLayerTemplates release];
-    [self.featureLayer release];
-    [self.featureTemplatePickerViewController release];
+    self.cachedFeatureLayerTemplates = nil;
+    self.featureLayer = nil;
+    self.featureTemplatePickerViewController = nil;
 
     [super viewDidUnload];
 }
@@ -523,20 +470,22 @@
 // Release any retained subviews of the main view.
 - (void)dealloc
 {
-    [self.webMap release];
-    [self.mapView release];
-    [self.webmapId release];
     
-    [self.activityIndicator release];
-    [self.popupVC release];
-    [self.popupHelper release];
+    self.webMap = nil;
+    self.mapView = nil;
+    self.webmapId = nil;
     
-    [self.userLocation release];
-    [self.locationManager release];
+    self.activityIndicator = nil;
+    self.popupVC = nil;
+    self.popupHelper = nil;
+    self.popupHelper.delegate = nil;
     
-    [self.cachedFeatureLayerTemplates release];
-    [self.featureLayer release];
-    [self.featureTemplatePickerViewController release];
+    self.userLocation = nil;
+    self.locationManager = nil;
+    
+    self.cachedFeatureLayerTemplates = nil;
+    self.featureLayer = nil;
+    self.featureTemplatePickerViewController = nil;
 
     [super dealloc];
 }

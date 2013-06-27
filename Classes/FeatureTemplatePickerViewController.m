@@ -47,11 +47,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureTemplatePickerViewController:viewWillAppear");
 	
 	[self.tableView reloadData];
 	NSDictionary* attributes = [self.feature allAttributes];
@@ -71,11 +66,6 @@
         for (AGSFeatureTemplate* template in layer.templates) {
 
             if ([template.name isEqualToString:POLLUTION_REPORT_FEATURE_LAYER] || [template.name isEqualToString:ACTIVITY_REPORT_FEATURE_LAYER]) {
-                NSLog(@"name%@", template.name);
-                NSLog(@"prototype%@", template.prototype);
-                NSLog(@"featureDescription%@", template.featureDescription);
-
-                
                 FeatureTemplatePickerInfo* info = [[FeatureTemplatePickerInfo alloc] init];
                 info.featureLayer = layer;
                 info.featureTemplate = template;
@@ -83,6 +73,7 @@
 
                 //Add to array
                 [self.infos addObject:info];
+                [info release];
             }
         }
     //Otherwise, if layer contains feature types
@@ -101,19 +92,14 @@
                    
                     //Add to  array
                     [self.infos addObject:info];
+                    [info release];
                 }
             }
         }
     }
-    
 }
 
 -(void)cancel{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureTemplatePickerViewController:cancel");
     
     /**
      * If we are using the Feature Template Picker that was
@@ -143,13 +129,6 @@
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureTemplatePickerViewController:tableView:willDisplayCell");
-    
-    
-	
     if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
         
         /**
@@ -162,22 +141,11 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureTemplatePickerViewController:tableView:numberOfSectionsInTableView");
 
     return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureTemplatePickerViewController:tableView:titleForHeaderInSection");
-
     return @"What would you like to report?";
 }
 
@@ -253,47 +221,15 @@
  *
  */
 -(void)presentTutorialViewController {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: presentFeatureTemplatePicker");
-    
-//    self.navigationItem.title = @"Share your report";
-//    
-//    // iPAD ONLY: Limit the size of the form sheet
-//    if([[AGSDevice currentDevice] isIPad]) {
-//        self.waterReporterViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-//    }
-//    
-//    // ALL: Animate the template picker, covering vertically
-//    self.waterReporterViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    
     // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureTemplatePickerViewController:tableView:numberOfRowsInSection");
-    
     return [self.infos count];
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    return 0.0;
-//}
-//
-// This controls the appearance of the individual rows of the "Add your data" view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeatureTemplatePickerViewController:tableView:cellForRowAtIndexPath");
     
     //Get a cell
 	static NSString *CellIdentifier = @"Cell";
@@ -360,11 +296,6 @@
 #pragma mark Action sheet delegate methods
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"FeaturesDetailsViewController: clickedButtonAtIndex");
-	
 	if (buttonIndex == actionSheet.cancelButtonIndex){
 		// cancel
 	}
@@ -376,27 +307,28 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload {    
+
+    self.curatedMapViewController = nil;
+    self.cachedFeatureLayerTemplates = nil;
+	self.featureTemplatesTableView = nil;
+    self.curatedMapViewController = nil;
+    self.delegate = nil;
+    self.infos = nil;
+
     [super viewDidUnload];
-    
-    [self.curatedMapViewController release];
-    [self.cachedFeatureLayerTemplates release];
-	[self.featureTemplatesTableView release];
-    [self.curatedMapViewController release];
-    [self.delegate release];
-    [self.infos release];
 }
 
-- (void)dealloc {
-    [super dealloc];
-    
-    [self.curatedMapViewController release];
-    [self.cachedFeatureLayerTemplates release];
-	[self.featureTemplatesTableView release];
-    [self.curatedMapViewController release];
-    [self.delegate release];
-    [self.infos release];
+- (void)dealloc {    
 
+    self.curatedMapViewController = nil;
+    self.cachedFeatureLayerTemplates = nil;
+	self.featureTemplatesTableView = nil;
+    self.curatedMapViewController = nil;
+    self.delegate = nil;
+    self.infos = nil;
+
+    [super dealloc];
 }
 
 
@@ -409,11 +341,12 @@
 @synthesize featureLayer = _featureLayer;
 
 - (void)dealloc {
-    [super dealloc];
     
-	[self.featureType release];
-    [self.featureTemplate release];
-    [self.featureLayer release];
+    self.featureLayer = nil;
+	self.featureType = nil;
+    self.featureTemplate = nil;
+
+    [super dealloc];
 }
 
 @end

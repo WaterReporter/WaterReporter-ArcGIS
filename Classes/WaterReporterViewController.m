@@ -53,13 +53,7 @@
 }
 
 -(void)viewDidLoad {
-    	
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: viewDidLoad");
-    
+
     self.cachedFeatureLayers = [NSMutableArray new];
 
     /**
@@ -141,7 +135,7 @@
          * controller, then we should not change the leftBarButtonItem.
          */
         if (!self.curatedMapActivatedFromFeatureDetail) {
-            UIBarButtonItem *displayCuratedMap = [[[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(presentCuratedMap)]autorelease];
+            UIBarButtonItem *displayCuratedMap = [[[UIBarButtonItem alloc]initWithTitle:@"Open Map" style:UIBarButtonItemStylePlain target:self action:@selector(presentCuratedMap)]autorelease];
             self.navigationItem.leftBarButtonItem = displayCuratedMap;
         }
         
@@ -151,11 +145,6 @@
 }
  
 - (void) webMap:(AGSWebMap *)webMap didLoadLayer:(AGSLayer *)layer {
-
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: webMap: didLoadLayer");
 
     //The last feature layer we encounter we will use for editing features
     //If the web map contains more than one feature layer, the sample may need to be modified to handle that
@@ -181,11 +170,6 @@
 }
 
 - (void) didOpenWebMap:(AGSWebMap *)webMap intoMapView:(AGSMapView *)mapView {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: webMap: intoMapView");
 
     /**
      * This is the "Commit" button when you're adding a new feature to the map
@@ -204,21 +188,13 @@
 }
 
 - (void) webMap:(AGSWebMap *)webMap didFailToLoadLayer:(AGSWebMapLayerInfo *)layerInfo baseLayer:(BOOL)baseLayer federated:(BOOL)federated withError:(NSError *)error {
-    
-    NSLog(@"Failed to load layer : %@", layerInfo.title);
-    
     //continue anyway
     [self.webmap continueOpenAndSkipCurrentLayer];
     //[self.curatedMap continueOpenAndSkipCurrentLayer];
 }
 
 - (NSString *)detailForGraphic:(AGSGraphic *)graphic screenPoint:(CGPoint)screen mapPoint:(AGSPoint *)map{
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: detailForGraphic");
-    
+
 	// get the center point of the geometry
     AGSPoint *centerPoint = graphic.geometry.envelope.center;
     return [NSString stringWithFormat:@"x = %0.2f, y = %0.2f",centerPoint.x,centerPoint.y];
@@ -229,11 +205,6 @@
  * update their report geolocation.
  */
 -(void)displaySketchLayer {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: displaySketchLayer");
     
     /**
      * Load sketch layer capabilities to the map, make sure we start
@@ -262,12 +233,6 @@
  * updated via the sketch layer.
  */
 - (void)respondToGeomChanged: (NSNotification*) notification {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: respondToGeomChanged");
-    
 
     if([self.sketchLayer.geometry isValid] && ![self.sketchLayer.geometry isEmpty]) {
         AGSGeometry *updatedSketchGeometry = (AGSEnvelope*)AGSGeometryWebMercatorToGeographic(self.sketchLayer.geometry);
@@ -351,12 +316,6 @@
  */
 -(void)presentFeatureTemplatePicker {
     
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: presentFeatureTemplatePicker");
-    
-    
     // iPAD ONLY: Limit the size of the form sheet
     if([[AGSDevice currentDevice] isIPad]) {
         self.featureTemplatePickerViewController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -375,20 +334,10 @@
 
 -(void)featureTemplatePickerViewControllerWasDismissed: (FeatureTemplatePickerViewController*) featureTemplatePickerViewController{
     
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: featureTemplatePickerViewControllerWasDismissed");
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)featureTemplatePickerViewController:(FeatureTemplatePickerViewController*) featureTemplatePickerViewController didSelectFeatureTemplate:(AGSFeatureTemplate*)template forFeatureLayer:(AGSFeatureLayer*)featureLayer {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController: featureTemplatePickerViewController");   
    
     //
     // Set the active feature layer to the one we are going to edit
@@ -427,12 +376,7 @@
  *      accuracy, or both together.
  */
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:locationManager:didUpdateToLocation");
-    
+
     /**
      * Ensure horizontal accuracy doesn't resolve to
      * an invalid measurement.
@@ -503,19 +447,12 @@
  * Stop updating the Location Manager
  */
 - (void)stopUpdatingLocation {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:stopUpdatingLocation");
      
     [self.locationManager stopUpdatingLocation];
-    [self.locationManager release];
+    self.locationManager = nil;
 }
 
 -(void) setupScrollView {
-    
-    NSLog(@"setupScrollView");
     
     //add the scrollview to the view
     self.tutorialView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -45, self.view.frame.size.width, self.view.frame.size.height)];
@@ -558,26 +495,15 @@
     self.pageControl.currentPage = page;
 }
 
-
 /**
- * Add a new feature
+ * Present the Curated Map
  *
- * The action for the "+" button that allows
- * the user to select what kind of Feature
- * they would like to add to the map
- *
+ * This method is intended to be used with a selector, so that
+ * whne the appropriate state interacts with the selector, the
+ * Curated Map View Controller is displayed to the user.
  */
 -(void)presentCuratedMap {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"TutorialViewController:presentCuratedMap");
-    
     self.curatedMapViewController.cachedFeatureLayerTemplates = self.cachedFeatureLayers;
-    
-    // Display the modal ... see FeatureTemplatePickerViewController.xib for layout
-    self.curatedMapViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self.navigationController pushViewController:self.curatedMapViewController animated:YES];
 }
 
@@ -586,42 +512,34 @@
 }
 
 - (void)viewDidUnload {
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:viewDidUnload");
-    
-    [self.mapView release];
-    [self.webmap release];
-    [self.tutorialView release];
-    [self.pageControl release];
-    [self.featureLayer release];
-    [self.locationManager release];
-    [self.featureTemplatePickerViewController release];
-    [self.curatedMap release];
-    [self.curatedMapViewController release];
-    [self.sketchLayer release];
-    [self.manualFeatureGeometry release];
+
+    self.webmap = nil;
+    self.tutorialView = nil;
+    self.pageControl = nil;
+    self.featureLayer = nil;
+    self.locationManager = nil;
+    self.featureTemplatePickerViewController = nil;
+    self.curatedMap = nil;
+    self.curatedMapViewController = nil;
+    self.sketchLayer = nil;
+    self.manualFeatureGeometry = nil;
 
     [super viewDidUnload];
 }
 
 - (void)dealloc {
-    
-    /**
-     * This allows us to see what is being fired and when
-     */
-    NSLog(@"WaterReporterViewController:dealloc");
-    
-    [self.webmap release];
-    [self.featureLayer release];
-    [self.locationManager release];
-    [self.featureTemplatePickerViewController release];
-    [self.curatedMap release];
-    [self.curatedMapViewController release];
-    [self.sketchLayer release];
-    [self.manualFeatureGeometry release];
 
+    self.webmap = nil;
+    self.tutorialView = nil;
+    self.pageControl = nil;
+    self.featureLayer = nil;
+    self.locationManager = nil;
+    self.featureTemplatePickerViewController = nil;
+    self.curatedMap = nil;
+    self.curatedMapViewController = nil;
+    self.sketchLayer = nil;
+    self.manualFeatureGeometry = nil;
+    
     [super dealloc];
 }
 
